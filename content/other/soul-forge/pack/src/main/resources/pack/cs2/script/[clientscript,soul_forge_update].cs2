@@ -1,0 +1,24 @@
+[clientscript,soul_forge_update](component $itemicon, obj $item, component $essence, obj $essenceobj, int $lit)
+cc_deleteall($itemicon);
+if ($item ! null) {
+    cc_create($itemicon, ^iftype_graphic, 0);
+    cc_setposition(0, 0, ^setpos_abs_left, ^setpos_abs_top);
+    cc_setsize(36, 32, ^setsize_abs, ^setsize_abs);
+    cc_setgraphicshadow(0x333333);
+    cc_setoutline(1);
+    cc_setobject_nonum($item, 1);
+}
+cc_deleteall($essence);
+def_int $i = 0;
+while ($i < 5) {
+    cc_create($essence, ^iftype_graphic, $i);
+    cc_setposition(calc($i * 39), 0, ^setpos_abs_left, ^setpos_abs_top);
+    cc_setsize(36, 32, ^setsize_abs, ^setsize_abs);
+    cc_setobject($essenceobj, 5);
+    cc_setgraphicshadow(0x333333);
+    cc_setoutline(1);
+    if ($i >= $lit) {
+        cc_settrans(180);
+    }
+    $i = calc($i + 1);
+}

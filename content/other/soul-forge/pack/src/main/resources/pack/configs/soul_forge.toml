@@ -5,3 +5,22 @@ name = "Soul Forge"
 option1 = "Forge"
 option2 = "Upgrades"
 option3 = "Destroy Table"
+
+[[item]]
+id = "obj.soul_essence"
+inherit = "obj.soul_fragment"
+name = "Soul essence"
+tradeable = true
+cost = 1
+examine = "The distilled essence of a fallen boss. Used at the Soul Forge."
+
+[[varp]]
+id = "varp.soul_forge_temp"
+scope = "Temp"
+transmit = "Never"
+
+[[varbit]]
+id = "varbit.soul_forge_slot"
+varp = "varp.soul_forge_temp"
+startBit = 0
+endBit = 4

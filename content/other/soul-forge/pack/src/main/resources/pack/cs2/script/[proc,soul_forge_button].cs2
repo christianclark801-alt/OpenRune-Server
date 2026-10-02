@@ -1,0 +1,13 @@
+[proc,soul_forge_button](component $button, string $label)
+cc_deleteall($button);
+def_int $text = ~options_button_off($button, 0);
+cc_create($button, ^iftype_text, $text);
+cc_setsize(0, 0, ^setsize_minus, ^setsize_minus);
+cc_setposition(0, 0, ^setpos_abs_centre, ^setpos_abs_centre);
+cc_setcolour(0xffb83f);
+cc_settextshadow(true);
+cc_settextfont(b12_full);
+cc_settextalign(^settextalign_centre, ^settextalign_centre, 0);
+cc_settext($label);
+if_setonmouserepeat("cc_colour_swapper(event_com, $text, 16776960)", $button);
+if_setonmouseleave("cc_colour_swapper(event_com, $text, 16758847)", $button);

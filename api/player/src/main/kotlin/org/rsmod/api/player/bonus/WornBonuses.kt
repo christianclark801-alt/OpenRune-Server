@@ -151,6 +151,12 @@ public class WornBonuses {
             slayer += type.param(params.bonus_slayer_buff)
             undeadMeleeOnly = type.param(params.bonus_undead_meleeonly)
             slayerMeleeOnly = type.param(params.bonus_slayer_meleeonly)
+
+            WornBonusModifiers.perObj(obj, type)?.let { extra ->
+                meleeStr += extra.meleeStr
+                rangedStr += extra.rangedStr
+                magicDmg += extra.magicDmg
+            }
         }
 
         // TODO: Apply toxic blowpipe dart bonuses.

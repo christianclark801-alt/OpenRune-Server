@@ -1,0 +1,6 @@
+45720	[clientscript,soul_forge_init]
+45723	[clientscript,soul_forge_equipment]
+45726	[clientscript,soul_forge_update]
+45729	[proc,soul_forge_panel]
+45732	[proc,soul_forge_button]
+45735	[proc,soul_forge_worn_slot]

@@ -1,0 +1,16 @@
+[gamevals.obj]
+soul_essence = 63470
+
+[gamevals.interface]
+soul_forge = 1108
+
+[gamevals.clientscript]
+soul_forge_init = 45720
+soul_forge_equipment = 45723
+soul_forge_update = 45726
+
+[gamevals.varp]
+soul_forge_temp = 64156
+
+[gamevals.varbit]
+soul_forge_slot = 64247

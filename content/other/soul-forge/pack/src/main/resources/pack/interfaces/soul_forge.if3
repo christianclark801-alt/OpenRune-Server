@@ -1,0 +1,259 @@
+[[interface]]
+name = "interface.soul_forge"
+width = 512
+height = 334
+on_load = ["clientscript.soul_forge_init", "component.soul_forge:border", "component.soul_forge:equipbg", "component.soul_forge:itembg", "component.soul_forge:essencebg", "component.soul_forge:forgebg", "component.soul_forge:forge"]
+
+[[component]]
+name = "border"
+type = "layer"
+width = 512
+height = 334
+no_click_through = true
+
+[[component]]
+name = "equiplabel"
+type = "text"
+x = 10
+y = 40
+width = 492
+height = 16
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Choose a worn item to empower"
+
+[[component]]
+name = "equipbg"
+type = "layer"
+x = 10
+y = 58
+width = 492
+height = 44
+
+[[component]]
+name = "equipment"
+type = "layer"
+x = 12
+y = 60
+width = 488
+height = 40
+
+[[component]]
+name = "itembg"
+type = "layer"
+x = 10
+y = 110
+width = 140
+height = 184
+
+[[component]]
+name = "essencebg"
+type = "layer"
+x = 158
+y = 110
+width = 196
+height = 184
+
+[[component]]
+name = "forgebg"
+type = "layer"
+x = 362
+y = 110
+width = 140
+height = 184
+
+[[component]]
+name = "itemlabel"
+type = "text"
+x = 10
+y = 116
+width = 140
+height = 16
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Item"
+
+[[component]]
+name = "itemicon"
+type = "layer"
+x = 62
+y = 146
+width = 36
+height = 32
+
+[[component]]
+name = "itemname"
+type = "text"
+x = 16
+y = 186
+width = 128
+height = 30
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+text = "None selected"
+
+[[component]]
+name = "itemlevel"
+type = "text"
+x = 16
+y = 222
+width = 128
+height = 16
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = ""
+
+[[component]]
+name = "itembonus"
+type = "text"
+x = 16
+y = 242
+width = 128
+height = 44
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#9F9F9F"
+text = ""
+
+[[component]]
+name = "essencelabel"
+type = "text"
+x = 158
+y = 116
+width = 196
+height = 16
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Sacrifice"
+
+[[component]]
+name = "essence"
+type = "layer"
+x = 160
+y = 146
+width = 192
+height = 32
+
+[[component]]
+name = "essencecost"
+type = "text"
+x = 164
+y = 190
+width = 184
+height = 16
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+text = ""
+
+[[component]]
+name = "essencehave"
+type = "text"
+x = 164
+y = 210
+width = 184
+height = 16
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+text = ""
+
+[[component]]
+name = "essencenote"
+type = "text"
+x = 164
+y = 238
+width = 184
+height = 48
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#9F9F9F"
+text = "Essence is consumed whether the forge succeeds or fails."
+
+[[component]]
+name = "forgelabel"
+type = "text"
+x = 362
+y = 116
+width = 140
+height = 16
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Success chance"
+
+[[component]]
+name = "chance"
+type = "text"
+x = 362
+y = 140
+width = 140
+height = 30
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FFFF00"
+text = "-"
+
+[[component]]
+name = "nextbonus"
+type = "text"
+x = 368
+y = 176
+width = 128
+height = 64
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+text = ""
+
+[[component]]
+name = "forge"
+type = "layer"
+x = 372
+y = 252
+width = 120
+height = 32
+options = ["Forge"]
+
+[[component]]
+name = "status"
+type = "text"
+x = 10
+y = 302
+width = 492
+height = 22
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#9F9F9F"
+text = "Select an item, then press Forge."

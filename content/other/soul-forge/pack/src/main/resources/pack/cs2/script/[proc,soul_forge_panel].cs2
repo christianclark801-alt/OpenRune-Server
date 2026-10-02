@@ -1,0 +1,8 @@
+[proc,soul_forge_panel](component $panel)
+cc_deleteall($panel);
+cc_create($panel, ^iftype_graphic, 0);
+cc_setposition(0, 0, ^setpos_abs_centre, ^setpos_abs_centre);
+cc_setsize(4, 4, ^setsize_minus, ^setsize_minus);
+cc_setgraphic(tradebacking_dark);
+cc_settiling(true);
+def_int $next = ~thinbox($panel, 1);

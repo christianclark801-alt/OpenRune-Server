@@ -1,0 +1,7 @@
+[clientscript,soul_forge_init](component $border, component $equipbg, component $itembg, component $essencebg, component $forgebg, component $forge)
+~steelborder($border, "Soul Forge", 0);
+~soul_forge_panel($equipbg);
+~soul_forge_panel($itembg);
+~soul_forge_panel($essencebg);
+~soul_forge_panel($forgebg);
+~soul_forge_button($forge, "Forge");
