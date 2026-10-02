@@ -72,3 +72,9 @@ public data class InstanceTimeTickEvent(
     public val remainingTicks: Int,
     override val id: Long = instanceEventId(key),
 ) : KeyedEvent
+
+public data class InstanceBossKillTimeEvent(
+    public val player: Player,
+    public val key: String,
+    public val elapsedTicks: Int,
+) : UnboundEvent

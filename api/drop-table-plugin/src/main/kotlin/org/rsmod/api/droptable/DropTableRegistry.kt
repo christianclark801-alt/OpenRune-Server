@@ -71,6 +71,11 @@ constructor(tomlResolver: DropTableTomlResolver) {
         return candidates.firstOrNull { it.areas.isEmpty() } ?: candidates.first()
     }
 
+    public fun forNpcSymbol(npc: String): RSDropTable<Player, DropRollItem>? {
+        val candidates = tablesByNpc[npc] ?: return null
+        return candidates.firstOrNull { it.areas.isEmpty() } ?: candidates.first()
+    }
+
     public fun forLoc(loc: String): RSDropTable<Player, DropRollItem>? = tablesByLoc[loc]
 
     /**

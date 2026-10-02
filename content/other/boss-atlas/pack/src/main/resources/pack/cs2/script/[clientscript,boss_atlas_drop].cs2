@@ -1,0 +1,9 @@
+[clientscript,boss_atlas_drop](component $drops, int $slot, obj $obj, int $count)
+cc_create($drops, ^iftype_graphic, $slot);
+cc_setposition(calc($slot % 5 * 36 + 1), calc($slot / 5 * 36), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize(36, 32, ^setsize_abs, ^setsize_abs);
+cc_setgraphicshadow(0x333333);
+cc_setoutline(1);
+cc_setobject($obj, $count);
+cc_setop(1, "Inspect");
+cc_setopbase("<col=ff9040><oc_name($obj)></col>");

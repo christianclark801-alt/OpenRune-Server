@@ -1,0 +1,13 @@
+[proc,boss_atlas_search_idle](component $searchtext, component $list)
+if_setop(1, "Search", $searchtext);
+if_setonop("boss_atlas_search_op($searchtext, $list)", $searchtext);
+if_setonmouseover("searchbar_mouseover($searchtext, null)", $searchtext);
+if_setonmouseleave("searchbar_mouseleave($searchtext, null)", $searchtext);
+if_setonkey(null, $searchtext);
+if_setontimer(null, $list);
+~chatdefault_restoreinput;
+if_setcolour(0xff981f, $searchtext);
+~searchbar_set_text($searchtext);
+if (string_length(%settings_search_string) = 0) {
+    if_settext("<col=9f9f9f>Click here to search bosses...</col>", $searchtext);
+}

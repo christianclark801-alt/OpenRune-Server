@@ -1,0 +1,11 @@
+[clientscript,boss_atlas_buttons](int $fav, int $dropsview)
+if ($fav = 1) {
+    ~button_setup(boss_atlas:favbtn, boss_atlas:favbtn, "Unstar");
+} else {
+    ~button_setup(null, boss_atlas:favbtn, "Star");
+}
+if ($dropsview = 1) {
+    ~button_setup(boss_atlas:dropsbtn, boss_atlas:dropsbtn, "Details");
+} else {
+    ~button_setup(null, boss_atlas:dropsbtn, "Drops");
+}

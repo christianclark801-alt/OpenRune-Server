@@ -1,0 +1,384 @@
+[[interface]]
+name = "interface.boss_atlas"
+width = 512
+height = 334
+on_load = ["clientscript.boss_atlas_init", "component.boss_atlas:border", "component.boss_atlas:searchbar", "component.boss_atlas:searchtext", "component.boss_atlas:list", "component.boss_atlas:panelbg", "component.boss_atlas:teleport", "component.boss_atlas:favbtn", "component.boss_atlas:dropsbtn", "component.boss_atlas:instbtn"]
+
+[[component]]
+name = "border"
+type = "layer"
+width = 512
+height = 334
+no_click_through = true
+
+[[component]]
+name = "searchbar"
+type = "layer"
+x = 10
+y = 40
+width = 290
+height = 22
+
+[[component]]
+name = "searchtext"
+type = "text"
+x = 10
+y = 40
+width = 290
+height = 22
+options = ["Search"]
+text = "*"
+font = "regular"
+h_align = "center"
+v_align = "center"
+color = "#FF981F"
+
+[[component]]
+name = "tab0"
+type = "layer"
+x = 10
+y = 66
+width = 90
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab1"
+type = "layer"
+x = 10
+y = 90
+width = 90
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab2"
+type = "layer"
+x = 10
+y = 114
+width = 90
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab3"
+type = "layer"
+x = 10
+y = 138
+width = 90
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab4"
+type = "layer"
+x = 10
+y = 162
+width = 90
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab5"
+type = "layer"
+x = 10
+y = 186
+width = 90
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab6"
+type = "layer"
+x = 10
+y = 210
+width = 90
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab7"
+type = "layer"
+x = 10
+y = 234
+width = 90
+height = 20
+options = ["View"]
+
+[[component]]
+name = "favcount"
+type = "text"
+x = 10
+y = 262
+width = 90
+height = 62
+font = "small"
+h_align = "center"
+v_align = "left"
+text_shadow = true
+color = "#9F9F9F"
+
+[[component]]
+name = "list"
+type = "layer"
+x = 106
+y = 66
+width = 176
+height = 258
+
+[[component]]
+name = "status"
+type = "text"
+x = 106
+y = 66
+width = 176
+height = 258
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+
+[[component]]
+name = "scrollbar"
+type = "layer"
+x = 284
+y = 66
+width = 16
+height = 258
+
+[[component]]
+name = "panelbg"
+type = "layer"
+x = 304
+y = 40
+width = 198
+height = 284
+
+[[component]]
+name = "panel"
+type = "layer"
+x = 304
+y = 40
+width = 198
+height = 284
+
+[[component]]
+name = "hint"
+type = "text"
+parent = "panel"
+x = 10
+y = 0
+width = 178
+height = 284
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Select a boss to see its details."
+
+[[component]]
+name = "details"
+type = "layer"
+parent = "panel"
+width = 198
+height = 284
+hide = true
+
+[[component]]
+name = "icon"
+type = "layer"
+parent = "details"
+x = 8
+y = 8
+width = 36
+height = 32
+
+[[component]]
+name = "name"
+type = "text"
+parent = "details"
+x = 50
+y = 6
+width = 140
+height = 18
+font = "bold"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+
+[[component]]
+name = "level"
+type = "text"
+parent = "details"
+x = 50
+y = 24
+width = 140
+height = 14
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+
+[[component]]
+name = "tag"
+type = "text"
+parent = "details"
+x = 8
+y = 42
+width = 182
+height = 14
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#9F9F9F"
+
+[[component]]
+name = "info"
+type = "layer"
+parent = "details"
+x = 8
+y = 58
+width = 182
+height = 150
+
+[[component]]
+name = "desc"
+type = "text"
+parent = "info"
+width = 182
+height = 56
+font = "small"
+h_align = "left"
+v_align = "left"
+text_shadow = true
+color = "#FFFFFF"
+
+[[component]]
+name = "kc"
+type = "text"
+parent = "info"
+y = 60
+width = 182
+height = 14
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+
+[[component]]
+name = "pb"
+type = "text"
+parent = "info"
+y = 74
+width = 182
+height = 14
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+
+[[component]]
+name = "loot"
+type = "text"
+parent = "info"
+y = 88
+width = 182
+height = 14
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+
+[[component]]
+name = "req"
+type = "text"
+parent = "info"
+y = 102
+width = 182
+height = 14
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+
+[[component]]
+name = "gearlabel"
+type = "text"
+parent = "info"
+y = 120
+width = 140
+height = 28
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Recommended gear:"
+
+[[component]]
+name = "gear"
+type = "layer"
+parent = "info"
+x = 146
+y = 118
+width = 36
+height = 32
+
+[[component]]
+name = "drops"
+type = "layer"
+parent = "details"
+x = 8
+y = 58
+width = 182
+height = 150
+hide = true
+
+[[component]]
+name = "teleport"
+type = "layer"
+parent = "details"
+x = 8
+y = 212
+width = 182
+height = 36
+options = ["Teleport"]
+
+[[component]]
+name = "favbtn"
+type = "layer"
+parent = "details"
+x = 8
+y = 254
+width = 58
+height = 22
+options = ["Toggle"]
+
+[[component]]
+name = "dropsbtn"
+type = "layer"
+parent = "details"
+x = 70
+y = 254
+width = 58
+height = 22
+options = ["View"]
+
+[[component]]
+name = "instbtn"
+type = "layer"
+parent = "details"
+x = 132
+y = 254
+width = 58
+height = 22
+options = ["View"]

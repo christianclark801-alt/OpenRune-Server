@@ -7,6 +7,7 @@ import dev.openrune.types.NpcServerType
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import java.util.concurrent.atomic.AtomicLong
+import org.rsmod.api.instances.events.InstanceBossKillTimeEvent
 import org.rsmod.api.instances.events.InstanceEndedEvent
 import org.rsmod.api.instances.events.InstancePlayerJoinEvent
 import org.rsmod.api.instances.events.InstancePlayerJoinUnboundEvent
@@ -493,6 +494,7 @@ constructor(
         for (player in InstanceTiming.playersIn(session, playerList)) {
             if (session.damageContributions.damageBy(player) <= 0) continue
             InstanceKillTimer.reportKillTime(player, session.key, elapsed)
+            eventBus.publish(InstanceBossKillTimeEvent(player, session.key, elapsed))
         }
     }
 

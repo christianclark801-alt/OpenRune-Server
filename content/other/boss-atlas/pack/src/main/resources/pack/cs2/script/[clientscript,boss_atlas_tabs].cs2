@@ -1,0 +1,27 @@
+[clientscript,boss_atlas_tabs](int $selected)
+def_component $active = null;
+if ($selected = 0) {
+    $active = boss_atlas:tab0;
+} else if ($selected = 1) {
+    $active = boss_atlas:tab1;
+} else if ($selected = 2) {
+    $active = boss_atlas:tab2;
+} else if ($selected = 3) {
+    $active = boss_atlas:tab3;
+} else if ($selected = 4) {
+    $active = boss_atlas:tab4;
+} else if ($selected = 5) {
+    $active = boss_atlas:tab5;
+} else if ($selected = 6) {
+    $active = boss_atlas:tab6;
+} else if ($selected = 7) {
+    $active = boss_atlas:tab7;
+}
+~button_setup($active, boss_atlas:tab0, "Favourites");
+~button_setup($active, boss_atlas:tab1, "All Bosses");
+~button_setup($active, boss_atlas:tab2, "Easy");
+~button_setup($active, boss_atlas:tab3, "Mid");
+~button_setup($active, boss_atlas:tab4, "Hard");
+~button_setup($active, boss_atlas:tab5, "God Wars");
+~button_setup($active, boss_atlas:tab6, "Wilderness");
+~button_setup($active, boss_atlas:tab7, "Raids/End-game");

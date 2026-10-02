@@ -1,0 +1,27 @@
+[clientscript,boss_atlas_row_hover](component $list, int $base, int $hovered, int $selected)
+if (cc_find($list, calc($base + 1)) = true) {
+    if ($hovered = 1) {
+        cc_setcolour(0x3e3529);
+    } else {
+        cc_setcolour(0x2b2318);
+    }
+}
+if (cc_find($list, calc($base + 2)) = true) {
+    if ($hovered = 1) {
+        cc_settrans(0);
+        cc_setoutline(2);
+    } else if ($selected = 1) {
+        cc_settrans(0);
+        cc_setoutline(1);
+    } else {
+        cc_settrans(80);
+        cc_setoutline(1);
+    }
+}
+if (cc_find($list, calc($base + 3)) = true) {
+    if ($hovered = 1) {
+        cc_setcolour(0xffff00);
+    } else {
+        cc_setcolour(0xff981f);
+    }
+}

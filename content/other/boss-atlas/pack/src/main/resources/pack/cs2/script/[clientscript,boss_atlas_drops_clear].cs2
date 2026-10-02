@@ -1,0 +1,2 @@
+[clientscript,boss_atlas_drops_clear](component $drops)
+cc_deleteall($drops);

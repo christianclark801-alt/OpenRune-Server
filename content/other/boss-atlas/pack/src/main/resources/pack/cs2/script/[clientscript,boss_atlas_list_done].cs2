@@ -1,0 +1,7 @@
+[clientscript,boss_atlas_list_done](component $list, component $scrollbar, component $status, int $count, string $message, int $resetscroll)
+if_settext($message, $status);
+if_setscrollsize(0, calc($count * 38), $list);
+if ($resetscroll = 1) {
+    if_setscrollpos(0, 0, $list);
+}
+~scrollbar_vertical($scrollbar, $list, "scrollbar_dragger_v2,3", "scrollbar_dragger_v2,0", "scrollbar_dragger_v2,1", "scrollbar_dragger_v2,2", "scrollbar_v2,0", "scrollbar_v2,1");

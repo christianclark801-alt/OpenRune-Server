@@ -1,0 +1,72 @@
+[clientscript,boss_atlas_row](component $list, int $slot, int $boss, obj $icon, string $name, string $sub, int $fav, int $selected)
+def_int $base = calc($boss * 7);
+def_int $y = calc($slot * 38);
+def_int $width = if_getwidth($list);
+def_int $textwidth = calc($width - 62);
+
+cc_create($list, ^iftype_rectangle, $base);
+cc_setposition(0, $y, ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize($width, 36, ^setsize_abs, ^setsize_abs);
+if ($selected = 1) {
+    cc_setcolour(0xff981f);
+} else {
+    cc_setcolour(0x5a4a2f);
+}
+cc_setfill(true);
+
+cc_create($list, ^iftype_rectangle, calc($base + 1));
+cc_setposition(1, calc($y + 1), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize(calc($width - 2), 34, ^setsize_abs, ^setsize_abs);
+cc_setcolour(0x2b2318);
+cc_setfill(true);
+
+cc_create($list, ^iftype_graphic, calc($base + 2));
+cc_setposition(3, calc($y + 2), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize(36, 32, ^setsize_abs, ^setsize_abs);
+cc_setgraphicshadow(0x333333);
+cc_setoutline(1);
+cc_setobject_nonum($icon, 1);
+if ($selected = 1) {
+    cc_settrans(0);
+} else {
+    cc_settrans(80);
+}
+
+cc_create($list, ^iftype_text, calc($base + 3));
+cc_setposition(42, calc($y + 3), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize($textwidth, 16, ^setsize_abs, ^setsize_abs);
+cc_settextfont(p12_full);
+cc_settextalign(^settextalign_left, ^settextalign_centre, 0);
+cc_settextshadow(true);
+cc_setcolour(0xff981f);
+cc_settext(~boss_atlas_fit($name, $textwidth));
+
+cc_create($list, ^iftype_text, calc($base + 4));
+cc_setposition(42, calc($y + 19), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize($textwidth, 14, ^setsize_abs, ^setsize_abs);
+cc_settextfont(p11_full);
+cc_settextalign(^settextalign_left, ^settextalign_centre, 0);
+cc_settextshadow(true);
+cc_setcolour(0xffffff);
+cc_settext($sub);
+
+if ($fav = 1) {
+    cc_create($list, ^iftype_graphic, calc($base + 5));
+    cc_setposition(calc($width - 18), calc($y + 3), ^setpos_abs_left, ^setpos_abs_top);
+    cc_setsize(15, 15, ^setsize_abs, ^setsize_abs);
+    cc_setgraphic("favourite_icons,1");
+}
+
+cc_create($list, ^iftype_layer, calc($base + 6));
+cc_setposition(0, $y, ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize($width, 36, ^setsize_abs, ^setsize_abs);
+cc_setop(1, "Select");
+cc_setop(2, "Teleport");
+if ($fav = 1) {
+    cc_setop(3, "Unstar");
+} else {
+    cc_setop(3, "Star");
+}
+cc_setopbase("<col=ff9040><$name></col>");
+cc_setonmouseover("boss_atlas_row_hover($list, $base, 1, $selected)");
+cc_setonmouseleave("boss_atlas_row_hover($list, $base, 0, $selected)");

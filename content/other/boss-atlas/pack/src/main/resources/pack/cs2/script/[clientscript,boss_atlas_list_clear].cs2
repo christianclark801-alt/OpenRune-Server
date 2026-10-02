@@ -1,0 +1,2 @@
+[clientscript,boss_atlas_list_clear](component $list)
+cc_deleteall($list);

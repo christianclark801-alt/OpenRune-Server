@@ -1,0 +1,8 @@
+[proc,boss_atlas_obj_icon](component $layer, obj $obj)
+cc_deleteall($layer);
+cc_create($layer, ^iftype_graphic, 0);
+cc_setposition(0, 0, ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize(36, 32, ^setsize_abs, ^setsize_abs);
+cc_setgraphicshadow(0x333333);
+cc_setoutline(1);
+cc_setobject_nonum($obj, 1);

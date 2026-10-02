@@ -1,0 +1,16 @@
+[clientscript,boss_atlas_init](component $border, component $searchbar, component $searchtext, component $list, component $panelbg, component $teleport, component $favbtn, component $dropsbtn, component $instbtn)
+~steelborder($border, "Boss Teleport Atlas", 0);
+~searchbar_create($searchbar, null);
+%settings_search_string = "";
+~boss_atlas_search_idle($searchtext, $list);
+cc_deleteall($panelbg);
+cc_create($panelbg, ^iftype_graphic, 0);
+cc_setposition(0, 0, ^setpos_abs_centre, ^setpos_abs_centre);
+cc_setsize(4, 4, ^setsize_minus, ^setsize_minus);
+cc_setgraphic(tradebacking_dark);
+cc_settiling(true);
+def_int $next = ~thinbox($panelbg, 1);
+~boss_atlas_teleport_button($teleport);
+~button_setup(null, $favbtn, "Star");
+~button_setup(null, $dropsbtn, "Drops");
+~button_setup(null, $instbtn, "Instance");

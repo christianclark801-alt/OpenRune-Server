@@ -1,0 +1,463 @@
+[[varp]]
+id = "varp.boss_atlas_pb_zulrah"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_vorkath"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_cerberus"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_sire"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_hydra"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_kraken"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_thermy"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_corp"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_dks"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_mole"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_kq"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_kbd"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_sarachnis"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_scurrius"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_barrows"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_graardor"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_kreearra"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_zilyana"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_kril"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_nex"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_nightmare"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_muspah"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_huey"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_yama"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_titans"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_amoxliatl"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_vardorvis"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_leviathan"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_whisperer"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_duke"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_callisto"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_venenatis"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_vetion"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_chaosele"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_scorpia"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_cox"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_tob"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_pb_toa"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_zulrah"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_vorkath"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_cerberus"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_sire"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_hydra"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_kraken"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_thermy"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_corp"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_dks"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_mole"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_kq"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_kbd"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_sarachnis"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_scurrius"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_barrows"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_graardor"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_kreearra"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_zilyana"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_kril"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_nex"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_nightmare"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_muspah"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_huey"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_yama"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_titans"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_amoxliatl"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_vardorvis"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_leviathan"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_whisperer"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_duke"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_callisto"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_venenatis"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_vetion"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_chaosele"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_scorpia"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_cox"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_tob"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_toa"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_favs"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_misc"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_ui"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_cooldown"
+scope = "Temp"
+transmit = "Never"
+
+[[varbit]]
+id = "varbit.boss_atlas_fav0"
+varp = "varp.boss_atlas_favs"
+startBit = 0
+endBit = 5
+
+[[varbit]]
+id = "varbit.boss_atlas_fav1"
+varp = "varp.boss_atlas_favs"
+startBit = 6
+endBit = 11
+
+[[varbit]]
+id = "varbit.boss_atlas_fav2"
+varp = "varp.boss_atlas_favs"
+startBit = 12
+endBit = 17
+
+[[varbit]]
+id = "varbit.boss_atlas_fav3"
+varp = "varp.boss_atlas_favs"
+startBit = 18
+endBit = 23
+
+[[varbit]]
+id = "varbit.boss_atlas_fav4"
+varp = "varp.boss_atlas_favs"
+startBit = 24
+endBit = 29
+
+[[varbit]]
+id = "varbit.boss_atlas_last"
+varp = "varp.boss_atlas_misc"
+startBit = 0
+endBit = 5
+
+[[varbit]]
+id = "varbit.boss_atlas_tab"
+varp = "varp.boss_atlas_ui"
+startBit = 0
+endBit = 2
+
+[[varbit]]
+id = "varbit.boss_atlas_selected"
+varp = "varp.boss_atlas_ui"
+startBit = 3
+endBit = 8
+
+[[varbit]]
+id = "varbit.boss_atlas_drops_view"
+varp = "varp.boss_atlas_ui"
+startBit = 9
+endBit = 9
+
+[[npc]]
+id = "npc.boss_guide"
+inherit = "npc.wise_old_man"
+name = "Boss Guide"
+examine = "He knows the way to every boss in Gielinor."
+option1 = "Talk-to"
+option2 = "Atlas"
+option3 = "Teleport-last"
+wanderRange = 0
