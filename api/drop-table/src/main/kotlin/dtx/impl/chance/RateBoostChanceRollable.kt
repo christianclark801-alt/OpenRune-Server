@@ -1,5 +1,6 @@
 package dtx.impl.chance
 
+import dtx.core.ArgKey
 import dtx.core.ArgMap
 import dtx.core.RollResult
 import dtx.core.Rollable
@@ -11,6 +12,30 @@ public object RateBoosts {
 
     public fun multiplierFor(target: Any?, otherArgs: ArgMap): Double =
         multiplier(target, otherArgs).coerceAtLeast(MIN_MULTIPLIER)
+
+    /**
+     * Multiplier applied to every rare roll of a top-level drop table: weighted entries rarer
+     * than [RARE_SHARE] and all non-guaranteed chance rolls. [RSDropTable][dtx.rs.RSDropTable]
+     * resolves it once into [rareScope]; nested tables roll with the scope reset to `1.0` so the
+     * boost never compounds.
+     */
+    @Volatile public var rareMultiplier: (Any?, ArgMap) -> Double = { _, _ -> 1.0 }
+
+    public val rareScope: ArgKey<Double?> = ArgKey("rateBoostRareScope", null)
+
+    public const val RARE_SHARE: Double = 1.0 / 100.0
+
+    public fun rareMultiplierFor(target: Any?, otherArgs: ArgMap): Double =
+        rareMultiplier(target, otherArgs).coerceAtLeast(MIN_MULTIPLIER)
+
+    public fun rareScopeOf(otherArgs: ArgMap): Double = otherArgs[rareScope] ?: 1.0
+
+    public fun withRareScope(otherArgs: ArgMap, scope: Double): ArgMap {
+        if (otherArgs[rareScope] == scope) {
+            return otherArgs
+        }
+        return ArgMap(otherMap = otherArgs).also { it[rareScope] = scope }
+    }
 
     private const val MIN_MULTIPLIER: Double = 0.0001
 }

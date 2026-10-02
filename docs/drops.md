@@ -318,6 +318,21 @@ derives the flag from `tools/wiki-dumping/src/main/resources/boosted-drops.toml`
 The clue-scroll boost from Mortimer's slayer modifier is separate and only applies to clue
 tertiaries; on a boosted clue tertiary it multiplies with the modifiers above.
 
+### Game-mode boss multiplier
+
+A player's XP mode (see `docs/ironman.md` → Game modes) also boosts **boss** kills: any NPC with
+the `killcount_varp` param. Unlike the flag above it needs no table changes. On a top-level
+`RSDropTable` roll it multiplies:
+
+- every main-table entry whose share of the pool is below 1/100 (common entries absorb the
+  difference),
+- every pre-roll, separate-roll and tertiary roll (capped at 100%).
+
+Guaranteed drops and nested subtables (rare drop table, gem table, …) are not boosted again, and
+it stacks with the flagged multipliers above. It is wired through `RateBoosts.rareMultiplier` /
+`DropRateModifiers.killMultiplier`. Loc and chest rolls (Barrows, Muspah's cache) have no NPC
+context, so they are not boosted.
+
 ---
 
 ## Shared subtables

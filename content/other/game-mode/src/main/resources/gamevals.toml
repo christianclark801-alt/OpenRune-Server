@@ -1,0 +1,20 @@
+[gamevals.interface]
+game_mode_select = 1105
+
+[gamevals.clientscript]
+game_mode_init = 45560
+game_mode_card = 45563
+game_mode_card_hover = 45566
+
+[gamevals.queue]
+game_mode_select = 63300
+
+[gamevals.varp]
+game_mode = 64150
+game_mode_temp = 64151
+
+[gamevals.varbit]
+game_mode_state = 64240
+xp_mode = 64241
+game_mode_step = 64242
+game_mode_account_pick = 64243

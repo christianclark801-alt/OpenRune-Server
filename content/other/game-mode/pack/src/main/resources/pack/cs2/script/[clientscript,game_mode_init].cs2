@@ -1,0 +1,3 @@
+[clientscript,game_mode_init](component $border, component $back)
+~stoneborder($border, "Choose Your Game Mode", 0);
+~button_setup(null, $back, "Back");

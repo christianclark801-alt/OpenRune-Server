@@ -20,6 +20,7 @@ class RateBoostTest {
     @AfterEach
     fun reset() {
         RateBoosts.multiplier = { _, _ -> 1.0 }
+        RateBoosts.rareMultiplier = { _, _ -> 1.0 }
     }
 
     @Test
@@ -93,6 +94,62 @@ class RateBoostTest {
             if ("rare" in results) hits++
         }
         assertRate(1.0 / 102, hits.toDouble() / samples)
+    }
+
+    @Test
+    fun `rare multiplier boosts rare main table entries of a drop table`() {
+        val drop = RSDropTable(tableIdentifier = "test", mainTable = weightedTable(boostedFirst = false))
+        RateBoosts.rareMultiplier = { _, _ -> 4.0 }
+        val samples = 400_000
+        val counts = sampleDrop(drop, samples)
+        assertRate(1.0 / 32, counts["rare"]?.let { it.toDouble() / samples })
+
+        val a = counts.getValue("a").toDouble()
+        val b = counts.getValue("b").toDouble()
+        assertRate(100.0 / 127, a / (a + b), tolerance = 0.005)
+    }
+
+    @Test
+    fun `rare multiplier is ignored outside of a drop table`() {
+        RateBoosts.rareMultiplier = { _, _ -> 4.0 }
+        val samples = 400_000
+        val table = weightedTable(boostedFirst = false)
+        assertRate(1.0 / 128, sample(table, samples)["rare"]?.let { it.toDouble() / samples })
+    }
+
+    @Test
+    fun `rare multiplier stacks with flagged boosts`() {
+        val drop = RSDropTable(tableIdentifier = "test", mainTable = weightedTable(boostedFirst = true))
+        RateBoosts.multiplier = { _, _ -> 2.0 }
+        RateBoosts.rareMultiplier = { _, _ -> 2.0 }
+        val samples = 400_000
+        assertRate(1.0 / 32, sampleDrop(drop, samples)["rare"]?.let { it.toDouble() / samples })
+    }
+
+    @Test
+    fun `rare multiplier scales tertiary chance rolls`() {
+        val drop =
+            RSDropTable(
+                tableIdentifier = "test",
+                tertiaries = rsTertiaryTable<String, String> { (1 outOf 1000) rolls "pet" },
+            )
+        RateBoosts.rareMultiplier = { _, _ -> 4.5 }
+        val samples = 400_000
+        assertRate(4.5 / 1000, sampleDrop(drop, samples)["pet"]?.let { it.toDouble() / samples })
+    }
+
+    private fun sampleDrop(drop: RSDropTable<String, String>, samples: Int): Map<String, Int> {
+        val counts = HashMap<String, Int>()
+        repeat(samples) {
+            val results =
+                when (val result = drop.roll("p", ArgMap.Empty).flatten()) {
+                    is RollResult.ListOf -> result.results
+                    is RollResult.Single -> listOf(result.result)
+                    else -> emptyList()
+                }
+            results.forEach { counts.merge(it, 1, Int::plus) }
+        }
+        return counts
     }
 
     private fun weightedTable(boostedFirst: Boolean): RSWeightedTable<String, String> =

@@ -1,0 +1,91 @@
+[[interface]]
+name = "interface.game_mode_select"
+width = 512
+height = 334
+on_load = ["clientscript.game_mode_init", "component.game_mode_select:border", "component.game_mode_select:back"]
+
+[[component]]
+name = "border"
+type = "layer"
+width = 512
+height = 334
+no_click_through = true
+
+[[component]]
+name = "subtitle"
+type = "text"
+x = 10
+y = 40
+width = 492
+height = 18
+font = "bold"
+h_align = "center"
+v_align = "center"
+color = "#FF981F"
+
+[[component]]
+name = "cards"
+type = "layer"
+x = 10
+y = 64
+width = 492
+height = 212
+
+[[component]]
+name = "card0"
+type = "layer"
+parent = "cards"
+x = 0
+width = 114
+height = 212
+options = ["Select"]
+
+[[component]]
+name = "card1"
+type = "layer"
+parent = "cards"
+x = 126
+width = 114
+height = 212
+options = ["Select"]
+
+[[component]]
+name = "card2"
+type = "layer"
+parent = "cards"
+x = 252
+width = 114
+height = 212
+options = ["Select"]
+
+[[component]]
+name = "card3"
+type = "layer"
+parent = "cards"
+x = 378
+width = 114
+height = 212
+options = ["Select"]
+
+[[component]]
+name = "back"
+type = "layer"
+x = 10
+y = 302
+width = 72
+height = 22
+options = ["Back"]
+hide = true
+
+[[component]]
+name = "footer"
+type = "text"
+x = 92
+y = 302
+width = 328
+height = 22
+font = "small"
+h_align = "center"
+v_align = "center"
+color = "#9F9F9F"
+text = "You must choose before you can play."

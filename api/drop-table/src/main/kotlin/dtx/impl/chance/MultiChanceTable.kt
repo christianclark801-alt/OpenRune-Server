@@ -32,6 +32,8 @@ public open class MultiChanceTableImpl<T, R>(
         }
 
         val modifier = rollModifier(target, baseRollFor(target))
+        val rare = RateBoosts.rareScopeOf(otherArgs)
+        val childArgs = RateBoosts.withRareScope(otherArgs, 1.0)
 
         val filtered = entries.filter { entry ->
 
@@ -39,13 +41,14 @@ public open class MultiChanceTableImpl<T, R>(
                 return@filter true
             }
 
+            val chance = (entry.chanceFor(target, otherArgs) * rare).coerceAtMost(100.0)
             val roll = Random.nextDouble(0.0, maxRollChance)
-            val select = (roll * modifier) <= entry.chanceFor(target, otherArgs)
+            val select = (roll * modifier) <= chance
 
             select
         }
 
-        val rolled = filtered.map { entry -> entry.roll(target, otherArgs) }
+        val rolled = filtered.map { entry -> entry.roll(target, childArgs) }
         val flattened = rolled.flattenToList()
 
         return flattened

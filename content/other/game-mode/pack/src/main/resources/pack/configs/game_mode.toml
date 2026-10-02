@@ -1,0 +1,33 @@
+[[varp]]
+id = "varp.game_mode"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.game_mode_temp"
+scope = "Temp"
+transmit = "Never"
+
+[[varbit]]
+id = "varbit.game_mode_state"
+varp = "varp.game_mode"
+startBit = 0
+endBit = 1
+
+[[varbit]]
+id = "varbit.xp_mode"
+varp = "varp.game_mode"
+startBit = 2
+endBit = 3
+
+[[varbit]]
+id = "varbit.game_mode_step"
+varp = "varp.game_mode_temp"
+startBit = 0
+endBit = 1
+
+[[varbit]]
+id = "varbit.game_mode_account_pick"
+varp = "varp.game_mode_temp"
+startBit = 2
+endBit = 4
