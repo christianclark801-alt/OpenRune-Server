@@ -13,9 +13,9 @@ gradlew :example-plugin:jar
 ::example                    -> "Example v1!"
 ```
 
-It also doubles as a reload test out of the box: bump the `REVISION` constant, rebuild, copy the
-jar over the old one in `plugins/`, and run `::pluginreload example-plugin` while the server keeps
-running — `::example` should now reply "Example v2!", confirming the old command handler was
+It also doubles as a reload test out of the box: bump the `REVISION` constant, rebuild, run
+`::plugindisable example-plugin`, copy the jar over the old one in `plugins/`, and run
+`::pluginenable example-plugin` while the server keeps running — `::example` should now reply "Example v2!", confirming the old command handler was
 replaced rather than duplicated.
 
 ---
@@ -69,16 +69,11 @@ Sources present in `plugins/` at boot participate exactly like built-in plugins:
 merged into the same `Guice.createInjector(...)` call, and their scripts are constructed and
 started right alongside the built-in ones.
 
-Right after boot fully finishes (once you see `Server ready in ...`), the server automatically
-closes every currently-loaded plugin's classloader — including ones loaded at boot, not just
-hot-loaded ones. This releases the jar file on disk (on Windows, an open `URLClassLoader` locks its
-jar against being overwritten) so you can rebuild and replace *any* plugin's jar at any time
-without first having to `::plugindisable` it. The plugin keeps running unaffected: its classes are
-already loaded and don't need the file handle anymore. The one edge case this doesn't cover is a
-plugin that lazily reaches a helper class it hadn't touched yet *after* this point — that load
-would fail, since a closed classloader can't read new classes from its jar. In practice this is
-rare (a Kotlin lambda's class loads when the lambda literal is evaluated, not when its body later
-runs, so almost everything a script does in `startup()` is already resident by boot's end).
+A loaded plugin's classloader stays open for as long as the plugin is loaded, so classes it only
+reaches lazily (e.g. a nested lambda first evaluated when a command runs) can still be loaded. The
+trade-off is that on Windows an open `URLClassLoader` locks its jar against being overwritten: to
+replace a loaded plugin's jar, `::plugindisable` it first, copy the new jar in, then
+`::pluginenable` it. Directory sources aren't locked and can be rebuilt in place.
 
 ---
 
