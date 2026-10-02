@@ -58,6 +58,7 @@ dependencies {
 tasks.named<JavaExec>("run") {
     description = "Runs the RS Mod game server"
     workingDir = rootProject.projectDir
+    dependsOn(":home-plugin:deployPlugin")
 }
 
 tasks.named<ShadowJar>("shadowJar") {
