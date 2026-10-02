@@ -1,0 +1,2 @@
+[clientscript,admin_tool_list_clear](component $list)
+cc_deleteall($list);

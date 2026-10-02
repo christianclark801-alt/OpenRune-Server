@@ -1,0 +1,7 @@
+[[object]]
+id = "loc.raids_tekton_anvil"
+inherit = "loc.raids_tekton_anvil"
+name = "Soul Forge"
+option1 = "Forge"
+option2 = "Upgrades"
+option3 = "Destroy Table"

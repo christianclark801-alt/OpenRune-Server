@@ -1,0 +1,6 @@
+[clientscript,admin_tool_list_done](component $list, component $scrollbar, int $height, int $resetscroll)
+if_setscrollsize(0, $height, $list);
+if ($resetscroll = 1) {
+    if_setscrollpos(0, 0, $list);
+}
+~scrollbar_vertical($scrollbar, $list, "scrollbar_dragger_v2,3", "scrollbar_dragger_v2,0", "scrollbar_dragger_v2,1", "scrollbar_dragger_v2,2", "scrollbar_v2,0", "scrollbar_v2,1");

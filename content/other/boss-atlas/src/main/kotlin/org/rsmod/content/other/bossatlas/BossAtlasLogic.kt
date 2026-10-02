@@ -23,7 +23,13 @@ fun bossesFor(tab: Int, query: String, favourites: List<Boss>): List<Boss> {
                 Boss.entries.filter { it.category == category }
             }
         }
-    return bosses.sortedBy { boss -> favourites.indexOf(boss).takeIf { it >= 0 } ?: Int.MAX_VALUE }
+    return bosses.sortedWith(
+        compareBy<Boss> { !it.implemented }
+            .thenBy { favourites.indexOf(it).takeIf { index -> index >= 0 } ?: Int.MAX_VALUE }
+            .thenBy { it.combatLevel <= 0 }
+            .thenByDescending { it.combatLevel }
+            .thenBy { it.displayName.lowercase() },
+    )
 }
 
 sealed interface FavouriteToggle {

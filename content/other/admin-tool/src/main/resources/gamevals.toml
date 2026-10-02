@@ -1,0 +1,22 @@
+[gamevals.obj]
+admin_tool = 63480
+
+[gamevals.interface]
+admin_tool = 1107
+
+[gamevals.clientscript]
+admin_tool_init = 45700
+admin_tool_tab = 45703
+admin_tool_button = 45706
+admin_tool_button_hover = 45709
+admin_tool_list_clear = 45712
+admin_tool_list_done = 45715
+
+[gamevals.timer]
+admin_tool_run = 410
+
+[gamevals.varp]
+admin_tool_temp = 64155
+
+[gamevals.varbit]
+admin_tool_tab = 64246

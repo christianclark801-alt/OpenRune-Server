@@ -1,0 +1,95 @@
+[[interface]]
+name = "interface.admin_tool"
+width = 512
+height = 334
+on_load = ["clientscript.admin_tool_init", "component.admin_tool:border", "component.admin_tool:listbg"]
+
+[[component]]
+name = "border"
+type = "layer"
+width = 512
+height = 334
+no_click_through = true
+
+[[component]]
+name = "tab0"
+type = "layer"
+x = 10
+y = 40
+width = 94
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab1"
+type = "layer"
+x = 109
+y = 40
+width = 94
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab2"
+type = "layer"
+x = 208
+y = 40
+width = 94
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab3"
+type = "layer"
+x = 307
+y = 40
+width = 94
+height = 20
+options = ["View"]
+
+[[component]]
+name = "tab4"
+type = "layer"
+x = 406
+y = 40
+width = 94
+height = 20
+options = ["View"]
+
+[[component]]
+name = "listbg"
+type = "layer"
+x = 10
+y = 64
+width = 474
+height = 234
+
+[[component]]
+name = "list"
+type = "layer"
+x = 12
+y = 66
+width = 470
+height = 230
+
+[[component]]
+name = "scrollbar"
+type = "layer"
+x = 486
+y = 64
+width = 16
+height = 234
+
+[[component]]
+name = "status"
+type = "text"
+x = 10
+y = 302
+width = 492
+height = 22
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#9F9F9F"
+text = "Select a command to run it."

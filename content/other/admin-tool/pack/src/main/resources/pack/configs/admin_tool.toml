@@ -1,0 +1,20 @@
+[[item]]
+id = "obj.admin_tool"
+inherit = "obj.sos_security_book"
+name = "Admin tool"
+ioption1 = "Open"
+ioption5 = "Destroy"
+tradeable = false
+cost = 0
+examine = "A tome of forbidden server knowledge."
+
+[[varp]]
+id = "varp.admin_tool_temp"
+scope = "Temp"
+transmit = "Never"
+
+[[varbit]]
+id = "varbit.admin_tool_tab"
+varp = "varp.admin_tool_temp"
+startBit = 0
+endBit = 3

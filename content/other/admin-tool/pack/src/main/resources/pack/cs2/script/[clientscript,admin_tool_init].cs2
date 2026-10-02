@@ -1,0 +1,9 @@
+[clientscript,admin_tool_init](component $border, component $listbg)
+~steelborder($border, "Admin Tool", 0);
+cc_deleteall($listbg);
+cc_create($listbg, ^iftype_graphic, 0);
+cc_setposition(0, 0, ^setpos_abs_centre, ^setpos_abs_centre);
+cc_setsize(4, 4, ^setsize_minus, ^setsize_minus);
+cc_setgraphic(tradebacking_dark);
+cc_settiling(true);
+def_int $next = ~thinbox($listbg, 1);

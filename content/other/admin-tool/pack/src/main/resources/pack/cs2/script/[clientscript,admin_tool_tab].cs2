@@ -1,0 +1,6 @@
+[clientscript,admin_tool_tab](component $tab, int $selected, string $label)
+if ($selected = 1) {
+    ~button_setup($tab, $tab, $label);
+} else {
+    ~button_setup(null, $tab, $label);
+}

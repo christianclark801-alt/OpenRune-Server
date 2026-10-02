@@ -39,7 +39,9 @@ import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.queueDeath
 import org.rsmod.api.player.stat.PlayerSkillXP
 import org.rsmod.api.player.stat.stat
+import org.rsmod.api.player.stat.statAdd
 import org.rsmod.api.player.stat.statAdvance
+import org.rsmod.api.player.stat.statRestoreAll
 import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.player.ui.PlayerInterfaceUpdates
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
@@ -48,6 +50,7 @@ import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
+import org.rsmod.api.script.onPlayerSoftTimer
 import org.rsmod.api.spells.autocast.MagicSpellbookManager
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.api.utils.system.SafeServiceExit
@@ -74,6 +77,20 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.loc.LocLayerConstants
 import org.simmetrics.metrics.StringMetrics
+
+private const val GOD_MODE_TIMER = "timer.admin_god_mode"
+private const val GOD_MODE_LEVEL = 255
+
+private val GOD_MODE_STATS =
+    listOf(
+        "stat.attack",
+        "stat.strength",
+        "stat.defence",
+        "stat.ranged",
+        "stat.magic",
+        "stat.hitpoints",
+        "stat.prayer",
+    )
 
 class AdminCommands
 @Inject
@@ -229,7 +246,19 @@ constructor(
         ) {
             invalidArgs = "Use as ::spellbook standard|ancients|lunars|arceuus"
         }
-        onCommand("god", "Toggle god mode (invincibility)", ::god)
+        onCommand(
+            "god",
+            "Toggle god mode (invincibility + 255 combat stats)",
+            ::god,
+            aliases = listOf("godmode"),
+        )
+        onPlayerSoftTimer(GOD_MODE_TIMER) {
+            if (player.adminGodMode) {
+                player.maxGodModeStats()
+            } else {
+                player.clearSoftTimer(GOD_MODE_TIMER)
+            }
+        }
         onCommand(
             "componentdebug",
             "Toggle interface component click debug output",
@@ -325,8 +354,24 @@ constructor(
     private fun god(cheat: Cheat) =
         with(cheat) {
             player.adminGodMode = !player.adminGodMode
+            if (player.adminGodMode) {
+                player.maxGodModeStats()
+                player.softTimer(GOD_MODE_TIMER, 1)
+            } else {
+                player.clearSoftTimer(GOD_MODE_TIMER)
+                player.statRestoreAll(GOD_MODE_STATS)
+            }
             player.mes("God mode ${if (player.adminGodMode) "enabled" else "disabled"}.")
         }
+
+    private fun Player.maxGodModeStats() {
+        for (stat in GOD_MODE_STATS) {
+            val current = stat(stat)
+            if (current < GOD_MODE_LEVEL) {
+                statAdd(stat, GOD_MODE_LEVEL - current, percent = 0)
+            }
+        }
+    }
 
     private fun maxhit(cheat: Cheat) =
         with(cheat) {

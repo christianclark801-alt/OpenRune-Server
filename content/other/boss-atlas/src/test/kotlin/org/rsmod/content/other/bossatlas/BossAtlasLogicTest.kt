@@ -56,14 +56,44 @@ class BossAtlasLogicTest {
 
     @Test
     fun `favourites are listed first in every tab`() {
-        val favourites = listOf(Boss.Callisto, Boss.Vorkath)
+        val favourites = listOf(Boss.Callisto, Boss.Vardorvis)
         val all = bossesFor(TAB_ALL, "", favourites)
         assertEquals(favourites, all.take(2))
         assertEquals(Boss.entries.size, all.size)
 
         val hard = bossesFor(tabOf(BossCategory.Hard), "", favourites)
-        assertEquals(Boss.Vorkath, hard.first())
+        assertEquals(Boss.Vardorvis, hard.first())
         assertTrue(hard.all { it.category == BossCategory.Hard })
+    }
+
+    @Test
+    fun `starred bosses that are coming soon stay below available bosses`() {
+        val all = bossesFor(TAB_ALL, "", listOf(Boss.Vorkath))
+        val firstSoon = all.indexOfFirst { !it.implemented }
+        assertEquals(Boss.Vorkath, all[firstSoon])
+        assertTrue(all.drop(firstSoon).none { it.implemented })
+    }
+
+    @Test
+    fun `bosses are listed highest level first then alphabetically with raids last`() {
+        val all = bossesFor(TAB_ALL, "", emptyList())
+        for (group in all.partition { it.implemented }.toList()) {
+            group.zipWithNext().forEach { (a, b) ->
+                val aRaid = a.combatLevel <= 0
+                val bRaid = b.combatLevel <= 0
+                assertTrue(!aRaid || bRaid, "$a (raid) is listed before $b")
+                if (aRaid == bRaid) {
+                    assertTrue(a.combatLevel >= b.combatLevel, "$a is listed before $b")
+                    if (a.combatLevel == b.combatLevel) {
+                        assertTrue(
+                            a.displayName.lowercase() <= b.displayName.lowercase(),
+                            "$a is listed before $b",
+                        )
+                    }
+                }
+            }
+        }
+        assertTrue(all.indexOfLast { it.implemented } < all.indexOfFirst { !it.implemented })
     }
 
     @Test
@@ -78,7 +108,10 @@ class BossAtlasLogicTest {
         assertEquals(listOf(Boss.AlchemicalHydra), results)
 
         val wildy = bossesFor(TAB_ALL, "wilderness", emptyList())
-        assertEquals(Boss.entries.filter { it.category == BossCategory.Wilderness }, wildy)
+        assertEquals(
+            Boss.entries.filter { it.category == BossCategory.Wilderness }.toSet(),
+            wildy.toSet(),
+        )
     }
 
     @Test
