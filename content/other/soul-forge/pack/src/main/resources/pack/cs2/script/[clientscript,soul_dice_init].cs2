@@ -1,0 +1,5 @@
+[clientscript,soul_dice_init](component $border, component $dicebg, component $roll, component $die)
+~steelborder($border, "Soul Dice", 0);
+~soul_forge_panel($dicebg);
+~soul_forge_button($roll, "Roll");
+~soul_dice_set_face($die, 6, 0, 0, 0);

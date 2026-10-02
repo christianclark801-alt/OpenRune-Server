@@ -1,0 +1,66 @@
+[clientscript,soul_dice_tile](component $tile, string $name, string $state, string $desc, int $style)
+cc_deleteall($tile);
+cc_create($tile, ^iftype_graphic, 0);
+cc_setposition(0, 0, ^setpos_abs_centre, ^setpos_abs_centre);
+cc_setsize(2, 2, ^setsize_minus, ^setsize_minus);
+cc_setgraphic(tradebacking_dark);
+cc_settiling(true);
+def_int $next = ~thinbox($tile, 1);
+
+if ($style = 2) {
+    cc_create($tile, ^iftype_rectangle, $next);
+    cc_setposition(0, 0, ^setpos_abs_centre, ^setpos_abs_centre);
+    cc_setsize(4, 4, ^setsize_minus, ^setsize_minus);
+    cc_setcolour(0xffb83f);
+    cc_setfill(true);
+    cc_settrans(210);
+    $next = calc($next + 1);
+    cc_create($tile, ^iftype_rectangle, $next);
+    cc_setposition(0, 0, ^setpos_abs_centre, ^setpos_abs_centre);
+    cc_setsize(0, 0, ^setsize_minus, ^setsize_minus);
+    cc_setcolour(0xffb83f);
+    cc_setfill(false);
+    $next = calc($next + 1);
+}
+
+def_int $trans = 0;
+def_int $statecolour = 0xffff00;
+switch_int ($style) {
+    case 0 :
+        $trans = 140;
+        $statecolour = 0x9f9f9f;
+    case 2 : $statecolour = 0x00ff00;
+    case 3 : $statecolour = 0xffffff;
+}
+
+cc_create($tile, ^iftype_text, $next);
+cc_setposition(0, 2, ^setpos_abs_centre, ^setpos_abs_top);
+cc_setsize(6, 12, ^setsize_minus, ^setsize_abs);
+cc_settextfont(p11_full);
+cc_settextalign(^settextalign_centre, ^settextalign_centre, 0);
+cc_settextshadow(true);
+cc_setcolour(0xff981f);
+cc_settrans($trans);
+cc_settext($name);
+$next = calc($next + 1);
+
+cc_create($tile, ^iftype_text, $next);
+cc_setposition(0, 14, ^setpos_abs_centre, ^setpos_abs_top);
+cc_setsize(6, 12, ^setsize_minus, ^setsize_abs);
+cc_settextfont(p11_full);
+cc_settextalign(^settextalign_centre, ^settextalign_centre, 0);
+cc_settextshadow(true);
+cc_setcolour($statecolour);
+cc_settrans($trans);
+cc_settext($state);
+$next = calc($next + 1);
+
+cc_create($tile, ^iftype_text, $next);
+cc_setposition(0, 26, ^setpos_abs_centre, ^setpos_abs_top);
+cc_setsize(6, 12, ^setsize_minus, ^setsize_abs);
+cc_settextfont(p11_full);
+cc_settextalign(^settextalign_centre, ^settextalign_centre, 0);
+cc_settextshadow(true);
+cc_setcolour(0x9f9f9f);
+cc_settrans($trans);
+cc_settext($desc);

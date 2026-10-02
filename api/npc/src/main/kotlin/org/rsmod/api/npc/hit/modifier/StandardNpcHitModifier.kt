@@ -7,12 +7,20 @@ import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.hit.isStyleImmuneTo
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.hit.HitBuilder
 
-public class StandardNpcHitModifier @Inject constructor(private val eventBus: EventBus) :
-    NpcHitModifier {
+public class StandardNpcHitModifier
+@Inject
+constructor(
+    private val eventBus: EventBus,
+    private val playerList: PlayerList,
+    private val playerModifiers: Set<PlayerNpcDamageModifier>,
+) : NpcHitModifier {
     override fun HitBuilder.modify(target: Npc) {
         target.publishEvent(this)
+        target.applyPlayerModifiers(this)
         target.applyStyleImmunity(this)
         target.applyFlatArmour(this)
     }
@@ -20,6 +28,17 @@ public class StandardNpcHitModifier @Inject constructor(private val eventBus: Ev
     private fun Npc.publishEvent(hit: HitBuilder) {
         val event = NpcHitEvents.Modify(this, hit)
         eventBus.publish(event)
+    }
+
+    private fun Npc.applyPlayerModifiers(hit: HitBuilder) {
+        val uid = hit.sourceUid
+        if (!hit.isFromPlayer || uid == null || playerModifiers.isEmpty()) {
+            return
+        }
+        val source = PlayerUid(uid).resolve(playerList) ?: return
+        for (modifier in playerModifiers) {
+            modifier.modify(hit, this, source)
+        }
     }
 
     private fun Npc.applyStyleImmunity(hit: HitBuilder) {

@@ -3,14 +3,23 @@ soul_essence = 63470
 
 [gamevals.interface]
 soul_forge = 1108
+soul_dice = 1109
 
 [gamevals.clientscript]
 soul_forge_init = 45720
 soul_forge_equipment = 45723
 soul_forge_update = 45726
+soul_dice_init = 45738
+soul_dice_tile = 45741
+soul_dice_roll = 45744
+soul_dice_spin = 45747
+soul_dice_face = 45750
 
 [gamevals.varp]
 soul_forge_temp = 64156
+soul_dice_perks = 64157
 
 [gamevals.varbit]
 soul_forge_slot = 64247
+soul_dice_rolling = 64248
+

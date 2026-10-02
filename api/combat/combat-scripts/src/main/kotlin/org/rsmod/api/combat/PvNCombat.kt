@@ -17,6 +17,8 @@ import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.isValidTarget
+import org.rsmod.api.player.bonus.AttackSpeedModifiers
+import org.rsmod.api.player.bonus.AttackSpeedStyle
 import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.quiver
@@ -66,7 +68,8 @@ constructor(
 
         // Set the next attack clock before executing any special attack, ensuring all attacks
         // default to the weapon's standard attack delay.
-        val attackRate = speeds.actual(player)
+        val attackRate =
+            AttackSpeedModifiers.apply(player, AttackSpeedStyle.Melee, speeds.actual(player))
         manager.setNextAttackDelay(player, attackRate)
 
         // Important: Special attack handlers are responsible for explicitly calling `opnpc2` (or a
@@ -116,7 +119,8 @@ constructor(
 
         // Set the next attack clock before executing any special attack, ensuring all attacks
         // default to the weapon's standard attack delay.
-        val attackRate = speeds.actual(player)
+        val attackRate =
+            AttackSpeedModifiers.apply(player, AttackSpeedStyle.Ranged, speeds.actual(player))
         manager.setNextAttackDelay(player, attackRate)
 
         // Important: Special attack handlers are responsible for explicitly calling `opnpc2` (or a
@@ -239,7 +243,8 @@ constructor(
             return
         }
 
-        val attackRate = MAGIC_SPELL_ATTACK_RATE
+        val attackRate =
+            AttackSpeedModifiers.apply(player, AttackSpeedStyle.Magic, MAGIC_SPELL_ATTACK_RATE)
         manager.setNextAttackDelay(player, attackRate)
 
         val spell = spellsReg[RSCM.getReverseMapping(RSCMType.OBJ,attack.spell.obj.id)]
@@ -265,7 +270,8 @@ constructor(
 
         // Set the next attack clock before executing any special attack, ensuring all attacks
         // default to the weapon's standard attack delay.
-        val attackRate = MAGIC_STAFF_ATTACK_RATE
+        val attackRate =
+            AttackSpeedModifiers.apply(player, AttackSpeedStyle.Magic, MAGIC_STAFF_ATTACK_RATE)
         manager.setNextAttackDelay(player, attackRate)
 
         // Important: Special attack handlers are responsible for explicitly calling `opnpc2` (or a

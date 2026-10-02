@@ -1,0 +1,15 @@
+[proc,soul_dice_set_face](component $die, int $face, int $yaw, int $x, int $y)
+if (cc_find($die, 0) = false) {
+    cc_create($die, ^iftype_model, 0);
+    cc_setsize(0, 0, ^setsize_minus, ^setsize_minus);
+}
+cc_setposition($x, $y, ^setpos_abs_centre, ^setpos_abs_centre);
+switch_int ($face) {
+    case 1 : cc_setmodel(soul_die_1);
+    case 2 : cc_setmodel(soul_die_2);
+    case 3 : cc_setmodel(soul_die_3);
+    case 4 : cc_setmodel(soul_die_4);
+    case 5 : cc_setmodel(soul_die_5);
+    case default : cc_setmodel(soul_die_6);
+}
+cc_setmodelangle(0, 0, 340, $yaw, 0, 640);

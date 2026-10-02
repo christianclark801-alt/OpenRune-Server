@@ -1,0 +1,244 @@
+[[interface]]
+name = "interface.soul_dice"
+width = 512
+height = 334
+on_load = ["clientscript.soul_dice_init", "component.soul_dice:border", "component.soul_dice:dicebg", "component.soul_dice:roll", "component.soul_dice:die"]
+
+[[component]]
+name = "border"
+type = "layer"
+width = 512
+height = 334
+no_click_through = true
+
+[[component]]
+name = "essence"
+type = "text"
+x = 10
+y = 38
+width = 492
+height = 16
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Soul Essence: 0"
+
+[[component]]
+name = "dicebg"
+type = "layer"
+x = 10
+y = 56
+width = 492
+height = 86
+
+[[component]]
+name = "rollinfo"
+type = "text"
+x = 18
+y = 60
+width = 180
+height = 78
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+text = "Roll the Soul Dice to unlock a random starter perk."
+
+[[component]]
+name = "die"
+type = "layer"
+x = 216
+y = 58
+width = 80
+height = 82
+
+[[component]]
+name = "roll"
+type = "layer"
+x = 362
+y = 74
+width = 120
+height = 32
+options = ["Roll"]
+
+[[component]]
+name = "rollcost"
+type = "text"
+x = 346
+y = 110
+width = 152
+height = 16
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+text = ""
+
+[[component]]
+name = "complete"
+type = "text"
+x = 10
+y = 56
+width = 492
+height = 86
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#00FF00"
+text = "All Perks Unlocked"
+hide = true
+
+[[component]]
+name = "row1label"
+type = "text"
+x = 10
+y = 144
+width = 492
+height = 12
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Starter Perks - unlocked by the Soul Dice"
+
+[[component]]
+name = "row2label"
+type = "text"
+x = 10
+y = 198
+width = 492
+height = 12
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Boss Slayer Perks"
+
+[[component]]
+name = "row3label"
+type = "text"
+x = 10
+y = 252
+width = 492
+height = 12
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "True Haste Perks"
+
+[[component]]
+name = "tile0"
+type = "layer"
+x = 10
+y = 156
+width = 95
+height = 40
+
+[[component]]
+name = "tile1"
+type = "layer"
+x = 109
+y = 156
+width = 95
+height = 40
+
+[[component]]
+name = "tile2"
+type = "layer"
+x = 208
+y = 156
+width = 95
+height = 40
+
+[[component]]
+name = "tile3"
+type = "layer"
+x = 307
+y = 156
+width = 95
+height = 40
+
+[[component]]
+name = "tile4"
+type = "layer"
+x = 406
+y = 156
+width = 95
+height = 40
+
+[[component]]
+name = "tile5"
+type = "layer"
+x = 10
+y = 210
+width = 161
+height = 40
+options = ["Unlock"]
+
+[[component]]
+name = "tile6"
+type = "layer"
+x = 175
+y = 210
+width = 161
+height = 40
+options = ["Unlock"]
+
+[[component]]
+name = "tile7"
+type = "layer"
+x = 340
+y = 210
+width = 161
+height = 40
+options = ["Unlock"]
+
+[[component]]
+name = "tile8"
+type = "layer"
+x = 10
+y = 264
+width = 161
+height = 40
+options = ["Unlock"]
+
+[[component]]
+name = "tile9"
+type = "layer"
+x = 175
+y = 264
+width = 161
+height = 40
+options = ["Unlock"]
+
+[[component]]
+name = "tile10"
+type = "layer"
+x = 340
+y = 264
+width = 161
+height = 40
+options = ["Unlock"]
+
+[[component]]
+name = "status"
+type = "text"
+x = 10
+y = 306
+width = 492
+height = 18
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#9F9F9F"
+text = ""

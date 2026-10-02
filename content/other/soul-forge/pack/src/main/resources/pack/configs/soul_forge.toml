@@ -24,3 +24,14 @@ id = "varbit.soul_forge_slot"
 varp = "varp.soul_forge_temp"
 startBit = 0
 endBit = 4
+
+[[varbit]]
+id = "varbit.soul_dice_rolling"
+varp = "varp.soul_forge_temp"
+startBit = 5
+endBit = 5
+
+[[varp]]
+id = "varp.soul_dice_perks"
+scope = "Perm"
+transmit = "Never"

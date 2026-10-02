@@ -19,7 +19,6 @@ import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.script.onGameStartup
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onOpLoc1
-import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpLoc3
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.InvObj
@@ -33,7 +32,7 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-private const val SOUL_FORGE = "loc.raids_tekton_anvil"
+internal const val SOUL_FORGE = "loc.raids_tekton_anvil"
 private const val SOUL_SPOTANIM = "spotanim.whisperer_impact_soul_spotanim"
 private const val SMOKE_SPOTANIM = "spotanim.smokepuff_large"
 
@@ -98,7 +97,6 @@ constructor(
         onGameStartup { spawnForge() }
 
         onOpLoc1(SOUL_FORGE) { openForge() }
-        onOpLoc2(SOUL_FORGE) { showUpgrades() }
         onOpLoc3(SOUL_FORGE) { destroy(it.loc) }
 
         onIfModalButton(EQUIPMENT) { select(it.comsub) }
@@ -110,17 +108,6 @@ constructor(
         ifSetEvents(EQUIPMENT, WORN_ORDER.indices, IfEvent.Op1)
         player.forgeSlot = NO_SLOT
         redraw()
-    }
-
-    private fun ProtectedAccess.showUpgrades() {
-        mes("<col=ff981f>Soul Forge upgrades</col> - essence is consumed on every attempt:")
-        SoulForgeLevels.all().forEachIndexed { index, level ->
-            val bonus = SoulForgeLevels.bonusAmount(index + 1)
-            mes(
-                "+${index + 1}: ${level.cost} soul essence, ${level.chancePercent}% chance, " +
-                    "+$bonus to the item's strength stat.",
-            )
-        }
     }
 
     private fun ProtectedAccess.select(index: Int) {

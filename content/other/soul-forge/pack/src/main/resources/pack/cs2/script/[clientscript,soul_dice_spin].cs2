@@ -1,0 +1,16 @@
+[clientscript,soul_dice_spin](component $die, int $face, int $end)
+def_int $left = calc($end - clientclock);
+if ($left <= 0) {
+    if_setontimer(null, $die);
+    ~soul_dice_set_face($die, $face, 0, 0, 0);
+    return;
+}
+def_int $interval = 3;
+if ($left < 30) {
+    $interval = 9;
+} else if ($left < 70) {
+    $interval = 5;
+}
+if (calc(clientclock % $interval) = 0) {
+    ~soul_dice_set_face($die, calc(random(6) + 1), random(2048), calc(random(9) - 4), calc(random(7) - 3));
+}

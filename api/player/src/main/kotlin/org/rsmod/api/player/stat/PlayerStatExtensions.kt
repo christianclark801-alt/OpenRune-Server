@@ -34,7 +34,7 @@ public fun Player.statBase(stat: String): Int {
  */
 public fun Player.statRestore(stat: String) {
     val currLevel = stat(stat)
-    val baseLevel = statBase(stat)
+    val baseLevel = statEffectiveBase(stat)
     val delta = baseLevel - currLevel
     when {
         delta == 0 -> return
@@ -136,7 +136,7 @@ public fun Player.statBoost(stat: String, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive. Use `statDrain` instead." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
-    val base = statBase(stat)
+    val base = statEffectiveBase(stat)
     val boost = constant + (base * percent) / 100
 
     val current = stat(stat)
@@ -204,7 +204,7 @@ public fun Player.statDrain(stat: String, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
-    val base = statBase(stat)
+    val base = statEffectiveBase(stat)
     val drain = constant + (base * percent) / 100
 
     val current = stat(stat)
@@ -244,7 +244,7 @@ public fun Player.statHeal(internal: String, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
-    val base = statBase(internal)
+    val base = statEffectiveBase(internal)
     val current = stat(internal)
     val calculated = current + (constant + (base * percent) / 100)
     val cappedLevel = calculated.coerceIn(current, base)

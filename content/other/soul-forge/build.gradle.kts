@@ -6,6 +6,7 @@ dependencies {
     implementation(libs.guice)
     implementation(projects.api.config)
     implementation(projects.api.death)
+    implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
     implementation(projects.api.pluginCommons)
@@ -13,6 +14,7 @@ dependencies {
     implementation(projects.api.realm)
     implementation(projects.api.repo)
     implementation(projects.content.interfaces.collectionLog)
+    implementation(projects.content.other.bossAtlas)
     implementation(projects.engine.game)
     implementation(projects.engine.plugin)
 }

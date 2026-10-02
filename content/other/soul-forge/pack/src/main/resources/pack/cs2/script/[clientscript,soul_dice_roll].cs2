@@ -1,0 +1,2 @@
+[clientscript,soul_dice_roll](component $die, int $face)
+if_setontimer("soul_dice_spin($die, $face, calc(clientclock + 125))", $die);
