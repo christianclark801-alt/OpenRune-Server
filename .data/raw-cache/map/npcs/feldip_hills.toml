@@ -898,3 +898,7 @@ coords = "0_39_47_17_26"
 
 ## Gu'tanoth End
 
+
+[[spawn]]
+npc = "npc.broodmother"
+coords = "0_36_47_44_44"

@@ -1,0 +1,22 @@
+[[npc]]
+id = "npc.broodmother"
+inherit = "npc.poisonspider"
+name = "Broodmother"
+size = 4
+combatLevel = 172
+models = ["models.broodmother"]
+widthScale = 128
+heightScale = 128
+hitpoints = 450
+attack = 150
+strength = 140
+defence = 120
+ranged = 130
+magic = 60
+respawnRate = 50
+wanderRange = 3
+huntRange = 8
+examine = "A bloated tick queen, swollen with venom."
+[npc.params]
+"param.npc_attack_type"="category.attacktype_stab"
+"param.boss_hp_bar_mode"=1

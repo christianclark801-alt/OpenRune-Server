@@ -394,6 +394,21 @@ scope = "Perm"
 transmit = "Never"
 
 [[varp]]
+id = "varp.boss_atlas_pb_broodmother"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_broodmother"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_kc_broodmother"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
 id = "varp.boss_atlas_favs"
 scope = "Perm"
 transmit = "Never"

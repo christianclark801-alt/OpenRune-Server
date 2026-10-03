@@ -585,6 +585,19 @@ enum class Boss(
         coords = CoordGrid(3863, 3683, 0),
         kills = kills("varp.boss_atlas_kc_goblincook", "npc.goblin_cook_boss"),
         implemented = true,
+    ),
+    Broodmother(
+        key = "broodmother",
+        displayName = "Broodmother",
+        category = BossCategory.Mid,
+        combatLevel = 172,
+        icon = "obj.red_spiders_eggs",
+        gear = "obj.3dose2antipoison",
+        description = "A bloated tick queen in the Feldip swamps. Her bite and venom spit " +
+            "both poison, so bring antipoison and keep your distance.",
+        coords = CoordGrid(2353, 3052, 0),
+        kills = kills("varp.boss_atlas_kc_broodmother", "npc.broodmother"),
+        implemented = true,
     );
 
     val id: Int
