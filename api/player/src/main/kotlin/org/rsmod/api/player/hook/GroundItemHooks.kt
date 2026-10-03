@@ -3,6 +3,7 @@ package org.rsmod.api.player.hook
 import dev.openrune.types.ItemServerType
 import jakarta.inject.Inject
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.obj.Obj
 import org.rsmod.map.CoordGrid
 
@@ -35,6 +36,11 @@ public fun interface PlayerGroundItemDropHook {
         duration: Int,
         reveal: Int,
     ): GroundItemDropParams?
+}
+
+public fun interface PlayerHeldDropWarningHook {
+    /** @return A warning the player must confirm before dropping [obj], or `null` to drop normally. */
+    public fun dropWarning(player: Player, obj: InvObj, type: ItemServerType): String?
 }
 
 public fun interface PlayerObjTakeValidateHook {

@@ -19,6 +19,7 @@ import org.rsmod.api.player.events.interact.HeldObjEvents
 import org.rsmod.api.player.hook.GroundItemDropContext
 import org.rsmod.api.player.hook.GroundItemDropResolver
 import org.rsmod.api.player.hook.GroundItemDropSource
+import org.rsmod.api.player.hook.PlayerHeldDropWarningHook
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.mes
@@ -282,6 +283,7 @@ constructor(
     private val objRepo: ObjRepository,
     private val marketPrices: MarketPrices,
     private val groundItemDrops: GroundItemDropResolver,
+    private val dropWarnings: Set<@JvmSuppressWildcards PlayerHeldDropWarningHook>,
 ) {
     suspend fun dropOrDestroy(
         access: ProtectedAccess,
@@ -382,7 +384,7 @@ constructor(
             val event = HeldDropEvents.Release(player, dropSlot, obj, internal)
             eventBus.publish(event)
 
-            val type = ServerCacheManager.getItem(internal.asRSCM(RSCMType.OBJ))?: return
+            val type = ServerCacheManager.getItem(internal.asRSCM(RSCMType.OBJ)) ?: return
 
             val message = type.paramOrNull(params.release_note_message)
             message?.let(player::mes)
@@ -406,6 +408,12 @@ constructor(
 
         // If drop trigger was reset it means the inv obj cannot be dropped.
         if (player.dropTrigger != null) {
+            return
+        }
+
+        val warning = dropWarnings.firstNotNullOfOrNull { it.dropWarning(player, obj, type) }
+        if (warning != null) {
+            access.startDialogue { hookDropWarning(inventory, dropSlot, obj, type, warning) }
             return
         }
 
@@ -445,6 +453,27 @@ constructor(
         type: ItemServerType,
     ) {
         startDialogue { dropWarning(inventory, dropSlot, obj, type) }
+    }
+
+    private suspend fun Dialogue.hookDropWarning(
+        inventory: Inventory,
+        dropSlot: Int,
+        obj: InvObj,
+        type: ItemServerType,
+        warning: String,
+    ) {
+        objbox(obj = RSCM.getReverseMapping(RSCMType.OBJ, type.id), zoom = 400, warning)
+        val confirm =
+            choice2(
+                "Drop it anyway.",
+                true,
+                "No, keep it.",
+                false,
+                title = "${type.name}: Really drop it?",
+            )
+        if (confirm && inventory[dropSlot] == obj) {
+            player.drop(inventory, dropSlot, obj, type)
+        }
     }
 
     private suspend fun Dialogue.dropWarning(
