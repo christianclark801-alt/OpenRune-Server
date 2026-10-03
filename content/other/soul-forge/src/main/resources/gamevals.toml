@@ -23,3 +23,7 @@ soul_dice_perks = 64157
 soul_forge_slot = 64247
 soul_dice_rolling = 64248
 
+
+[gamevals.inv]
+soul_forge_levels = 1102
+soul_forge_bank_levels = 1103

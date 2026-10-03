@@ -1,0 +1,5 @@
+[proc,soul_forge_slot_name](obj $obj, int $slot)(string)
+if (inv_getobj(inv, $slot) = $obj & inv_getobj(soul_forge_levels, $slot) = $obj) {
+    return(~soul_forge_name($obj, inv_getnum(soul_forge_levels, $slot)));
+}
+return(~soul_forge_name($obj, 0));

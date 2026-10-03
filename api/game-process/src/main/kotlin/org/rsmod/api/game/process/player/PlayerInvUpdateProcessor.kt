@@ -3,6 +3,7 @@ package org.rsmod.api.game.process.player
 import dev.openrune.types.InvScope
 import jakarta.inject.Inject
 import kotlin.collections.iterator
+import org.rsmod.api.player.hook.PlayerInvPreTransmitHook
 import org.rsmod.api.player.hook.PlayerInvUpdateHook
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.utils.logging.GameExceptionHandler
@@ -17,11 +18,15 @@ constructor(
     private val players: ShuffledPlayerList,
     private val exceptionHandler: GameExceptionHandler,
     private val invUpdateHooks: Set<PlayerInvUpdateHook>,
+    private val preTransmitHooks: Set<@JvmSuppressWildcards PlayerInvPreTransmitHook>,
 ) {
     private val processedInvs = hashSetOf<Inventory>()
     private val playerUpdatedInvs = ArrayList<Inventory>(4)
 
     public fun process(player: Player) {
+        for (hook in preTransmitHooks) {
+            hook.beforeInvTransmit(player)
+        }
         playerUpdatedInvs.clear()
         player.updateTransmittedInvs()
         player.processQueuedTransmissions()

@@ -1,0 +1,2 @@
+[proc,soul_forge_inv_name](obj $obj)(string)
+return(~soul_forge_slot_name($obj, cc_getid));

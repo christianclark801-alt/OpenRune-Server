@@ -1,0 +1,39 @@
+[clientscript,inventory_reorder](component $component0, component $component1, int $int2, int $int3, int $int4, boolean $boolean5)
+def_int $int6 = $int4;
+while ($int6 > 0) {
+    $int6 = calc($int6 - 1);
+    if (cc_find($component0, $int6) = true & cc_getinvobject = blankobject) {
+        cc_sethide(true);
+    }
+}
+if ($int2 < 0 | $int2 >= $int4) {
+    return;
+}
+if ($int3 < 0 | $int3 >= $int4) {
+    return;
+}
+if ($component0 ! $component1) {
+    return;
+}
+def_boolean $boolean7 = keyheld(^key_shift_left);
+def_obj $obj8 = null;
+def_int $int9 = -1;
+def_obj $obj10 = null;
+def_int $int11 = -1;
+if (cc_find($component0, $int2) = true) {
+    $obj8, $int9 = cc_getinvobject, cc_getinvcount;
+}
+if ($obj8 = null) {
+    return;
+}
+if (cc_find($component0, $int3) = true) {
+    $obj10, $int11 = cc_getinvobject, cc_getinvcount;
+    ~inventory_drawitem($obj8, $int9, $component0, $int4, $boolean5, $boolean7);
+    cc_setopbase(~soul_forge_slot_name($obj8, $int2));
+}
+if (cc_find($component0, $int2) = true) {
+    ~inventory_drawitem($obj10, $int11, $component0, $int4, $boolean5, $boolean7);
+    if ($obj10 ! null) {
+        cc_setopbase(~soul_forge_slot_name($obj10, $int3));
+    }
+}

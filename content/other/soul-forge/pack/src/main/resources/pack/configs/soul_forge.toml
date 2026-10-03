@@ -35,3 +35,17 @@ endBit = 5
 id = "varp.soul_dice_perks"
 scope = "Perm"
 transmit = "Never"
+
+[[inventory]]
+id = "inv.soul_forge_levels"
+size = 42
+scope = "Temp"
+stack = "Always"
+protect = false
+
+[[inventory]]
+id = "inv.soul_forge_bank_levels"
+size = 1410
+scope = "Temp"
+stack = "Always"
+protect = false
