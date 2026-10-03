@@ -1,8 +1,12 @@
 """Export Blender meshes to the unversioned (footer-only) OSRS model format.
 
 Every object in the target collection is evaluated at the current frame, transformed to
-world space and merged into one model. Per-face colours come from the integer face
-attribute ``rs_color`` (16-bit OSRS HSL); faces without it fall back to ``DEFAULT_COLOR``.
+world space and merged into one model. Optional mesh attributes drive the extra streams:
+
+    rs_color  (FACE, int)  16-bit OSRS HSL colour; faces without it use ``DEFAULT_COLOR``
+    rs_alpha  (FACE, int)  face transparency, 0 opaque .. 255 invisible
+    rs_flabel (FACE, int)  face label, targeted by alpha (type 5) animation transforms
+    rs_label  (POINT, int) vertex label, targeted by origin/translate/rotate/scale transforms
 
 Blender is Z-up; OSRS is Y-down with models facing south (-Z). The build scripts model the
 creature facing Blender +X, so the conversion is:
@@ -19,10 +23,33 @@ Usage (headless):
 
 import struct
 import sys
+from dataclasses import dataclass, field
 
 UNITS_PER_TILE = 128
 DEFAULT_COLOR = 127
 FLIP_WINDING = False
+
+
+@dataclass
+class RsModel:
+    vertices: list = field(default_factory=list)
+    vertex_labels: list = field(default_factory=list)
+    faces: list = field(default_factory=list)
+    colors: list = field(default_factory=list)
+    alphas: list = field(default_factory=list)
+    face_labels: list = field(default_factory=list)
+
+    @property
+    def has_vertex_labels(self):
+        return any(self.vertex_labels)
+
+    @property
+    def has_face_labels(self):
+        return any(self.face_labels)
+
+    @property
+    def has_alphas(self):
+        return any(self.alphas)
 
 
 def _short_smart(value):
@@ -33,10 +60,13 @@ def _short_smart(value):
     raise ValueError(f"delta {value} out of short smart range")
 
 
-def encode_model(vertices, faces, colors, priority=0):
-    """vertices: [(x, y, z)] ints in model space; faces: [(a, b, c)]; colors: [hsl16]."""
+def encode_model(model, priority=0):
+    vertices, faces = model.vertices, model.faces
     if len(vertices) > 0xFFFF or len(faces) > 0xFFFF:
         raise ValueError("model too large")
+    vertex_skins = model.has_vertex_labels
+    face_skins = model.has_face_labels
+    face_alphas = model.has_alphas
 
     vertex_flags = bytearray()
     xs, ys, zs = bytearray(), bytearray(), bytearray()
@@ -61,18 +91,18 @@ def encode_model(vertices, faces, colors, priority=0):
             offset = vertex
 
     face_colors = bytearray()
-    for color in colors:
+    for color in model.colors:
         face_colors += struct.pack(">H", color & 0xFFFF)
 
-    body = (
-        bytes(vertex_flags)
-        + bytes(compress_types)
-        + bytes(indices)
-        + bytes(face_colors)
-        + bytes(xs)
-        + bytes(ys)
-        + bytes(zs)
-    )
+    body = bytes(vertex_flags) + bytes(compress_types)
+    if face_skins:
+        body += bytes(model.face_labels)
+    if vertex_skins:
+        body += bytes(model.vertex_labels)
+    if face_alphas:
+        body += bytes(model.alphas)
+    body += bytes(indices) + bytes(face_colors) + bytes(xs) + bytes(ys) + bytes(zs)
+
     footer = struct.pack(
         ">HHBBBBBBHHHH",
         len(vertices),
@@ -80,9 +110,9 @@ def encode_model(vertices, faces, colors, priority=0):
         0,
         0,
         priority,
-        0,
-        0,
-        0,
+        int(face_alphas),
+        int(face_skins),
+        int(vertex_skins),
         len(xs),
         len(ys),
         len(zs),
@@ -102,12 +132,15 @@ def decode_model(data):
     pos += fc
     if priority == 0xFF:
         pos += fc
+    fskin_off = pos
     if has_fskin == 1:
         pos += fc
     if has_tex == 1:
         pos += fc
+    vskin_off = pos
     if has_vskin == 1:
         pos += vc
+    alpha_off = pos
     if has_alpha == 1:
         pos += fc
     idx_off = pos
@@ -135,8 +168,8 @@ def decode_model(data):
 
         return smart
 
+    model = RsModel()
     rx, ry, rz = reader(x_off), reader(y_off), reader(z_off)
-    vertices = []
     last = [0, 0, 0]
     for i in range(vc):
         flag = data[flags_off + i]
@@ -145,10 +178,10 @@ def decode_model(data):
             last[1] + (ry() if flag & 2 else 0),
             last[2] + (rz() if flag & 4 else 0),
         ]
-        vertices.append(tuple(last))
+        model.vertices.append(tuple(last))
+        model.vertex_labels.append(data[vskin_off + i] if has_vskin == 1 else 0)
 
     ri = reader(idx_off)
-    faces = []
     a = b = c = offset = 0
     for i in range(fc):
         kind = data[compress_off + i]
@@ -169,11 +202,25 @@ def decode_model(data):
             a, b = b, a
             c = ri() + offset
             offset = c
-        faces.append((a, b, c))
+        model.faces.append((a, b, c))
+        model.colors.append(struct.unpack(">H", data[color_off + i * 2:color_off + i * 2 + 2])[0])
+        model.face_labels.append(data[fskin_off + i] if has_fskin == 1 else 0)
+        model.alphas.append(data[alpha_off + i] if has_alpha == 1 else 0)
+    return model
 
-    colors = [struct.unpack(">H", data[color_off + i * 2:color_off + i * 2 + 2])[0]
-              for i in range(fc)]
-    return vertices, faces, colors
+
+def _face_values(mesh, name):
+    attribute = mesh.attributes.get(name)
+    if attribute is None or attribute.domain != "FACE":
+        return None
+    return [value.value for value in attribute.data]
+
+
+def _point_values(mesh, name):
+    attribute = mesh.attributes.get(name)
+    if attribute is None or attribute.domain != "POINT":
+        return None
+    return [value.value for value in attribute.data]
 
 
 def collect_collection(collection_name):
@@ -182,60 +229,62 @@ def collect_collection(collection_name):
     collection = bpy.data.collections[collection_name]
     depsgraph = bpy.context.evaluated_depsgraph_get()
     vertex_index = {}
-    vertices, faces, colors = [], [], []
+    model = RsModel()
 
-    for obj in collection.all_objects:
+    for obj in sorted(collection.all_objects, key=lambda o: o.name):
         if obj.type != "MESH":
             continue
         evaluated = obj.evaluated_get(depsgraph)
         mesh = evaluated.to_mesh()
         mesh.calc_loop_triangles()
         matrix = obj.matrix_world
-        attribute = mesh.attributes.get("rs_color")
-        face_colors = (
-            [value.value for value in attribute.data]
-            if attribute is not None and attribute.domain == "FACE"
-            else None
-        )
+        colors = _face_values(mesh, "rs_color")
+        alphas = _face_values(mesh, "rs_alpha")
+        face_labels = _face_values(mesh, "rs_flabel")
+        labels = _point_values(mesh, "rs_label")
 
         local_to_model = []
         for vertex in mesh.vertices:
             world = matrix @ vertex.co
-            key = (
+            position = (
                 round(world.y * UNITS_PER_TILE),
                 round(-world.z * UNITS_PER_TILE),
                 round(-world.x * UNITS_PER_TILE),
             )
+            label = labels[vertex.index] if labels else 0
+            key = (position, label)
             if key not in vertex_index:
-                vertex_index[key] = len(vertices)
-                vertices.append(key)
+                vertex_index[key] = len(model.vertices)
+                model.vertices.append(position)
+                model.vertex_labels.append(label)
             local_to_model.append(vertex_index[key])
 
         for triangle in mesh.loop_triangles:
             a, b, c = (local_to_model[v] for v in triangle.vertices)
             if a == b or b == c or a == c:
                 continue
-            faces.append((a, c, b) if FLIP_WINDING else (a, b, c))
-            colors.append(
-                face_colors[triangle.polygon_index] if face_colors else DEFAULT_COLOR
-            )
+            polygon = triangle.polygon_index
+            model.faces.append((a, c, b) if FLIP_WINDING else (a, b, c))
+            model.colors.append(colors[polygon] if colors else DEFAULT_COLOR)
+            model.alphas.append(alphas[polygon] if alphas else 0)
+            model.face_labels.append(face_labels[polygon] if face_labels else 0)
 
         evaluated.to_mesh_clear()
 
-    return vertices, faces, colors
+    return model
 
 
 def export_collection(collection_name, out_path):
-    vertices, faces, colors = collect_collection(collection_name)
-    data = encode_model(vertices, faces, colors)
+    model = collect_collection(collection_name)
+    data = encode_model(model)
     with open(out_path, "wb") as handle:
         handle.write(data)
 
     decoded = decode_model(data)
-    assert decoded == (vertices, faces, colors), "round trip mismatch"
-    print(f"Exported {collection_name}: {len(vertices)} vertices, {len(faces)} faces, "
+    assert decoded == model, "round trip mismatch"
+    print(f"Exported {collection_name}: {len(model.vertices)} vertices, {len(model.faces)} faces, "
           f"{len(data)} bytes -> {out_path}")
-    return len(vertices), len(faces)
+    return model
 
 
 if __name__ == "__main__" and "--" in sys.argv:

@@ -6,6 +6,7 @@ import dev.openrune.cache.tools.iftype.PackIfType
 import dev.openrune.cache.tools.tasks.CacheTask
 import dev.openrune.cache.tools.tasks.impl.PackDBTables
 import dev.openrune.cache.tools.tasks.impl.PackWorldMap
+import dev.openrune.cache.tools.tasks.impl.PackAnims
 import dev.openrune.cache.tools.tasks.impl.PackModels
 import dev.openrune.cache.tools.tasks.impl.defs.PackConfig
 import dev.openrune.definition.dbtables.DBTable
@@ -57,6 +58,10 @@ class PluginPacks(val projectRoot: File, val all: List<PluginPack>) {
 
         configDirectories().forEach { tasks += PackConfig(it) }
         active.mapNotNull { it.modelDirectory() }.forEach { tasks += PackModels(it) }
+        active.mapNotNull { it.animDirectory() }.forEach { anims ->
+            File(anims, FRAME_MAPS).takeIf { it.isDirectory }?.let { tasks += PackFrameMaps(it) }
+            tasks += PackAnims(anims)
+        }
 
         val legacySprites = File("../.data/raw-cache/sprites")
         if (legacySprites.isDirectory) {
@@ -123,6 +128,8 @@ class PluginPacks(val projectRoot: File, val all: List<PluginPack>) {
 
     companion object {
         private val SCANNED_PACKAGES = arrayOf("dev.openrune.pack", "org.rsmod.content")
+
+        private const val FRAME_MAPS = "framemaps"
 
         private val SYMBOL_LINE = Regex("""^\s*(\S+)\s+(.+?)\s*$""")
 

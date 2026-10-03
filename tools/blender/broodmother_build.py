@@ -1,11 +1,14 @@
 """Builds the Broodmother boss model: a bloated low-poly tick/spider queen facing +X.
 
 Scale is 1 Blender unit = 1 tile. Every part gets an ``rs_color`` face attribute (OSRS
-16-bit HSL) for ``osrs_model_export.py``; viewport materials are derived from the same HSL.
+16-bit HSL) and an ``rs_label`` vertex label for ``osrs_model_export.py``; the glow shells
+also carry ``rs_alpha`` and ``rs_flabel`` so animations can pulse them. Viewport materials
+are derived from the same HSL.
 
 Usage:
     blender --background --python tools/blender/broodmother_build.py -- [out.blend] [out.dat]
-or paste/run inside a live Blender session (no arguments needed).
+or paste/run inside a live Blender session (no arguments needed). Exporting the .dat also
+writes the animations next to it (see ``broodmother_anims.py``).
 """
 
 import colorsys
@@ -32,14 +35,27 @@ LEG_SPLAY_X = (0.45, 0.15, -0.15, -0.45)
 
 SAC_RADIUS = 0.9
 SAC_CENTER = Vector((-0.6, 0.0, 0.7))
-SAC_PULSE_SCALE = 1.12
-SAC_PULSE_FRAMES = 24
+SAC_SCALE = (1.3, 1.05, 0.75)
+SAC_GLOW_GROWTH = 1.12
+SAC_GLOW_ALPHA = 170
 
 MOUTH_INSET = 0.12
 MOUTH_DEPTH = 0.35
 
 FANG_LENGTH = 0.6
 FANG_RADIUS = 0.11
+FANG_GLOW_GROWTH = 1.9
+FANG_GLOW_ALPHA = 185
+
+LABEL_BODY = 0
+LABEL_SAC = 1
+LABEL_SAC_GLOW = 2
+LABEL_FANGS = 3
+LABEL_FANG_GLOW = 4
+LABEL_LEG_FIRST = 10
+LABEL_HIP_FIRST = 20
+FACE_LABEL_SAC_GLOW = 1
+FACE_LABEL_FANG_GLOW = 2
 
 
 def hsl(hue, saturation, lightness):
@@ -53,6 +69,8 @@ SAC_HSL = hsl(18, 6, 70)
 SAC_VEIN_HSL = hsl(20, 5, 52)
 MOUTH_HSL = hsl(0, 5, 8)
 FANG_HSL = hsl(8, 1, 110)
+SAC_GLOW_HSL = hsl(19, 7, 100)
+FANG_GLOW_HSL = hsl(19, 7, 96)
 
 
 def hsl_to_rgba(value):
@@ -63,12 +81,12 @@ def hsl_to_rgba(value):
     return (r, g, b, 1.0)
 
 
-def material_for(value):
-    name = f"rs_{value}"
+def material_for(value, alpha=0):
+    name = f"rs_{value}_{alpha}"
     material = bpy.data.materials.get(name) or bpy.data.materials.new(name)
     if not material.node_tree:
         material.use_nodes = True
-    rgba = hsl_to_rgba(value)
+    rgba = hsl_to_rgba(value)[:3] + (1.0 - alpha / 255,)
     bsdf = next(n for n in material.node_tree.nodes if n.type == "BSDF_PRINCIPLED")
     bsdf.inputs[0].default_value = rgba
     material.diffuse_color = rgba
@@ -95,18 +113,26 @@ def link(obj, collection, name):
     return obj
 
 
-def paint(obj, colors_by_face):
+def int_attribute(mesh, name, domain, values):
+    attribute = mesh.attributes.get(name) or mesh.attributes.new(name, "INT", domain)
+    for index, value in enumerate(values):
+        attribute.data[index].value = value
+
+
+def paint(obj, colors_by_face, label, alpha=0, face_label=0):
     """colors_by_face: one HSL value per polygon; also builds matching viewport materials."""
     mesh = obj.data
-    attribute = mesh.attributes.get("rs_color") or mesh.attributes.new(
-        "rs_color", "INT", "FACE"
-    )
+    int_attribute(mesh, "rs_color", "FACE", colors_by_face)
+    int_attribute(mesh, "rs_label", "POINT", [label] * len(mesh.vertices))
+    if alpha:
+        int_attribute(mesh, "rs_alpha", "FACE", [alpha] * len(mesh.polygons))
+    if face_label:
+        int_attribute(mesh, "rs_flabel", "FACE", [face_label] * len(mesh.polygons))
     palette = []
     for polygon, value in zip(mesh.polygons, colors_by_face):
-        attribute.data[polygon.index].value = value
         if value not in palette:
             palette.append(value)
-            mesh.materials.append(material_for(value))
+            mesh.materials.append(material_for(value, alpha))
         polygon.material_index = palette.index(value)
 
 
@@ -150,11 +176,11 @@ def build_body(collection):
             colors.append(BODY_SPOT_HSL if rng.random() < 0.18 else BODY_HSL)
     bm.to_mesh(body.data)
     bm.free()
-    paint(body, colors)
+    paint(body, colors, LABEL_BODY)
     return body
 
 
-def cylinder_between(collection, name, start, end, radius):
+def cylinder_between(collection, name, start, end, radius, label):
     direction = end - start
     bpy.ops.mesh.primitive_cylinder_add(
         vertices=LEG_SIDES, radius=radius, depth=direction.length,
@@ -164,7 +190,7 @@ def cylinder_between(collection, name, start, end, radius):
     obj.rotation_mode = "QUATERNION"
     obj.rotation_quaternion = direction.to_track_quat("Z", "Y")
     apply_transform(obj)
-    paint(obj, [LEG_HSL] * len(obj.data.polygons))
+    paint(obj, [LEG_HSL] * len(obj.data.polygons), label)
     return obj
 
 
@@ -176,11 +202,22 @@ def build_legs(collection):
             knee = Vector((root_x + splay_x, side * 1.65, 1.75))
             foot = Vector((root_x + splay_x * 1.6, side * 2.05, 0.0))
             tag = f"{'L' if side > 0 else 'R'}{index + 1}"
-            legs.append(cylinder_between(
-                collection, f"Broodmother_Leg_{tag}_Upper", root, knee, LEG_UPPER_RADIUS))
-            legs.append(cylinder_between(
-                collection, f"Broodmother_Leg_{tag}_Lower", knee, foot, LEG_LOWER_RADIUS))
+            leg = (0 if side > 0 else 4) + index
+            upper = cylinder_between(collection, f"Broodmother_Leg_{tag}_Upper", root, knee,
+                                     LEG_UPPER_RADIUS, LABEL_LEG_FIRST + leg)
+            lower = cylinder_between(collection, f"Broodmother_Leg_{tag}_Lower", knee, foot,
+                                     LEG_LOWER_RADIUS, LABEL_LEG_FIRST + leg)
+            label_hip_ring(upper, root, LABEL_HIP_FIRST + leg)
+            legs += [upper, lower]
     return legs
+
+
+def label_hip_ring(upper, root, hip_label):
+    """The ring at the leg root becomes the leg's rotation pivot."""
+    labels = upper.data.attributes["rs_label"]
+    for vertex in upper.data.vertices:
+        if (upper.matrix_world @ vertex.co - root).length < LEG_UPPER_RADIUS * 1.5:
+            labels.data[vertex.index].value = hip_label
 
 
 def build_sac(collection):
@@ -188,36 +225,21 @@ def build_sac(collection):
         subdivisions=1, radius=SAC_RADIUS, location=SAC_CENTER,
     )
     sac = link(bpy.context.active_object, collection, "Broodmother_PoisonSac")
-    sac.scale = (1.3, 1.05, 0.75)
+    sac.scale = SAC_SCALE
+    apply_transform(sac)
     rng = random.Random(11)
     paint(sac, [SAC_VEIN_HSL if rng.random() < 0.25 else SAC_HSL
-                for _ in sac.data.polygons])
+                for _ in sac.data.polygons], LABEL_SAC)
 
-    scene = bpy.context.scene
-    scene.frame_start = 1
-    scene.frame_end = SAC_PULSE_FRAMES
-    base = sac.scale.copy()
-    for frame, factor in ((1, 1.0), (SAC_PULSE_FRAMES // 2 + 1, SAC_PULSE_SCALE),
-                          (SAC_PULSE_FRAMES + 1, 1.0)):
-        sac.scale = base * factor
-        sac.keyframe_insert(data_path="scale", frame=frame)
-    sac.scale = base
-    for curve in action_fcurves(sac):
-        curve.modifiers.new(type="CYCLES")
+    bpy.ops.mesh.primitive_ico_sphere_add(
+        subdivisions=1, radius=SAC_RADIUS * SAC_GLOW_GROWTH, location=SAC_CENTER,
+    )
+    glow = link(bpy.context.active_object, collection, "Broodmother_PoisonSac_Glow")
+    glow.scale = SAC_SCALE
+    apply_transform(glow)
+    paint(glow, [SAC_GLOW_HSL] * len(glow.data.polygons), LABEL_SAC_GLOW,
+          alpha=SAC_GLOW_ALPHA, face_label=FACE_LABEL_SAC_GLOW)
     return sac
-
-
-def action_fcurves(obj):
-    animation = obj.animation_data
-    if animation is None or animation.action is None:
-        return []
-    action = animation.action
-    if hasattr(action, "fcurves"):
-        return list(action.fcurves)
-    from bpy_extras import anim_utils
-
-    channelbag = anim_utils.action_get_channelbag_for_slot(action, animation.action_slot)
-    return list(channelbag.fcurves) if channelbag else []
 
 
 def build_fangs(collection):
@@ -226,19 +248,28 @@ def build_fangs(collection):
     for side in (1, -1):
         root = Vector((mouth_x + 0.15, side * 0.28, BODY_CENTER.z - 0.25))
         tip = root + Vector((0.25, -side * 0.08, -FANG_LENGTH))
-        direction = tip - root
-        bpy.ops.mesh.primitive_cone_add(
-            vertices=4, radius1=FANG_RADIUS, radius2=0.0, depth=direction.length,
-            location=(root + tip) / 2,
-        )
-        fang = link(bpy.context.active_object, collection,
-                    f"Broodmother_Fang_{'L' if side > 0 else 'R'}")
-        fang.rotation_mode = "QUATERNION"
-        fang.rotation_quaternion = direction.to_track_quat("Z", "Y")
-        apply_transform(fang)
-        paint(fang, [FANG_HSL] * len(fang.data.polygons))
-        fangs.append(fang)
+        tag = "L" if side > 0 else "R"
+        fangs.append(cone_between(collection, f"Broodmother_Fang_{tag}", root, tip,
+                                  FANG_RADIUS, 1.0))
+        paint(fangs[-1], [FANG_HSL] * len(fangs[-1].data.polygons), LABEL_FANGS)
+        glow = cone_between(collection, f"Broodmother_Fang_{tag}_Glow", root, tip,
+                            FANG_RADIUS * FANG_GLOW_GROWTH, 1.15)
+        paint(glow, [FANG_GLOW_HSL] * len(glow.data.polygons), LABEL_FANG_GLOW,
+              alpha=FANG_GLOW_ALPHA, face_label=FACE_LABEL_FANG_GLOW)
     return fangs
+
+
+def cone_between(collection, name, root, tip, radius, length_factor):
+    direction = tip - root
+    bpy.ops.mesh.primitive_cone_add(
+        vertices=4, radius1=radius, radius2=0.0, depth=direction.length * length_factor,
+        location=root + direction * (length_factor / 2),
+    )
+    cone = link(bpy.context.active_object, collection, name)
+    cone.rotation_mode = "QUATERNION"
+    cone.rotation_quaternion = direction.to_track_quat("Z", "Y")
+    apply_transform(cone)
+    return cone
 
 
 def build():
@@ -262,6 +293,9 @@ if __name__ == "__main__":
         bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(args[0]))
     if len(args) > 1:
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import broodmother_anims
         import osrs_model_export
 
-        osrs_model_export.export_collection(COLLECTION, os.path.abspath(args[1]))
+        dat_path = os.path.abspath(args[1])
+        model = osrs_model_export.export_collection(COLLECTION, dat_path)
+        broodmother_anims.generate(model, os.path.dirname(os.path.dirname(dat_path)))

@@ -3,3 +3,10 @@ broodmother = 65500
 
 [gamevals.models]
 broodmother = 60536
+
+[gamevals.seq]
+broodmother_stand = 16000
+broodmother_walk = 16001
+broodmother_attack = 16002
+broodmother_defend = 16003
+broodmother_death = 16004

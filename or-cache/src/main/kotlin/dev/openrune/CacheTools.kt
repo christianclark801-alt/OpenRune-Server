@@ -9,6 +9,7 @@ import dev.openrune.cache.tools.cacheTool
 import dev.openrune.cache.tools.cs2.PackCs2
 import dev.openrune.cache.tools.cs2.UnpackDefaultCs2
 import dev.openrune.cache.tools.iftype.PackIfType
+import dev.openrune.cache.tools.tasks.impl.PackAnims
 import dev.openrune.cache.tools.tasks.impl.PackModels
 import dev.openrune.cache.tools.tasks.impl.PackSprites
 import dev.openrune.cache.tools.tasks.impl.PackWorldMap
@@ -31,6 +32,7 @@ import dev.openrune.gamevals.GamevalDumper
 import dev.openrune.impl.GameframeTable
 import dev.openrune.impl.Music
 import dev.openrune.map.packing.MapPackers
+import dev.openrune.pack.PackFrameMaps
 import dev.openrune.pack.PluginPacks
 import dev.openrune.tables.CollectionLogCategoriesTable
 import dev.openrune.tables.DidYouKnow
@@ -152,7 +154,8 @@ fun buildCache(type: TaskType, force: Boolean = false) {
 private fun buildServerCache(packTasks: List<CacheTask>, packs: PluginPacks) {
     val serverTasks = packTasks.filterNot {
         it is PackCs2 || it is UnpackDefaultCs2 || it is PackIfType ||
-            it is PackModels || it is PackSprites || it is PackWorldMap
+            it is PackModels || it is PackSprites || it is PackWorldMap ||
+            it is PackAnims || it is PackFrameMaps
     }
     val serverOnly = listOf(
         PackServerConfig(

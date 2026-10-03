@@ -23,6 +23,8 @@ abstract class PluginPack {
 
     fun spriteDirectory(): File? = resourceDirectory(SPRITES)
 
+    fun animDirectory(): File? = resourceDirectory(ANIMS)
+
     fun cs2Directory(): File? = resourceDirectory(CS2)
 
     fun interfaceDirectory(): File? = resourceDirectory(INTERFACES)
@@ -64,6 +66,7 @@ abstract class PluginPack {
         const val CONFIGS = "configs"
         const val MODELS = "models"
         const val SPRITES = "sprites"
+        const val ANIMS = "anims"
         const val CS2 = "cs2"
         const val INTERFACES = "interfaces"
     }

@@ -15,6 +15,7 @@ class Broodmother @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 5)
 
         val bite = ability("bite") {
+            anim(ATTACK_SEQ)
             hit {
                 damage(0..BITE_MAX_HIT).roll()
                 type(Melee)
@@ -23,6 +24,7 @@ class Broodmother @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
 
         val spit = ability("poison_spit") {
+            anim(ATTACK_SEQ)
             projectile(
                 spotanim = SPIT_PROJECTILE,
                 travel = SPIT_TRAVEL,
@@ -45,6 +47,7 @@ class Broodmother @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 
     private companion object {
+        const val ATTACK_SEQ = "seq.broodmother_attack"
         const val SPIT_PROJECTILE = "spotanim.adamant_dragon_poisonball"
         const val SPIT_TRAVEL = "projanim.dragonfire"
 
