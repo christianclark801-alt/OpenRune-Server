@@ -23,6 +23,9 @@ id = "varn.holy_water_poison_damage"
 [[varn]]
 id = "varn.holy_water_poison_venom"
 
+[[varn]]
+id = "varn.holy_water_poison_source"
+
 [[graphic]]
 id = "spotanim.holy_water_travel"
 inherit = "spotanim.holy_water_travel"

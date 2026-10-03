@@ -77,6 +77,9 @@ id = "varn.callisto_roars"
 id = "varn.poison_severity"
 
 [[varn]]
+id = "varn.poison_source"
+
+[[varn]]
 id = "varn.freeze_end_clock"
 
 [[varn]]

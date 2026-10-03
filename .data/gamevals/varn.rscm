@@ -53,3 +53,5 @@ goblin_cook_tasting=51
 holy_water_poison_hits=52
 holy_water_poison_damage=53
 holy_water_poison_venom=54
+poison_source=55
+holy_water_poison_source=56

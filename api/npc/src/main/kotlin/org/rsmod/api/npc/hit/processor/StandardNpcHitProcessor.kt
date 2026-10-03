@@ -87,7 +87,7 @@ constructor(
                     npc.recordDamage(source, hit.damage)
                 }
                 for (contributor in damageContributors) {
-                    contributor.onPlayerDamageNpc(npc, source, hit.damage)
+                    contributor.onPlayerHitNpc(npc, source, hit)
                 }
             }
         }

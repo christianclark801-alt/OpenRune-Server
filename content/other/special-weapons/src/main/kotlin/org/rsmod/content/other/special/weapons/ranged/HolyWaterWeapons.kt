@@ -27,7 +27,7 @@ class HolyWaterWeapons : WeaponMap {
             attack: CombatAttack.Ranged,
         ): Boolean {
             val hitDelay = throwAt(target, attack) ?: return true
-            HolyWaterPoison.apply(target, hitDelay, HolyWaterForge.tier(attack.weapon))
+            HolyWaterPoison.apply(target, hitDelay, HolyWaterForge.tier(attack.weapon), player)
             return true
         }
 

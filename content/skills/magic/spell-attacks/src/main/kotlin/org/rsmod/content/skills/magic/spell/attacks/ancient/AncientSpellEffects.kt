@@ -24,7 +24,7 @@ internal class AncientSpellEffects(private val random: GameRandom) {
         guaranteedFreeze: Boolean = false,
     ) {
         when (spell.element) {
-            Element.Smoke -> applySmoke(spell, target, sceptre)
+            Element.Smoke -> applySmoke(spell, caster, target, sceptre)
             Element.Shadow -> applyShadow(spell, target, sceptre)
             Element.Blood -> applyBlood(spell, caster, damage, sceptre)
             Element.Ice -> applyIce(spell, target, sceptre, guaranteedFreeze)
@@ -42,13 +42,18 @@ internal class AncientSpellEffects(private val random: GameRandom) {
         return true
     }
 
-    private fun applySmoke(spell: AncientSpell, target: PathingEntity, sceptre: Boolean) {
+    private fun applySmoke(
+        spell: AncientSpell,
+        caster: Player,
+        target: PathingEntity,
+        sceptre: Boolean,
+    ) {
         if (random.of(SMOKE_POISON_CHANCE) != 0) {
             return
         }
         val severity = if (sceptre) spell.effectStrength + 1 else spell.effectStrength
         when (target) {
-            is Npc -> NpcPoison.tryPoison(target, severity)
+            is Npc -> NpcPoison.tryPoison(target, severity, caster)
             is Player -> PlayerPoison.tryPoison(target, severity = severity)
         }
     }
