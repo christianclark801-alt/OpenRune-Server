@@ -1,0 +1,70 @@
+[[npc]]
+id = "npc.donator_peer"
+inherit = "npc.viking_peer"
+name = "Peer the Seer"
+examine = "He foresees great fortune for those who support the realm."
+option1 = "Talk-to"
+option3 = "Donator-shop"
+option4 = "Check-points"
+wanderRange = 0
+
+[[item]]
+id = "obj.donator_box_bronze"
+inherit = "obj.macro_quiz_mystery_box"
+name = "Bronze donator box"
+ioption1 = "Open"
+ioption5 = "Drop"
+tradeable = true
+cost = 1
+examine = "A donator box. Who knows what's inside?"
+
+[[item]]
+id = "obj.donator_box_silver"
+inherit = "obj.trail_reward_casket_hard"
+name = "Silver donator box"
+ioption1 = "Open"
+ioption5 = "Drop"
+tradeable = true
+cost = 1
+examine = "A donator box. Something valuable rattles inside."
+
+[[item]]
+id = "obj.donator_box_gold"
+inherit = "obj.trail_reward_casket_elite"
+name = "Gold donator box"
+ioption1 = "Open"
+ioption5 = "Drop"
+tradeable = true
+cost = 1
+examine = "A donator box. It's heavier than it looks."
+
+[[item]]
+id = "obj.donator_box_dragon"
+inherit = "obj.trail_reward_casket_master"
+name = "Dragon donator box"
+ioption1 = "Open"
+ioption5 = "Drop"
+tradeable = true
+cost = 1
+examine = "A donator box. Legends say it holds the rarest treasures."
+
+[[varp]]
+id = "varp.donator_points"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.donator_points_total"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.donator_shop_temp"
+scope = "Temp"
+transmit = "Never"
+
+[[varbit]]
+id = "varbit.donator_shop_selected"
+varp = "varp.donator_shop_temp"
+startBit = 0
+endBit = 2

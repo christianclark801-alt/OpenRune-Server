@@ -1,0 +1,56 @@
+[clientscript,donator_shop_card](component $boxes, int $slot, int $box, obj $icon, string $name, string $price, int $selected)
+def_int $base = calc($box * 6);
+def_int $width = calc((if_getwidth($boxes) - 6) / 2);
+def_int $height = calc((if_getheight($boxes) - 6) / 2);
+def_int $x = calc($slot % 2 * ($width + 6));
+def_int $y = calc($slot / 2 * ($height + 6));
+
+cc_create($boxes, ^iftype_rectangle, $base);
+cc_setposition($x, $y, ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize($width, $height, ^setsize_abs, ^setsize_abs);
+if ($selected = 1) {
+    cc_setcolour(0xff981f);
+} else {
+    cc_setcolour(0x5a4a2f);
+}
+cc_setfill(true);
+
+cc_create($boxes, ^iftype_rectangle, calc($base + 1));
+cc_setposition(calc($x + 1), calc($y + 1), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize(calc($width - 2), calc($height - 2), ^setsize_abs, ^setsize_abs);
+cc_setcolour(0x2b2318);
+cc_setfill(true);
+
+cc_create($boxes, ^iftype_graphic, calc($base + 2));
+cc_setposition(calc($x + ($width - 36) / 2), calc($y + 10), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize(36, 32, ^setsize_abs, ^setsize_abs);
+cc_setgraphicshadow(0x333333);
+cc_setoutline(1);
+cc_setobject_nonum($icon, 1);
+
+cc_create($boxes, ^iftype_text, calc($base + 3));
+cc_setposition($x, calc($y + 46), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize($width, 18, ^setsize_abs, ^setsize_abs);
+cc_settextfont(b12_full);
+cc_settextalign(^settextalign_centre, ^settextalign_centre, 0);
+cc_settextshadow(true);
+cc_setcolour(0xff981f);
+cc_settext($name);
+
+cc_create($boxes, ^iftype_text, calc($base + 4));
+cc_setposition($x, calc($y + 66), ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize($width, 16, ^setsize_abs, ^setsize_abs);
+cc_settextfont(p12_full);
+cc_settextalign(^settextalign_centre, ^settextalign_centre, 0);
+cc_settextshadow(true);
+cc_setcolour(0xffffff);
+cc_settext($price);
+
+cc_create($boxes, ^iftype_layer, calc($base + 5));
+cc_setposition($x, $y, ^setpos_abs_left, ^setpos_abs_top);
+cc_setsize($width, $height, ^setsize_abs, ^setsize_abs);
+cc_setop(1, "Select");
+cc_setop(2, "Buy");
+cc_setopbase("<col=ff9040><$name></col>");
+cc_setonmouseover("donator_shop_card_hover($boxes, $base, 1, $selected)");
+cc_setonmouseleave("donator_shop_card_hover($boxes, $base, 0, $selected)");

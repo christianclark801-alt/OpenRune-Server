@@ -1,0 +1,28 @@
+[gamevals.interface]
+donator_shop = 1110
+
+[gamevals.npc]
+donator_peer = 65515
+
+[gamevals.obj]
+donator_box_bronze = 63490
+donator_box_silver = 63491
+donator_box_gold = 63492
+donator_box_dragon = 63493
+
+[gamevals.clientscript]
+donator_shop_init = 45800
+donator_shop_card = 45803
+donator_shop_card_hover = 45806
+donator_shop_cards_clear = 45809
+donator_shop_reward = 45812
+donator_shop_rewards_clear = 45815
+donator_shop_details_icon = 45818
+
+[gamevals.varp]
+donator_points = 64160
+donator_points_total = 64161
+donator_shop_temp = 64162
+
+[gamevals.varbit]
+donator_shop_selected = 64250

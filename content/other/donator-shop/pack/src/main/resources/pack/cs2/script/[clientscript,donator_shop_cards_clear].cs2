@@ -1,0 +1,2 @@
+[clientscript,donator_shop_cards_clear](component $boxes)
+cc_deleteall($boxes);

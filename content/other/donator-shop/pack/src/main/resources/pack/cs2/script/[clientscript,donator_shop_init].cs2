@@ -1,0 +1,11 @@
+[clientscript,donator_shop_init](component $border, component $panelbg, component $buy, component $buyopen)
+~steelborder($border, "Donator Store", 0);
+cc_deleteall($panelbg);
+cc_create($panelbg, ^iftype_graphic, 0);
+cc_setposition(0, 0, ^setpos_abs_centre, ^setpos_abs_centre);
+cc_setsize(4, 4, ^setsize_minus, ^setsize_minus);
+cc_setgraphic(tradebacking_dark);
+cc_settiling(true);
+def_int $next = ~thinbox($panelbg, 1);
+~button_setup(null, $buy, "Buy");
+~button_setup(null, $buyopen, "Buy & Open");

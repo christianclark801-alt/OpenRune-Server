@@ -1,0 +1,22 @@
+[clientscript,donator_shop_card_hover](component $boxes, int $base, int $hovered, int $selected)
+if (cc_find($boxes, calc($base + 1)) = true) {
+    if ($hovered = 1) {
+        cc_setcolour(0x3e3529);
+    } else {
+        cc_setcolour(0x2b2318);
+    }
+}
+if (cc_find($boxes, calc($base + 2)) = true) {
+    if ($hovered = 1) {
+        cc_setoutline(2);
+    } else {
+        cc_setoutline(1);
+    }
+}
+if (cc_find($boxes, calc($base + 3)) = true) {
+    if ($hovered = 1) {
+        cc_setcolour(0xffff00);
+    } else {
+        cc_setcolour(0xff981f);
+    }
+}

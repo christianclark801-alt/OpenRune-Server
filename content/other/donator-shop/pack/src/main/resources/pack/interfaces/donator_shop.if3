@@ -1,0 +1,181 @@
+[[interface]]
+name = "interface.donator_shop"
+width = 512
+height = 334
+on_load = ["clientscript.donator_shop_init", "component.donator_shop:border", "component.donator_shop:panelbg", "component.donator_shop:buy", "component.donator_shop:buyopen"]
+
+[[component]]
+name = "border"
+type = "layer"
+width = 512
+height = 334
+no_click_through = true
+
+[[component]]
+name = "points"
+type = "text"
+x = 10
+y = 40
+width = 290
+height = 22
+font = "bold"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+
+[[component]]
+name = "boxes"
+type = "layer"
+x = 10
+y = 66
+width = 290
+height = 228
+
+[[component]]
+name = "footer"
+type = "text"
+x = 10
+y = 298
+width = 290
+height = 26
+font = "small"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#9F9F9F"
+text = "1 donator point = $1 donated.<br>Points are added by staff once your donation is confirmed."
+
+[[component]]
+name = "panelbg"
+type = "layer"
+x = 304
+y = 40
+width = 198
+height = 284
+
+[[component]]
+name = "panel"
+type = "layer"
+x = 304
+y = 40
+width = 198
+height = 284
+
+[[component]]
+name = "hint"
+type = "text"
+parent = "panel"
+x = 10
+y = 0
+width = 178
+height = 284
+font = "bold"
+h_align = "center"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Select a box to see what's inside."
+
+[[component]]
+name = "details"
+type = "layer"
+parent = "panel"
+width = 198
+height = 284
+hide = true
+
+[[component]]
+name = "icon"
+type = "layer"
+parent = "details"
+x = 8
+y = 8
+width = 36
+height = 32
+
+[[component]]
+name = "name"
+type = "text"
+parent = "details"
+x = 50
+y = 6
+width = 140
+height = 18
+font = "bold"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+
+[[component]]
+name = "price"
+type = "text"
+parent = "details"
+x = 50
+y = 24
+width = 140
+height = 14
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FFFFFF"
+
+[[component]]
+name = "desc"
+type = "text"
+parent = "details"
+x = 8
+y = 44
+width = 182
+height = 28
+font = "small"
+h_align = "left"
+v_align = "left"
+text_shadow = true
+color = "#FFFFFF"
+
+[[component]]
+name = "rewardslabel"
+type = "text"
+parent = "details"
+x = 8
+y = 74
+width = 182
+height = 14
+font = "small"
+h_align = "left"
+v_align = "center"
+text_shadow = true
+color = "#FF981F"
+text = "Possible rewards:"
+
+[[component]]
+name = "rewards"
+type = "layer"
+parent = "details"
+x = 8
+y = 90
+width = 182
+height = 152
+
+[[component]]
+name = "buy"
+type = "layer"
+parent = "details"
+x = 8
+y = 250
+width = 88
+height = 26
+options = ["Buy"]
+
+[[component]]
+name = "buyopen"
+type = "layer"
+parent = "details"
+x = 102
+y = 250
+width = 88
+height = 26
+options = ["Buy & Open"]

@@ -1,0 +1,2 @@
+[clientscript,donator_shop_rewards_clear](component $rewards)
+cc_deleteall($rewards);
