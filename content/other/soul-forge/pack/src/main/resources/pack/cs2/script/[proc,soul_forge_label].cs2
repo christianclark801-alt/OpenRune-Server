@@ -1,0 +1,11 @@
+[proc,soul_forge_label](string $name, int $level)(string)
+if ($level < 1) {
+    return("<col=ff9040><$name></col>");
+}
+if ($level <= 2) {
+    return("<col=40c0ff><$name> +<tostring($level)></col>");
+}
+if ($level <= 4) {
+    return("<col=c060ff><$name> +<tostring($level)></col>");
+}
+return("<col=ffc000><$name> +<tostring($level)></col>");

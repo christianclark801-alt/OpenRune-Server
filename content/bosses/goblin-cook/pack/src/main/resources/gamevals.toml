@@ -1,0 +1,5 @@
+[gamevals.npc]
+goblin_cook_boss = 65505
+
+[gamevals.spotanim]
+goblin_cook_knife_travel = 4500

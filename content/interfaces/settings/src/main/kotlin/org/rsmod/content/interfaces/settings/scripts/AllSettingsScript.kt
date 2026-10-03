@@ -329,7 +329,6 @@ class AllSettingsScript @Inject constructor(private val protectedAccess: Protect
         VarPlayerIntMapSetter.set(this, "varbit.option_collection_new_item", 3)
         VarPlayerIntMapSetter.set(this, "varp.option_attackpriority", 2)
         VarPlayerIntMapSetter.set(this, "varp.option_attackpriority_npc", 2)
-        VarPlayerIntMapSetter.set(this, "varbit.bank_hidedepositinv", 1)
 
         VarPlayerIntMapSetter.set(this, "varbit.bounty_teleport_warning", 1)
         VarPlayerIntMapSetter.set(this, "varbit.dareeyak_teleport_warning", 1)

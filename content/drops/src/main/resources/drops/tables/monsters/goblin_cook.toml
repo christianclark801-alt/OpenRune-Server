@@ -1,0 +1,46 @@
+id = "The Goblin COOK Drops"
+npcs = ["npc.goblin_cook_boss"]
+
+[[guaranteed]]
+obj = "obj.big_bones"
+count = 1
+
+[main]
+total = 100
+name = "The Goblin COOK Drops"
+
+[[main.entries]]
+weight = 40
+obj = "obj.coins"
+count = "300..1200"
+
+[[main.entries]]
+weight = 20
+obj = "obj.meat_pie"
+count = "2..4"
+
+[[main.entries]]
+weight = 15
+obj = "obj.cake"
+count = "1..3"
+
+[[main.entries]]
+weight = 12
+obj = "obj.cert_raw_lobster"
+count = "5..10"
+
+[[main.entries]]
+weight = 8
+obj = "obj.lobster"
+count = "2..4"
+
+[[main.entries]]
+weight = 5
+obj = "obj.uncut_sapphire"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 50
+obj = "obj.chefs_hat"
+count = 1

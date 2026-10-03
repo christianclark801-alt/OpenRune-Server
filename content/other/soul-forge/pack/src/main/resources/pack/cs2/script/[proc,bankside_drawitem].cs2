@@ -1,0 +1,65 @@
+[proc,bankside_drawitem](obj $obj, int $int1, int $int2, component $component3, component $component4, int $int5, component $component6, component $component7, component $component8, component $component9, component $component10, component $component11, boolean $boolean)
+cc_clearops;
+def_string $string = "";
+if ($obj ! null) {
+    cc_settrans(0);
+    cc_setobject($obj, $int1);
+    switch_obj ($obj) {
+        case looting_bag, looting_bag_open :
+            if ($int5 = 1) {
+                cc_setop(1, "View");
+                cc_setonop("bankside_switchview(event_op, $obj, $component6, $component7, $component8, $component9, $component10, $component11, 1)");
+            } else {
+                cc_setonop("cc_settrans_temporarily(event_com, event_comsubid, 100, 0)");
+            }
+        case league_second_inventory, league_second_inventory_open :
+            cc_setop(1, "View");
+            cc_setonop("bankside_switchview(event_op, $obj, $component6, $component7, $component8, $component9, $component10, $component11, 2)");
+        case bh_rune_pouch, bh_rune_pouch_trouver :
+            cc_setop(1, "Configure");
+            cc_setonop("bankside_switchview(event_op, $obj, $component6, $component7, $component8, $component9, $component10, $component11, 3)");
+        case divine_rune_pouch, divine_rune_pouch_trouver :
+            cc_setop(1, "Configure");
+            cc_setonop("bankside_switchview(event_op, $obj, $component6, $component7, $component8, $component9, $component10, $component11, 4)");
+        case default :
+            if (~is_prepot_device($obj) = true) {
+                cc_setop(1, "Configure");
+                cc_setonop("bankside_switchview(event_op, $obj, $component6, $component7, $component8, $component9, $component10, $component11, 5)");
+            } else {
+                cc_setonop("cc_settrans_temporarily(event_com, event_comsubid, 100, 0)");
+            }
+    }
+    cc_setop(2, "Deposit-<~script2579>");
+    if (%bank_quantity_type ! 0) {
+        cc_setop(3, "Deposit-1");
+    }
+    cc_setop(4, "Deposit-5");
+    cc_setop(5, "Deposit-10");
+    if (%bank_requestedquantity > 0) {
+        cc_setop(6, "Deposit-<tostring(%bank_requestedquantity)>");
+    }
+    cc_setop(7, "Deposit-X");
+    cc_setop(8, "Deposit-All");
+    cc_setop(9, ~bankside_extraop($obj, $int2));
+    if (~script7795 = true) {
+        if ($boolean = true) {
+            cc_setop(10, "Unlock-slot");
+        } else {
+            cc_setop(10, "Lock-slot");
+        }
+    } else {
+        cc_setop(10, "Examine");
+    }
+    cc_setopbase(~soul_forge_label(oc_name($obj), ~soul_forge_mirror_level(soul_forge_levels, $int2, $obj)));
+    cc_setondragcomplete("bankside_reorder(event_com, event_com2, event_comsubid, event_comsubid2, $component4, $component6, $component7, $component8, $component9, $component10, $component11)");
+} else {
+    if ($boolean = true & ~script7795 = true) {
+        cc_setop(10, "Unlock-slot");
+        cc_setopbase("<col=ff9040>Slot</col>");
+    }
+    cc_settrans(255);
+    cc_setobject(blankobject, 1);
+    cc_setonop(null);
+    cc_setondragcomplete(null);
+}
+cc_setontimer(null);

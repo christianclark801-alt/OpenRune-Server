@@ -1,0 +1,5 @@
+[proc,soul_forge_mirror_level](inv $mirror, int $slot, obj $obj)(int)
+if (inv_getobj($mirror, $slot) = $obj) {
+    return(inv_getnum($mirror, $slot));
+}
+return(0);

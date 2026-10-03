@@ -1,0 +1,38 @@
+[clientscript,bankside_init](component $universe, component $items_container, component $items_background, component $items, component $wornops, component $lootingbag_container, component $lootingbag_items, component $lootingbag_dismiss, component $league_secondinv_container, component $league_secondinv_items, component $league_secondinv_dismiss, component $runepouch_container, component $runepouch_select_container, component $runepouch_dismiss, component $prepot_device_container, component $prepot_device_dismiss)
+%prepot_device_loadouts_ui_active_device = null;
+cc_deleteall($items);
+cc_deleteall($wornops);
+def_int $int16 = 0;
+def_int $int17 = inv_size(inv);
+while ($int16 < $int17) {
+    cc_create($items, ^iftype_graphic, $int16);
+    .cc_create($wornops, ^iftype_graphic, $int16);
+    cc_setsize(36, 32, ^setsize_abs, ^setsize_abs);
+    .cc_setsize(36, 32, ^setsize_abs, ^setsize_abs);
+    cc_setgraphicshadow(0x333333);
+    .cc_setgraphicshadow(0x333333);
+    cc_setoutline(1);
+    .cc_setoutline(1);
+    cc_setdragdeadzone(5);
+    .cc_setdragdeadzone(5);
+    cc_setdragdeadtime(5);
+    .cc_setdragdeadtime(5);
+    cc_sethide(false);
+    .cc_sethide(false);
+    $int16 = calc($int16 + 1);
+}
+~bankside_build($items_container, $items, $items_background, $wornops, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container);
+if_setoninvtransmit("bankside_build($items_container, $items, $items_background, $wornops, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container){inv, looting_bag, league_secondinv, soul_forge_levels}", $items_container);
+if_setonvartransmit("bankside_build($items_container, $items, $items_background, $wornops, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container){bankinsert, gargboss_perm_transmit, item_redemption, if1, if2, if3, if4, bank_locked_slots}", $items_container);
+~bankside_bag_draw($lootingbag_items, looting_bag);
+if_setoninvtransmit("bankside_bag_draw($lootingbag_items, looting_bag){looting_bag}", $lootingbag_container);
+if_setonvartransmit("bankside_bag_draw($lootingbag_items, looting_bag){bankinsert, gargboss_perm_transmit}", $lootingbag_container);
+~bankside_bag_draw($league_secondinv_items, league_secondinv);
+if_setoninvtransmit("bankside_bag_draw($league_secondinv_items, league_secondinv){league_secondinv}", $league_secondinv_container);
+if_setonvartransmit("bankside_bag_draw($league_secondinv_items, league_secondinv){bankinsert, gargboss_perm_transmit}", $league_secondinv_container);
+~bankside_switchview($items_container, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container);
+if_setonvartransmit("bankside_switchview(-1, null, $items_container, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container, -1){bankcert, bank_viewcontainer_obj}", $universe);
+if_setonop("bankside_switchview(event_op, null, $items_container, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container, 0)", $lootingbag_dismiss);
+if_setonop("bankside_switchview(event_op, null, $items_container, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container, 0)", $league_secondinv_dismiss);
+if_setonop("bankside_switchview(event_op, null, $items_container, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container, 0)", $runepouch_dismiss);
+if_setonop("bankside_switchview(event_op, null, $items_container, $lootingbag_container, $league_secondinv_container, $runepouch_container, $runepouch_select_container, $prepot_device_container, 0)", $prepot_device_dismiss);
