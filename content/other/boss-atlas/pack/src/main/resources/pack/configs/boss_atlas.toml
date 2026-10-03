@@ -454,11 +454,10 @@ endBit = 9
 
 [[npc]]
 id = "npc.boss_guide"
-inherit = "npc.wise_old_man"
-name = "Boss Guide"
-models = [45412]
-originalColours = []
-modifiedColours = []
+name = "Bossing Obelisk"
+size = 2
+combatLevel = 0
+models = [1806]
 examine = "He knows the way to every boss in Gielinor."
 option1 = "Talk-to"
 option2 = "Atlas"
