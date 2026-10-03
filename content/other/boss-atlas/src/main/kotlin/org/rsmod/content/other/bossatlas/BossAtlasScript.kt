@@ -29,6 +29,7 @@ import org.rsmod.api.table.InstanceSettingsRow
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.queue.WorldQueueList
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -40,7 +41,9 @@ private const val DROPS = "component.boss_atlas:drops"
 
 private const val ROW_COMSUBS = 7
 private const val MAX_DROPS = 20
-private val GUIDE_COORDS = CoordGrid(3788, 2563, 0)
+private val GUIDE_COORDS = CoordGrid(3788, 2564, 0)
+private const val GUIDE_LABEL = "Boss Guide"
+private const val GUIDE_LABEL_INTERVAL = 4
 
 private val FAVOURITE_SLOTS = List(MAX_FAVOURITES) { "varbit.boss_atlas_fav$it" }
 
@@ -57,6 +60,7 @@ constructor(
     private val drops: BossDropPreview,
     private val prices: MarketPrices,
     private val npcRepo: NpcRepository,
+    private val worldQueues: WorldQueueList,
 ) : PluginScript() {
     private val logger = InlineLogger()
     private val queries = WeakHashMap<Player, String>()
@@ -124,11 +128,15 @@ constructor(
 
     private fun spawnGuide() {
         runCatching {
-            npcRepo.add(
-                Npc("npc.boss_guide", GUIDE_COORDS).apply { respawnDir = respawnDir.opposite },
-                Int.MAX_VALUE,
-            )
+            val guide = Npc("npc.boss_guide", GUIDE_COORDS).apply { respawnDir = respawnDir.opposite }
+            npcRepo.add(guide, Int.MAX_VALUE)
+            scheduleGuideLabel(guide)
         }.onFailure { logger.warn(it) { "Unable to spawn the Boss Guide; rebuild the cache with buildCache." } }
+    }
+
+    private fun scheduleGuideLabel(guide: Npc) {
+        guide.say(GUIDE_LABEL)
+        worldQueues.add(GUIDE_LABEL_INTERVAL) { scheduleGuideLabel(guide) }
     }
 
     private fun Cheat.openAtlas() {
