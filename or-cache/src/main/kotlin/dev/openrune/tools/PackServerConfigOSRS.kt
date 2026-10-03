@@ -1,5 +1,6 @@
 package dev.openrune.tools
 
+import com.displee.cache.CacheLibrary
 import dev.openrune.OsrsCacheProvider
 import dev.openrune.cache.*
 import dev.openrune.cache.filestore.definition.ConfigDefinitionDecoder
@@ -45,6 +46,8 @@ data class PackType(
     /** Config archive this type writes (and, for merged types, reads its base definitions from). */
     val archive: Int,
     val pack: PackServerConfig.(Cache, Map<String, List<Definition>>, String) -> Unit,
+    /** Rows are rebuilt from the live cache, so the live archive decides when to repack. */
+    val liveBacked: Boolean = false,
 )
 
 /**
@@ -294,6 +297,15 @@ class PackServerConfig(
      * The live cache decoders and item render data are only needed when a type actually repacks, so a
      * build where nothing changed does not pay for loading the whole live cache.
      */
+    private val liveConfigArchives: Map<Int, String> by lazy {
+        val live = CacheLibrary(getCacheLocation())
+        try {
+            live.index(CONFIGS).archives().associate { it.id to "${it.crc}:${it.revision}" }
+        } finally {
+            live.close()
+        }
+    }
+
     private val managers by lazy {
         CacheManager.init(OsrsCacheProvider(Cache.load(Path.of(getCacheLocation())), revision))
         ItemRenderDataManager.init()
@@ -332,9 +344,15 @@ class PackServerConfig(
         // One incremental unit per type. The engine draws the progress bar itself, so it only ever counts
         // the types that are actually being repacked; an unchanged build shows nothing here.
         for (packType in packTypes.values) {
-            // Merged types are rebuilt over the client archive they overlay, so its checksum is part of
-            // the fingerprint: repacking an npc on the live side changes the server npc rows too.
-            val baseArchive = library.index(CONFIGS).archives().firstOrNull { it.id == packType.archive }
+            // The checksum of the archive a type's base rows come from is part of its fingerprint, so
+            // new live rows (e.g. custom seqs) reach the server even when no server toml changed.
+            val baseFingerprint =
+                if (packType.liveBacked) {
+                    liveConfigArchives[packType.archive]
+                } else {
+                    library.index(CONFIGS).archives().firstOrNull { it.id == packType.archive }
+                        ?.let { "${it.crc}:${it.revision}" }
+                }
             incremental.run(
                 task = this,
                 scope = packType.table,
@@ -348,7 +366,7 @@ class PackServerConfig(
                     ),
                 ),
                 extraDeps = sharedInputs,
-                extraFingerprints = mapOf("base-archive" to "${baseArchive?.crc}:${baseArchive?.revision}"),
+                extraFingerprints = mapOf("base-archive" to (baseFingerprint ?: "null:null")),
             ) { packCache, _ ->
                 ensureManagers()
                 packType.pack(this, packCache, parsed, packType.table)
@@ -374,7 +392,8 @@ class PackServerConfig(
             crossinline codec: (Map<Int, B>) -> OpcodeDefinitionCodec<T>,
             noinline create: (Int) -> T,
         ) {
-            registerPackType<T>(table, decoder.getArchive(0), tomlMapper) { cache, _, _ ->
+            registerPackType<T>(table, decoder.getArchive(0), tomlMapper, liveBacked = true) {
+                cache, _, _ ->
                 val defs = baseDefinitions()
                 packDefs(cache, decoder.getArchive(0), defs.keys.sorted(), create, codec(defs))
             }
@@ -431,9 +450,11 @@ class PackServerConfig(
             table: String,
             archive: Int,
             tomlMapper: TomlMapper = tomlMapperDefault,
+            liveBacked: Boolean = false,
             noinline pack: PackServerConfig.(Cache, Map<String, List<Definition>>, String) -> Unit,
         ) {
-            packTypes[table] = PackType(table, tomlMapper, typeOf<List<T>>(), archive, pack)
+            packTypes[table] =
+                PackType(table, tomlMapper, typeOf<List<T>>(), archive, pack, liveBacked)
         }
     }
 }

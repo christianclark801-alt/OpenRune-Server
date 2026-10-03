@@ -61,6 +61,7 @@ def build_mesh(model, vertices, alphas):
             mesh.materials.append(material(color, alpha))
     for polygon in mesh.polygons:
         polygon.material_index = keys.index((model.colors[polygon.index], alphas[polygon.index]))
+        polygon.use_smooth = model.render_types[polygon.index] != 1
     obj = bpy.data.objects.new("pose", mesh)
     bpy.context.scene.collection.objects.link(obj)
     return obj

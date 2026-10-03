@@ -8,6 +8,11 @@ world space and merged into one model. Optional mesh attributes drive the extra 
     rs_flabel (FACE, int)  face label, targeted by alpha (type 5) animation transforms
     rs_label  (POINT, int) vertex label, targeted by origin/translate/rotate/scale transforms
 
+``flat_shading`` writes face render type 1 for every face, so the client shades each face flat
+instead of Gouraud-smoothing across shared vertices. The client smooths per vertex index, so
+``merge_vertices=False`` keeps every object's own vertices (including Edge Split seams) apart
+instead of welding equal positions, which preserves hard edges under smooth shading.
+
 Blender is Z-up; OSRS is Y-down with models facing south (-Z). The build scripts model the
 creature facing Blender +X, so the conversion is:
 
@@ -38,6 +43,7 @@ class RsModel:
     colors: list = field(default_factory=list)
     alphas: list = field(default_factory=list)
     face_labels: list = field(default_factory=list)
+    render_types: list = field(default_factory=list)
 
     @property
     def has_vertex_labels(self):
@@ -50,6 +56,10 @@ class RsModel:
     @property
     def has_alphas(self):
         return any(self.alphas)
+
+    @property
+    def has_render_types(self):
+        return any(self.render_types)
 
 
 def _short_smart(value):
@@ -67,6 +77,7 @@ def encode_model(model, priority=0):
     vertex_skins = model.has_vertex_labels
     face_skins = model.has_face_labels
     face_alphas = model.has_alphas
+    render_types = model.has_render_types
 
     vertex_flags = bytearray()
     xs, ys, zs = bytearray(), bytearray(), bytearray()
@@ -97,6 +108,8 @@ def encode_model(model, priority=0):
     body = bytes(vertex_flags) + bytes(compress_types)
     if face_skins:
         body += bytes(model.face_labels)
+    if render_types:
+        body += bytes(model.render_types)
     if vertex_skins:
         body += bytes(model.vertex_labels)
     if face_alphas:
@@ -108,7 +121,7 @@ def encode_model(model, priority=0):
         len(vertices),
         len(faces),
         0,
-        0,
+        int(render_types),
         priority,
         int(face_alphas),
         int(face_skins),
@@ -135,6 +148,7 @@ def decode_model(data):
     fskin_off = pos
     if has_fskin == 1:
         pos += fc
+    render_off = pos
     if has_tex == 1:
         pos += fc
     vskin_off = pos
@@ -206,6 +220,7 @@ def decode_model(data):
         model.colors.append(struct.unpack(">H", data[color_off + i * 2:color_off + i * 2 + 2])[0])
         model.face_labels.append(data[fskin_off + i] if has_fskin == 1 else 0)
         model.alphas.append(data[alpha_off + i] if has_alpha == 1 else 0)
+        model.render_types.append(data[render_off + i] if has_tex == 1 else 0)
     return model
 
 
@@ -223,7 +238,7 @@ def _point_values(mesh, name):
     return [value.value for value in attribute.data]
 
 
-def collect_collection(collection_name):
+def collect_collection(collection_name, flat_shading=False, merge_vertices=True):
     import bpy
 
     collection = bpy.data.collections[collection_name]
@@ -231,7 +246,7 @@ def collect_collection(collection_name):
     vertex_index = {}
     model = RsModel()
 
-    for obj in sorted(collection.all_objects, key=lambda o: o.name):
+    for obj_index, obj in enumerate(sorted(collection.all_objects, key=lambda o: o.name)):
         if obj.type != "MESH":
             continue
         evaluated = obj.evaluated_get(depsgraph)
@@ -252,7 +267,7 @@ def collect_collection(collection_name):
                 round(-world.x * UNITS_PER_TILE),
             )
             label = labels[vertex.index] if labels else 0
-            key = (position, label)
+            key = (position, label) if merge_vertices else (obj_index, vertex.index)
             if key not in vertex_index:
                 vertex_index[key] = len(model.vertices)
                 model.vertices.append(position)
@@ -268,14 +283,15 @@ def collect_collection(collection_name):
             model.colors.append(colors[polygon] if colors else DEFAULT_COLOR)
             model.alphas.append(alphas[polygon] if alphas else 0)
             model.face_labels.append(face_labels[polygon] if face_labels else 0)
+            model.render_types.append(1 if flat_shading else 0)
 
         evaluated.to_mesh_clear()
 
     return model
 
 
-def export_collection(collection_name, out_path):
-    model = collect_collection(collection_name)
+def export_collection(collection_name, out_path, flat_shading=False, merge_vertices=True):
+    model = collect_collection(collection_name, flat_shading, merge_vertices)
     data = encode_model(model)
     with open(out_path, "wb") as handle:
         handle.write(data)
