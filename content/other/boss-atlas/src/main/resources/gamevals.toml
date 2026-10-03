@@ -59,6 +59,7 @@ boss_atlas_pb_scorpia = 64034
 boss_atlas_pb_cox = 64035
 boss_atlas_pb_tob = 64036
 boss_atlas_pb_toa = 64037
+boss_atlas_pb_goblincook = 64038
 boss_atlas_loot_zulrah = 64040
 boss_atlas_loot_vorkath = 64041
 boss_atlas_loot_cerberus = 64042
@@ -97,10 +98,12 @@ boss_atlas_loot_scorpia = 64074
 boss_atlas_loot_cox = 64075
 boss_atlas_loot_tob = 64076
 boss_atlas_loot_toa = 64077
+boss_atlas_loot_goblincook = 64078
 boss_atlas_favs = 64080
 boss_atlas_misc = 64081
 boss_atlas_ui = 64082
 boss_atlas_cooldown = 64083
+boss_atlas_kc_goblincook = 64084
 
 [gamevals.varbit]
 boss_atlas_fav0 = 64000

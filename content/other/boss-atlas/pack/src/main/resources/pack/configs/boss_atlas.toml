@@ -379,6 +379,21 @@ scope = "Perm"
 transmit = "Never"
 
 [[varp]]
+id = "varp.boss_atlas_pb_goblincook"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_loot_goblincook"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.boss_atlas_kc_goblincook"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
 id = "varp.boss_atlas_favs"
 scope = "Perm"
 transmit = "Never"

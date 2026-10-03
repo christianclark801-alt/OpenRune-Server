@@ -572,6 +572,19 @@ enum class Boss(
         description = "Four path bosses and the Wardens, with invocations that scale " +
             "the difficulty and the rewards.",
         coords = CoordGrid(3358, 2742, 0),
+    ),
+    GoblinCook(
+        key = "goblincook",
+        displayName = "The Goblin COOK",
+        category = BossCategory.Easy,
+        combatLevel = 45,
+        icon = "obj.chefs_hat",
+        gear = "obj.knife",
+        description = "A giant goblin chef. Step off the shadow before his knife lands and " +
+            "hit him while he tastes his stew to spoil it.",
+        coords = CoordGrid(3863, 3683, 0),
+        kills = kills("varp.boss_atlas_kc_goblincook", "npc.goblin_cook_boss"),
+        implemented = true,
     );
 
     val id: Int

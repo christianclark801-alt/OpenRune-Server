@@ -1,0 +1,29 @@
+[[npc]]
+id = "npc.home_ironman_shopkeeper"
+inherit = "npc.ironman_tutor_1"
+name = "Ironman Shopkeeper"
+examine = "Sells supplies to those who stand alone."
+option1 = "Talk-to"
+option3 = "Trade"
+wanderRange = 0
+
+[[npc]]
+id = "npc.home_general_shopkeeper"
+inherit = "npc.generalshopkeeper1"
+name = "Shop keeper"
+examine = "Sells supplies to adventurers."
+option1 = "Talk-to"
+option3 = "Trade"
+wanderRange = 0
+
+[[enum]]
+id = "enum.home_shop_filters"
+keyType = "INT"
+valueType = "STRING"
+
+[enum.values]
+0 = "Show all"
+1 = "Food & Potions"
+2 = "Armour & Weapons"
+3 = "Runes & Ammo"
+4 = "Ranged & Magic"

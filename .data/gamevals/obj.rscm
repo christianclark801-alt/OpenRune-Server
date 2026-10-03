@@ -2,3 +2,7 @@ template_for_transform=65534
 poh_tablet_shootingstar=63477
 admin_tool=63480
 soul_essence=63470
+donator_box_bronze=63490
+donator_box_silver=63491
+donator_box_gold=63492
+donator_box_dragon=63493
