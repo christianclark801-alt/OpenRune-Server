@@ -13,7 +13,6 @@ import org.rsmod.api.player.bonus.WornBonusModifiers
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.random.GameRandom
-import org.rsmod.api.realm.Realm
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.script.onGameStartup
@@ -50,8 +49,7 @@ private const val CHANCE = "component.soul_forge:chance"
 private const val NEXT_BONUS = "component.soul_forge:nextbonus"
 private const val STATUS = "component.soul_forge:status"
 
-private const val OFFSET_X = -2
-private const val OFFSET_Z = 2
+private val FORGE_COORDS = CoordGrid(3790, 2561, 0)
 
 private const val AMBIENT_INTERVAL = 3
 private const val SMOKE_EVERY = 2
@@ -75,7 +73,6 @@ private var Player.forgeSlot: Int
 class SoulForgeScript
 @Inject
 constructor(
-    private val realm: Realm,
     private val locRepo: LocRepository,
     private val worldRepo: WorldRepository,
     private val worldQueues: WorldQueueList,
@@ -217,10 +214,9 @@ constructor(
 
     private fun spawnForge() {
         runCatching {
-            val coords = realm.config.spawnCoord.translate(OFFSET_X, OFFSET_Z)
             val loc =
                 locRepo.add(
-                    coords,
+                    FORGE_COORDS,
                     SOUL_FORGE,
                     Int.MAX_VALUE,
                     LocAngle.West,

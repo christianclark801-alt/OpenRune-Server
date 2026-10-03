@@ -11,15 +11,14 @@ import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
-import org.rsmod.api.realm.Realm
 import org.rsmod.api.script.onCommand
+import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class HomePlugin
 @Inject
 constructor(
-    private val realm: Realm,
     private val protectedAccess: ProtectedAccessLauncher,
     private val teleportValidator: PlayerTeleportValidator,
     private val areaChecker: AreaChecker,
@@ -63,7 +62,7 @@ constructor(
         spotanim(spotanim, height = SpotanimHeight)
         soundSynth(TeleportSound)
         delay(TeleportDelay)
-        telejump(realm.config.spawnCoord, type)
+        telejump(HomeCoord, type)
         anim(endAnim)
     }
 
@@ -72,5 +71,6 @@ constructor(
         const val SpotanimHeight = 92
         const val TeleportDelay = 4
         const val TeleportActionDelay = 5
+        val HomeCoord = CoordGrid(0, 59, 40, 14, 8)
     }
 }
