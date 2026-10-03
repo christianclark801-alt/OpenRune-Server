@@ -16,14 +16,1448 @@ option1 = "Talk-to"
 option3 = "Trade"
 wanderRange = 0
 
-[[enum]]
-id = "enum.home_shop_filters"
-keyType = "INT"
-valueType = "STRING"
+[[inventory]]
+id = "inv.home_general_supplies"
+name = "General Store - Supplies"
 
-[enum.values]
-0 = "Show all"
-1 = "Food & Potions"
-2 = "Armour & Weapons"
-3 = "Runes & Ammo"
-4 = "Ranged & Magic"
+scope = "Shared"
+stack = "Always"
+
+sellMultiplier = 1000
+buyMultiplier = 400
+delta = 0
+
+size = 35
+
+protect = false
+runWeight = false
+restock = true
+allStock = false
+placeholders = false
+
+[[inventory.stock]]
+obj = "obj.mantaray"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.anglerfish"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.4doseprayerrestore"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.4dose2strength"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.4dose2attack"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.4dose2defense"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.airrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.waterrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.earthrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.firerune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mindrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bodyrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.chaosrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.deathrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bloodrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.cosmicrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.lawrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.naturerune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.soulrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.astralrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.wrathrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.amethyst_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bolt"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_iron"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_steel"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_mithril"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_adamantite"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_runite"
+count = 1000
+restockCycles = 10
+
+[[inventory]]
+id = "inv.home_general_gear"
+name = "General Store - Gear"
+
+scope = "Shared"
+stack = "Always"
+
+sellMultiplier = 1000
+buyMultiplier = 400
+delta = 0
+
+size = 102
+
+protect = false
+runWeight = false
+restock = true
+allStock = false
+placeholders = false
+
+[[inventory.stock]]
+obj = "obj.bronze_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.brut_dragon_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.leather_cowl"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.leather_armour"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.leather_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.leather_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.coif"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragonhide_body"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragonhide_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.blue_dragonhide_body"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.blue_dragonhide_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.blue_dragon_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.red_dragonhide_body"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.red_dragonhide_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.red_dragon_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_dragonhide_body"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_dragonhide_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_dragon_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.oak_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.willow_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.maple_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.yew_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.magic_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bronze"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_iron"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_steel"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_mithril"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_adamantite"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_runite"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bluewizhat"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.wizards_robe"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.boots_wizard"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_hat"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_robe_top"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_robe_bottom"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_gloves"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_boots"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.staff_of_air"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.staff_of_water"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.staff_of_earth"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.staff_of_fire"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_air_staff"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_water_staff"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_earth_staff"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_fire_staff"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.amulet_of_magic"
+count = 1000
+restockCycles = 10
+
+[[inventory]]
+id = "inv.home_ironman_supplies"
+name = "Ironman Store - Supplies"
+
+scope = "Shared"
+stack = "Always"
+
+sellMultiplier = 1000
+buyMultiplier = 400
+delta = 0
+
+size = 35
+
+protect = false
+runWeight = false
+restock = true
+allStock = false
+placeholders = false
+
+[[inventory.stock]]
+obj = "obj.mantaray"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.anglerfish"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.4doseprayerrestore"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.4dose2strength"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.4dose2attack"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.4dose2defense"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.airrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.waterrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.earthrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.firerune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mindrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bodyrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.chaosrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.deathrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bloodrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.cosmicrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.lawrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.naturerune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.soulrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.astralrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.wrathrune"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.amethyst_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_arrow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bolt"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_iron"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_steel"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_mithril"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_adamantite"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bolts_runite"
+count = 1000
+restockCycles = 10
+
+[[inventory]]
+id = "inv.home_ironman_gear"
+name = "Ironman Store - Gear"
+
+scope = "Shared"
+stack = "Always"
+
+sellMultiplier = 1000
+buyMultiplier = 400
+delta = 0
+
+size = 102
+
+protect = false
+runWeight = false
+restock = true
+allStock = false
+placeholders = false
+
+[[inventory.stock]]
+obj = "obj.bronze_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bronze_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.iron_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.steel_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mithril_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.adamant_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.rune_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.brut_dragon_full_helm"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_platebody"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_platelegs"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_kiteshield"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_scimitar"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_longsword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_2h_sword"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.leather_cowl"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.leather_armour"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.leather_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.leather_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.coif"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragonhide_body"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragonhide_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.dragon_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.blue_dragonhide_body"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.blue_dragonhide_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.blue_dragon_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.red_dragonhide_body"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.red_dragonhide_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.red_dragon_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_dragonhide_body"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_dragonhide_chaps"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.black_dragon_vambraces"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.oak_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.willow_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.maple_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.yew_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.magic_shortbow"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_bronze"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_iron"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_steel"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_mithril"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_adamantite"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.xbows_crossbow_runite"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.bluewizhat"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.wizards_robe"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.boots_wizard"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_hat"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_robe_top"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_robe_bottom"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_gloves"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_boots"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.staff_of_air"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.staff_of_water"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.staff_of_earth"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.staff_of_fire"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_air_staff"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_water_staff"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_earth_staff"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.mystic_fire_staff"
+count = 1000
+restockCycles = 10
+
+[[inventory.stock]]
+obj = "obj.amulet_of_magic"
+count = 1000
+restockCycles = 10

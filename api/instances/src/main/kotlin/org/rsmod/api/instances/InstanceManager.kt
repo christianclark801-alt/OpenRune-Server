@@ -361,7 +361,7 @@ constructor(
         }
 
     public fun leave(player: Player, session: InstanceSession, currentTick: Int): CoordGrid {
-        removeOccupant(player, session, currentTick)
+        removeOccupant(player, session, currentTick, destroyIfEmpty = true)
         return session.placement.exitCoord
     }
 
@@ -416,7 +416,7 @@ constructor(
                 }
             for (occupant in leavers) {
                 val player = playerList.firstOrNull { it.uuid == occupant } ?: continue
-                removeOccupant(player, session, currentTick)
+                removeOccupant(player, session, currentTick, destroyIfEmpty = true)
             }
         }
     }
@@ -648,13 +648,18 @@ constructor(
         }
     }
 
-    private fun removeOccupant(player: Player, session: InstanceSession, currentTick: Int) {
+    private fun removeOccupant(
+        player: Player,
+        session: InstanceSession,
+        currentTick: Int,
+        destroyIfEmpty: Boolean = false,
+    ) {
         val playerId = player.playerId()
         session.removeOccupant(playerId, currentTick)
         clearOccupant(player)
         publishPlayerLeave(player, session)
         if (
-            session.spec.destroyWhenEmpty &&
+            (destroyIfEmpty || session.spec.destroyWhenEmpty) &&
                 !session.isServerOwned &&
                 session.occupants.isEmpty() &&
                 session.state !is SessionState.Grace

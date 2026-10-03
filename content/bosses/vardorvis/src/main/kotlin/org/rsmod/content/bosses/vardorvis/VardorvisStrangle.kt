@@ -81,6 +81,14 @@ constructor(
         }
     }
 
+    fun cancel(player: Player) {
+        val spores = sessions.remove(player) ?: return
+        onResolve.remove(player)
+        player.delay = player.currentMapClock
+        for (n in 1..spores) VarPlayerIntMapSetter.set(player, qteVarbit(n), 0)
+        player.ifCloseSub(QTE_INTERFACE, events)
+    }
+
     private fun finishStrangle(player: Player) {
         val spores = sessions.remove(player) ?: return
         onResolve.remove(player)?.invoke()

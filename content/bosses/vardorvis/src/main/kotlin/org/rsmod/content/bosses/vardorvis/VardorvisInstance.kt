@@ -18,7 +18,9 @@ import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.ScriptContext
 
-class VardorvisInstance @Inject constructor(registry: BossInstanceRegistry) :
+class VardorvisInstance
+@Inject
+constructor(registry: BossInstanceRegistry, private val strangle: VardorvisStrangle) :
     InstanceScript(registry) {
 
     private var Player.stranglewoodProgress by intVarBit(STRANGLEWOOD_VARBIT)
@@ -42,6 +44,8 @@ class VardorvisInstance @Inject constructor(registry: BossInstanceRegistry) :
                 player.stranglewoodProgress = STRANGLEWOOD_UNLOCKED
             }
         }
+
+        onInstancePlayerLeave { strangle.cancel(player) }
 
         onEnterObject { enterInstance() }
         onExitObject { defaultLeaveFlow() }

@@ -2,3 +2,7 @@ motherlode_nugget_shop=1101
 spawn_results=1100
 soul_forge_levels=1102
 soul_forge_bank_levels=1103
+home_general_supplies=1104
+home_general_gear=1105
+home_ironman_supplies=1106
+home_ironman_gear=1107

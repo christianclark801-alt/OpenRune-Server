@@ -219,7 +219,9 @@ create()  ──► Active  ──► [boss dies] ──► Grace (10 min defaul
                   │                             │
                   │                         [time up] ──► destroyed
                   │
-              [everyone leaves] ──► Reclaim (20 min default)
+              [last player teleports / walks out / uses exit] ──► destroyed
+                  │
+              [last player logs out or dies] ──► Reclaim (20 min default)
                                         │
                                     [still empty] ──► destroyed
                                     [someone joins] ──► Active again
@@ -227,7 +229,9 @@ create()  ──► Active  ──► [boss dies] ──► Grace (10 min defaul
 
 - **Active**: The boss is alive, damage is tracked, the kill timer is running.
 - **Grace**: The boss is dead, no new bosses spawn, players can collect loot. Time warnings fire at 50 %, 25 %, 12.5 %, 1 min, and 30 sec.
-- **Reclaim**: The instance is empty (all players left mid-fight). It stays allocated for 20 minutes in case anyone rejoins. Destroyed if still empty at the deadline.
+- **Reclaim**: The instance is empty because the last player logged out or died mid-fight. It stays allocated for 20 minutes so they can rejoin (and recover death drops). Destroyed if still empty at the deadline.
+
+Whenever a player leaves an instance, `InstanceCombatCleanupScript` clears their pending hits and combat state, and makes instance NPCs targeting them drop the target.
 
 Kill timer is only tracked for instances with `maxPlayers ≤ 5`. Maximum recordable time is 60 minutes.
 

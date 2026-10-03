@@ -203,7 +203,7 @@ constructor(
                 npc.vars["varn.vardorvis_next_head_gaze"] =
                     now + HEAD_GAZE_MIN_INTERVAL + deps.random.of(HEAD_GAZE_INTERVAL_SPREAD)
                 deps.worldQueues.add(HEAD_GAZE_LAUNCH_DELAY) {
-                    if (npc.isSlotAssigned && npc.hitpoints > 0 && target.isValidTarget()) {
+                    if (engaged(npc, target)) {
                         fireHeadGaze(npc, target)
                     }
                 }
@@ -248,7 +248,7 @@ constructor(
 
         deps.worldQueues.add(HEAD_GAZE_FLIGHT_TICKS) {
             val prayed = target.vars[PROTECT_FROM_MISSILES] != 0
-            if (target.hitpoints > 0 && !prayed) {
+            if (engaged(npc, target) && !prayed) {
                 target.mes(HEAD_GAZE_LOCKOUT_MESSAGE)
                 target.lockOverheads(HEAD_GAZE_LOCKOUT_TICKS)
                 CombatEffects.statDrain(target, listOf("stat.prayer"), HEAD_GAZE_PRAYER_DRAIN)
@@ -290,7 +290,7 @@ constructor(
         deps.suppressAttacks(npc, STRANGLE_SUPPRESS_TICKS)
         npc.anim(ENTANGLE_START_SEQ)
         deps.worldQueues.add(STRANGLE_TELEGRAPH) {
-            if (npc.isSlotAssigned && npc.hitpoints > 0 && target.isValidTarget()) {
+            if (engaged(npc, target)) {
                 npc.anim(ENTANGLE_LOOP_SEQ)
                 strangle.beginStrangle(target) {
                     if (npc.isSlotAssigned) npc.anim(ENTANGLE_END_SEQ)
@@ -414,7 +414,7 @@ constructor(
         val amount = if (awakened) AXE_BLEED_DAMAGE_AWAKENED else AXE_BLEED_DAMAGE
         for (hit in 1..AXE_BLEED_HITS) {
             deps.worldQueues.add(hit * AXE_BLEED_INTERVAL) {
-                if (player.hitpoints > 0) {
+                if (engaged(npc, player)) {
                     player.queueHit(
                         npc,
                         HIT_DELAY,
@@ -504,7 +504,7 @@ constructor(
 
         val tileSet = tiles.mapTo(HashSet()) { it.first }
         deps.worldQueues.add(SPIKE_STRIKE_DELAY + 1) {
-            if (npc.hitpoints <= 0) return@add
+            if (!npc.isSlotAssigned || npc.hitpoints <= 0) return@add
             tiles.forEach { (tile, cc) -> deps.worldRepo.spotanimMap(combinedSpot, tile, 0, cc) }
             strikeCracks(npc, tileSet, awakened)
         }
@@ -558,6 +558,15 @@ constructor(
     }
 
     private fun isAwakened(npc: Npc): Boolean = npc.vars["varn.awakened_state"] == 1
+
+    private fun engaged(npc: Npc, player: Player): Boolean {
+        if (!npc.isSlotAssigned || npc.hitpoints <= 0 || !player.isValidTarget()) return false
+        val centre = npc.spawnCoords
+        val coords = player.coords
+        return coords.level == centre.level &&
+            coords.x - centre.x in ARENA_WEST_DX..ARENA_EAST_DX &&
+            coords.z - centre.z in ARENA_SOUTH_DZ..ARENA_NORTH_DZ
+    }
 
     private fun CoordGrid.inArenaInterior(centre: CoordGrid): Boolean {
         val dx = x - centre.x
