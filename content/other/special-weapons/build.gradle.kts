@@ -7,4 +7,5 @@ dependencies {
     implementation(projects.api.pluginCommons)
     implementation(projects.api.repo)
     implementation(projects.api.weapons)
+    implementation(projects.content.other.soulForge)
 }

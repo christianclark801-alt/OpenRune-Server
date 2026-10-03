@@ -14,6 +14,15 @@ modifiedColours = [22455, 21982]
 "param.attack_anim_stance2" = "seq.human_throw"
 "param.attack_anim_stance4" = "seq.human_throw"
 
+[[varn]]
+id = "varn.holy_water_poison_hits"
+
+[[varn]]
+id = "varn.holy_water_poison_damage"
+
+[[varn]]
+id = "varn.holy_water_poison_venom"
+
 [[graphic]]
 id = "spotanim.holy_water_travel"
 inherit = "spotanim.holy_water_travel"

@@ -88,7 +88,14 @@ constructor(
 
     override fun ScriptContext.startup() {
         WornBonusModifiers.perObj = { obj, type ->
-            SoulForgeLevels.bonusFor(SoulForgeLevels.styleOf(type), SoulForgeLevels.level(obj.vars))
+            if (HolyWaterForge.isHolyWater(type)) {
+                null
+            } else {
+                SoulForgeLevels.bonusFor(
+                    SoulForgeLevels.styleOf(type),
+                    SoulForgeLevels.level(obj.vars),
+                )
+            }
         }
 
         onGameStartup { spawnForge() }
@@ -127,6 +134,11 @@ constructor(
             return
         }
         val type = getInvObj(obj)
+        if (HolyWaterForge.isHolyWater(type)) {
+            forgeHolyWater(slot, obj, type)
+            redraw()
+            return
+        }
         val level = SoulForgeLevels.level(obj.vars)
         val next = SoulForgeLevels.next(level)
         if (next == null) {
@@ -149,6 +161,25 @@ constructor(
         redraw()
     }
 
+    private fun ProtectedAccess.forgeHolyWater(slot: Int, obj: InvObj, type: ItemServerType) {
+        val tier = HolyWaterForge.tier(obj)
+        if (tier >= HolyWaterForge.MAX_TIER) {
+            ifSetText(STATUS, "<col=ff0000>${type.name} is already fully forged.</col>")
+            return
+        }
+        if (invDel(player.inv, SOUL_ESSENCE, HolyWaterForge.COST).failure) {
+            ifSetText(
+                STATUS,
+                "<col=ff0000>You need ${HolyWaterForge.COST} soul essence for this.</col>",
+            )
+            return
+        }
+        val newTier = tier + 1
+        player.worn[slot] = obj.copy(vars = SoulForgeLevels.withLevel(obj.vars, newTier))
+        ifSetText(STATUS, "<col=00ff00>Success! ${type.name} is now +$newTier.</col>")
+        mes("<col=00ff00>The Soul Forge empowers your ${type.name} to +$newTier.</col>")
+    }
+
     private fun ProtectedAccess.redraw() {
         val slot = player.forgeSlot
         val obj = if (slot == NO_SLOT) null else player.worn[slot]
@@ -160,6 +191,10 @@ constructor(
             return
         }
         val type = getInvObj(obj)
+        if (HolyWaterForge.isHolyWater(type)) {
+            drawHolyWater(obj, type, have)
+            return
+        }
         val level = SoulForgeLevels.level(obj.vars)
         val style = SoulForgeLevels.styleOf(type)
         val next = SoulForgeLevels.next(level)
@@ -188,6 +223,28 @@ constructor(
         drawIcons(obj, next.cost / SoulForgeLevels.ESSENCE_PER_WELL)
     }
 
+    private fun ProtectedAccess.drawHolyWater(obj: InvObj, type: ItemServerType, have: Int) {
+        val tier = HolyWaterForge.tier(obj)
+        ifSetText(ITEM_NAME, type.name)
+        ifSetText(ITEM_LEVEL, "Forge level: +$tier")
+        ifSetText(ITEM_BONUS, HolyWaterForge.describe(tier))
+
+        if (tier >= HolyWaterForge.MAX_TIER) {
+            ifSetText(ESSENCE_COST, "Fully forged")
+            ifSetText(ESSENCE_HAVE, "You have: $have")
+            ifSetText(CHANCE, "MAX")
+            ifSetText(NEXT_BONUS, "This item cannot be forged any further.")
+            drawIcons(obj, WELL_COUNT)
+            return
+        }
+        val haveColour = if (have >= HolyWaterForge.COST) "ffffff" else "ff0000"
+        ifSetText(ESSENCE_COST, "Cost: ${HolyWaterForge.COST} soul essence")
+        ifSetText(ESSENCE_HAVE, "You have: <col=$haveColour>$have</col>")
+        ifSetText(CHANCE, "${HolyWaterForge.CHANCE}%")
+        ifSetText(NEXT_BONUS, "Next: +${tier + 1}<br>${HolyWaterForge.describe(tier + 1)}")
+        drawIcons(obj, WELL_COUNT)
+    }
+
     private fun ProtectedAccess.drawEmpty(have: Int) {
         ifSetText(ITEM_NAME, "None selected")
         ifSetText(ITEM_LEVEL, "")
@@ -210,7 +267,8 @@ constructor(
         )
     }
 
-    private fun ItemServerType.isForgeable(): Boolean = !isStackable
+    private fun ItemServerType.isForgeable(): Boolean =
+        !isStackable || HolyWaterForge.isHolyWater(this)
 
     private fun spawnForge() {
         runCatching {

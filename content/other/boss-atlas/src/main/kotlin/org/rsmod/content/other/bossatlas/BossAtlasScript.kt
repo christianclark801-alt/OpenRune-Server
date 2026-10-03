@@ -23,8 +23,8 @@ import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onIfScriptTrigger
 import org.rsmod.api.script.onOpNpc1
-import org.rsmod.api.script.onOpNpc2
 import org.rsmod.api.script.onOpNpc3
+import org.rsmod.api.script.onOpNpc4
 import org.rsmod.api.table.InstanceSettingsRow
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.entity.Npc
@@ -83,8 +83,8 @@ constructor(
         }
 
         onOpNpc1("npc.boss_guide") { open() }
-        onOpNpc2("npc.boss_guide") { open() }
-        onOpNpc3("npc.boss_guide") { teleportLast() }
+        onOpNpc3("npc.boss_guide") { open() }
+        onOpNpc4("npc.boss_guide") { teleportLast() }
 
         onIfClose(INTERFACE) {
             queries.remove(player)

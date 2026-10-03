@@ -12,22 +12,38 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 object HolyWaterPoison {
     private const val HITS_VARN = "varn.holy_water_poison_hits"
+    private const val DAMAGE_VARN = "varn.holy_water_poison_damage"
+    private const val VENOM_VARN = "varn.holy_water_poison_venom"
     private const val TIMER = "timer.npc_holy_water_poison"
-    private const val DAMAGE = 4
+    private const val BASE_DAMAGE = 4
+    private const val UPGRADED_DAMAGE = 8
+    private const val VENOM_TIER = 2
+    private const val VENOM_RAMP = 2
     private const val INTERVAL = 3
     private const val HITS = 10
+    private const val SPLATS_PER_PROC = 4
 
     private val NoopModifier = NpcHitModifier {}
 
-    fun apply(npc: Npc, hitDelay: Int) {
+    fun apply(npc: Npc, hitDelay: Int, tier: Int) {
         if (NpcPoison.isImmune(npc)) {
             return
         }
+        val damage = if (tier > 0) UPGRADED_DAMAGE else BASE_DAMAGE
+        val venom = tier >= VENOM_TIER
         if (npc.vars[HITS_VARN] > 0) {
             npc.vars[HITS_VARN] = HITS
+            if (venom) {
+                npc.vars[VENOM_VARN] = 1
+            }
+            if (damage > npc.vars[DAMAGE_VARN]) {
+                npc.vars[DAMAGE_VARN] = damage
+            }
             return
         }
-        queuePoisonHit(npc, hitDelay)
+        npc.vars[DAMAGE_VARN] = damage
+        npc.vars[VENOM_VARN] = if (venom) 1 else 0
+        proc(npc, hitDelay)
         npc.vars[HITS_VARN] = HITS - 1
         npc.timer(TIMER, hitDelay + INTERVAL)
     }
@@ -38,7 +54,7 @@ object HolyWaterPoison {
             clear(npc)
             return
         }
-        queuePoisonHit(npc, delay = 1)
+        proc(npc, delay = 1)
         if (remaining == 1) {
             clear(npc)
             return
@@ -47,19 +63,29 @@ object HolyWaterPoison {
         npc.timer(TIMER, INTERVAL)
     }
 
-    private fun clear(npc: Npc) {
-        npc.vars[HITS_VARN] = 0
-        npc.clearTimer(TIMER)
+    private fun proc(npc: Npc, delay: Int) {
+        val damage = npc.vars[DAMAGE_VARN]
+        val venom = npc.vars[VENOM_VARN] == 1
+        val hitmark = if (venom) hitmark_groups.venom else hitmark_groups.poison_damage
+        repeat(SPLATS_PER_PROC) {
+            npc.queueHit(
+                delay = delay,
+                type = HitType.Typeless,
+                damage = damage,
+                modifier = NoopModifier,
+                hitmark = hitmark,
+            )
+        }
+        if (venom) {
+            npc.vars[DAMAGE_VARN] = damage + VENOM_RAMP
+        }
     }
 
-    private fun queuePoisonHit(npc: Npc, delay: Int) {
-        npc.queueHit(
-            delay = delay,
-            type = HitType.Typeless,
-            damage = DAMAGE,
-            modifier = NoopModifier,
-            hitmark = hitmark_groups.poison_damage,
-        )
+    private fun clear(npc: Npc) {
+        npc.vars[HITS_VARN] = 0
+        npc.vars[DAMAGE_VARN] = 0
+        npc.vars[VENOM_VARN] = 0
+        npc.clearTimer(TIMER)
     }
 }
 
