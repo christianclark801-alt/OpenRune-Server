@@ -1,0 +1,27 @@
+[[item]]
+id = "obj.holy_water"
+inherit = "obj.holy_water"
+weaponCategory = "Thrown"
+tradeable = false
+originalColours = [61, 41438]
+modifiedColours = [22455, 21982]
+[item.params]
+"param.proj_type" = "projanim.thrown"
+"param.proj_travel" = "spotanim.holy_water_travel"
+"param.proj_launch" = "spotanim.holy_water_launch"
+"param.attack_range" = 4
+"param.attack_anim_stance1" = "seq.human_throw"
+"param.attack_anim_stance2" = "seq.human_throw"
+"param.attack_anim_stance4" = "seq.human_throw"
+
+[[graphic]]
+id = "spotanim.holy_water_travel"
+inherit = "spotanim.holy_water_travel"
+originalColours = [61, 127]
+modifiedColours = [22455, 21982]
+
+[[graphic]]
+id = "spotanim.holy_water_launch"
+inherit = "spotanim.holy_water_launch"
+originalColours = [61, 127]
+modifiedColours = [22455, 21982]

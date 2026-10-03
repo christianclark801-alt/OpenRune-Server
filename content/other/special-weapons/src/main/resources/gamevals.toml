@@ -1,0 +1,5 @@
+[gamevals.varn]
+holy_water_poison_hits = 52
+
+[gamevals.timer]
+npc_holy_water_poison = 412
