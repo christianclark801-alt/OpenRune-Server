@@ -15,7 +15,6 @@ import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.IfScriptArgs
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.intVarBit
-import org.rsmod.api.realm.Realm
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onCommand
 import org.rsmod.api.script.onEvent
@@ -30,6 +29,7 @@ import org.rsmod.api.table.InstanceSettingsRow
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -40,7 +40,7 @@ private const val DROPS = "component.boss_atlas:drops"
 
 private const val ROW_COMSUBS = 7
 private const val MAX_DROPS = 20
-private const val GUIDE_OFFSET_X = 2
+private val GUIDE_COORDS = CoordGrid(3788, 2563, 0)
 
 private val FAVOURITE_SLOTS = List(MAX_FAVOURITES) { "varbit.boss_atlas_fav$it" }
 
@@ -57,7 +57,6 @@ constructor(
     private val drops: BossDropPreview,
     private val prices: MarketPrices,
     private val npcRepo: NpcRepository,
-    private val realm: Realm,
 ) : PluginScript() {
     private val logger = InlineLogger()
     private val queries = WeakHashMap<Player, String>()
@@ -125,8 +124,10 @@ constructor(
 
     private fun spawnGuide() {
         runCatching {
-            val coords = realm.config.spawnCoord.translateX(GUIDE_OFFSET_X)
-            npcRepo.add(Npc("npc.boss_guide", coords), Int.MAX_VALUE)
+            npcRepo.add(
+                Npc("npc.boss_guide", GUIDE_COORDS).apply { respawnDir = respawnDir.opposite },
+                Int.MAX_VALUE,
+            )
         }.onFailure { logger.warn(it) { "Unable to spawn the Boss Guide; rebuild the cache with buildCache." } }
     }
 

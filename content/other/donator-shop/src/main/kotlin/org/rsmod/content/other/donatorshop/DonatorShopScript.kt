@@ -37,7 +37,7 @@ private const val REWARDS = "component.donator_shop:rewards"
 
 private const val CARD_COMSUBS = 6
 
-private val PEER_COORDS = CoordGrid(3220, 3421)
+private val PEER_COORDS = CoordGrid(3797, 2564, 0)
 
 private var Player.selectedBox by intVarBit("varbit.donator_shop_selected")
 
@@ -101,7 +101,10 @@ constructor(
     }
 
     private fun spawnPeer() {
-        runCatching { npcRepo.add(Npc(NPC, PEER_COORDS), Int.MAX_VALUE) }
+        runCatching {
+            val peer = Npc(NPC, PEER_COORDS).apply { respawnDir = respawnDir.opposite }
+            npcRepo.add(peer, Int.MAX_VALUE)
+        }
             .onFailure { logger.warn(it) { "Unable to spawn Peer the Seer; rebuild the cache with buildCache." } }
     }
 

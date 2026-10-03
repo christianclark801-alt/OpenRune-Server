@@ -219,7 +219,7 @@ constructor(
                     FORGE_COORDS,
                     SOUL_FORGE,
                     Int.MAX_VALUE,
-                    LocAngle.West,
+                    LocAngle.East,
                     LocShape.CentrepieceStraight,
                 )
             forge = loc

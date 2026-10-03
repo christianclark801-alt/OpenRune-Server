@@ -29,6 +29,19 @@ public enum class Direction(public val id: Int, public val xOff: Int, public val
                 SouthEast -> 1792
             }
 
+    public val opposite: Direction
+        get() =
+            when (this) {
+                North -> South
+                South -> North
+                West -> East
+                East -> West
+                NorthWest -> SouthEast
+                SouthEast -> NorthWest
+                NorthEast -> SouthWest
+                SouthWest -> NorthEast
+            }
+
     public fun isCardinal(): Boolean = this in CARDINAL
 
     public fun isOrdinal(): Boolean = this in ORDINAL
