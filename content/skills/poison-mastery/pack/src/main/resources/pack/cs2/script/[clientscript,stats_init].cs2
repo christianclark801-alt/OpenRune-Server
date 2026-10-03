@@ -1,9 +1,9 @@
-// 393
 [clientscript,stats_init](component $component0, component $component1, int $int2, int $int3)
 def_stat $stat = enum(int, stat, enum_681, $int2);
 def_int $int5 = 1;
 def_string $string = enum(int, string, enum_108, $int2);
 def_boolean $boolean = enum(stat, boolean, enum_1497, $stat);
+~stats_slot_position($component0, $int2);
 cc_deleteall($component0);
 cc_create($component0, ^iftype_graphic, 0);
 cc_setposition(0, 0, ^setpos_abs_left, ^setpos_abs_top);
