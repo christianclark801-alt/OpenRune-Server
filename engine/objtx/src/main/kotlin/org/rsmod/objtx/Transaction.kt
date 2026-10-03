@@ -167,7 +167,7 @@ public class Transaction<T>(
             capacity: Int,
         ): TransactionResult {
             val template = this@Transaction.certTemplate(obj)
-            if (template != null && vars > 0) {
+            if (template != null && template.isCert && vars > 0) {
                 return TransactionResult.VarObjIncorrectlyHasCert
             }
             if (vars > 0) {
