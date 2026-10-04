@@ -13,6 +13,7 @@ client re-inserts the nearest preceding ORIGIN automatically. ``apply_frame`` mi
 maths so poses can be previewed without a game client.
 """
 
+import json
 import math
 import os
 import struct
@@ -46,6 +47,36 @@ class FrameMap:
         for transform in self.transforms:
             out += bytes(transform.labels)
         return bytes(out)
+
+
+def load_reference_frame_map(path):
+    """Loads a frame map dumped from the cache by ``gradlew dumpAnimReference``."""
+    with open(path) as handle:
+        data = json.load(handle)
+    return FrameMap(data["id"], [Transform(t["type"], tuple(t["labels"])) for t in data["transforms"]])
+
+
+def load_reference_frames(path):
+    """Loads a dumped sequence as a list of ``{transform index: (x, y, z)}`` frames, filling
+    components the frame leaves out with the transform default the client would use."""
+    with open(path) as handle:
+        data = json.load(handle)
+    frames = []
+    for frame in data["frames"]:
+        values = {}
+        for index, triple in frame["transforms"].items():
+            values[int(index)] = tuple(triple)
+        frames.append(values)
+    return frames, data["frameDelays"]
+
+
+def resolve_defaults(frame_map, values):
+    """Replaces ``None`` components (left out of a cache frame) with the transform default."""
+    resolved = {}
+    for index, triple in values.items():
+        default = _default(frame_map.transforms[index])
+        resolved[index] = tuple(default if c is None else c for c in triple)
+    return resolved
 
 
 def _default(transform):
@@ -165,6 +196,7 @@ class Sequence:
     frames: list
     delays: list
     max_loops: int = 99
+    inherit: str = None
 
 
 def write_sequences(toml_path, archive, sequences):
@@ -178,6 +210,7 @@ def write_sequences(toml_path, archive, sequences):
         lines += [
             "[[animation]]",
             f'id = "seq.{sequence.name}"',
+            *([f'inherit = "{sequence.inherit}"'] if sequence.inherit else []),
             f"frameIDs = [{', '.join(map(str, ids))}]",
             f"frameDelays = [{', '.join(map(str, sequence.delays))}]",
             f"maxLoops = {sequence.max_loops}",

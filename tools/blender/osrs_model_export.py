@@ -26,6 +26,7 @@ Usage (headless):
     blender --background --python tools/blender/osrs_model_export.py -- <collection> <out.dat>
 """
 
+import json
 import struct
 import sys
 from dataclasses import dataclass, field
@@ -60,6 +61,33 @@ class RsModel:
     @property
     def has_render_types(self):
         return any(self.render_types)
+
+
+def load_reference_model(*paths):
+    """Merges models into one RsModel: ``.json`` dumps from ``gradlew dumpAnimReference`` and
+    our own exported ``.dat`` files, e.g. a player's body kits plus a custom worn weapon."""
+    model = RsModel()
+    for path in paths:
+        if path.endswith(".dat"):
+            with open(path, "rb") as handle:
+                part = decode_model(handle.read())
+        else:
+            with open(path) as handle:
+                data = json.load(handle)
+            faces = data["faces"]
+            part = RsModel(
+                [tuple(v) for v in data["vertices"]], data["labels"], [tuple(f) for f in faces],
+                data["colors"], data["alphas"], data["faceLabels"], [0] * len(faces),
+            )
+        base = len(model.vertices)
+        model.vertices += part.vertices
+        model.vertex_labels += part.vertex_labels or [0] * len(part.vertices)
+        model.faces += [tuple(i + base for i in face) for face in part.faces]
+        model.colors += part.colors
+        model.alphas += part.alphas or [0] * len(part.faces)
+        model.face_labels += part.face_labels or [0] * len(part.faces)
+        model.render_types += part.render_types or [0] * len(part.faces)
+    return model
 
 
 def _short_smart(value):

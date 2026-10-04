@@ -3,4 +3,23 @@ id = "obj.poison_blades"
 inherit = "obj.dual_macuahuitl"
 name = "Poison Blades"
 inventoryModel = "models.poison_blades"
+maleModel0 = "models.poison_blades_worn"
+femaleModel0 = "models.poison_blades_worn"
 examine = "Twin blades slick with a venom that never seems to dry."
+weaponCategory = "Spiked"
+[item.params]
+"param.attack_anim_stance1" = "seq.poison_blades_xslash"
+"param.attack_anim_stance2" = "seq.poison_blades_xslash"
+"param.attack_anim_stance3" = "seq.poison_blades_xslash"
+"param.attack_anim_stance4" = "seq.poison_blades_xslash"
+"param.attack_sound_stance1" = 7930
+"param.attack_sound_stance2" = 7930
+"param.attack_sound_stance3" = 7930
+"param.attack_sound_stance4" = 7930
+"param.equipment_sound" = 2233
+"param.defend_anim" = "seq.human_unarmedblock"
+
+[[graphic]]
+id = "spotanim.poison_blades_xslash"
+modelId = "models.poison_blades_fx"
+animationId = "seq.poison_blades_xslash_fx"

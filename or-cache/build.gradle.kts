@@ -73,6 +73,20 @@ tasks {
         dependsOn("classes")
     }
 
+    register<JavaExec>("dumpAnimReference") {
+        group = "tools"
+        description =
+            "Dumps models, seq frames and frame maps as JSON for the Blender tools (-Prefs=...)"
+
+        classpath = sourceSets["main"].runtimeClasspath
+        mainClass.set("dev.openrune.tools.DumpAnimReferenceKt")
+        val outDir = rootProject.file("tools/blender/ref").path
+        val refs = providers.gradleProperty("refs").orElse("")
+        args = listOf(outDir)
+        argumentProviders.add(CommandLineArgumentProvider {
+            refs.get().split(',').filter { it.isNotBlank() }
+        })
+    }
 
 
 }

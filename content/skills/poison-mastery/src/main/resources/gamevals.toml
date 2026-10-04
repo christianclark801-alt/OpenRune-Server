@@ -2,7 +2,16 @@
 stat_names = 108
 
 [gamevals.obj]
-poison_blades = 63520
+poison_blades = 63460
 
 [gamevals.models]
 poison_blades = 60537
+poison_blades_worn = 60538
+poison_blades_fx = 60539
+
+[gamevals.seq]
+poison_blades_xslash = 16005
+poison_blades_xslash_fx = 16006
+
+[gamevals.spotanim]
+poison_blades_xslash = 4501

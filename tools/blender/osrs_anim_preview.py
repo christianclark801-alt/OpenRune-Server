@@ -2,10 +2,12 @@
 
 Usage:
     blender --background --factory-startup --python tools/blender/osrs_anim_preview.py -- \
-        <model.dat> <anims module> <out dir> [sequence[:frame,frame...]] ...
+        <model.dat | a.json,b.json,...> <anims module> <out dir> [sequence[:frame,frame...]] ...
 
 e.g. ``... -- broodmother.dat broodmother_anims out walk:0,2,4,6 death:9``. Without
-sequence arguments the first, middle and last frame of every sequence are rendered.
+sequence arguments the first, middle and last frame of every sequence are rendered. A comma
+separated list of ``.json`` models (dumped by ``gradlew dumpAnimReference``) is merged into one
+model, e.g. a player's body kits plus a worn weapon.
 """
 
 import colorsys
@@ -20,11 +22,12 @@ from mathutils import Vector
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from osrs_anim_export import apply_frame  # noqa: E402
-from osrs_model_export import UNITS_PER_TILE, decode_model  # noqa: E402
+from osrs_model_export import UNITS_PER_TILE, decode_model, load_reference_model  # noqa: E402
 
 CAMERA_VIEWS = {
     "three_quarter": (6.5, -6.0, 4.5),
     "side": (0.0, -8.5, 1.8),
+    "front": (8.5, 0.0, 1.8),
 }
 
 
@@ -81,11 +84,15 @@ def setup_scene():
     return scene, camera
 
 
-def render(scene, camera, path):
-    target = Vector((0.0, 0.0, 1.0))
+def render(scene, camera, path, obj):
+    """Frames the model: the camera keeps each view's direction, scaled to the model's size."""
+    corners = [Vector(c) for c in obj.bound_box]
+    target = sum(corners, Vector()) / len(corners)
+    size = max((max(c[i] for c in corners) - min(c[i] for c in corners)) for i in range(3))
     for view, position in CAMERA_VIEWS.items():
-        camera.location = position
-        camera.rotation_euler = (target - Vector(position)).to_track_quat("-Z", "Y").to_euler()
+        offset = Vector(position).normalized() * max(size, 1.0) * 2.6
+        camera.location = target + offset
+        camera.rotation_euler = (-offset).to_track_quat("-Z", "Y").to_euler()
         scene.render.filepath = f"{path}_{view}.png"
         bpy.ops.render.render(write_still=True)
 
@@ -107,8 +114,11 @@ def main():
     args = sys.argv[sys.argv.index("--") + 1:]
     model_path, module_name, out_dir = args[:3]
     anims = importlib.import_module(module_name)
-    with open(model_path, "rb") as handle:
-        model = decode_model(handle.read())
+    if "," in model_path or model_path.endswith(".json"):
+        model = load_reference_model(*model_path.split(","))
+    else:
+        with open(model_path, "rb") as handle:
+            model = decode_model(handle.read())
     sequences = [build() for build in anims.SEQUENCES]
     scene, camera = setup_scene()
     os.makedirs(out_dir, exist_ok=True)
@@ -116,9 +126,10 @@ def main():
         for index in indices:
             vertices, alphas = apply_frame(model, anims.FRAME_MAP, sequence.frames[index])
             obj = build_mesh(model, vertices, alphas)
-            render(scene, camera, os.path.join(out_dir, f"{sequence.name}_{index:02d}"))
+            render(scene, camera, os.path.join(out_dir, f"{sequence.name}_{index:02d}"), obj)
             bpy.data.objects.remove(obj, do_unlink=True)
     print(f"Rendered previews to {out_dir}")
 
 
-main()
+if __name__ == "__main__":
+    main()
