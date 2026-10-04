@@ -20,12 +20,13 @@ private const val FRAME_MAPS = 1
 private const val CONFIGS = 2
 private const val MODELS = 7
 private const val IDENTKIT_ARCHIVE = 3
+private const val SPOTANIM_ARCHIVE = 13
 
 /**
  * Dumps cache data the Blender tools need to author player animations and worn models: the
  * models of the given objs and identity kits, and the frames + frame maps of the given seqs.
  *
- * Args: `<out dir> [obj.<name>|idk.<id>|seq.<name>]...`. Every model is written as JSON with
+ * Args: `<out dir> [obj.<name>|idk.<id>|seq.<name>|spotanim.<name>]...`. Every model is written as JSON with
  * vertices, vertex labels, faces, colours, alphas and face labels; every seq as its frame list
  * with decoded transform values, and every frame map it uses as its transform types + labels.
  */
@@ -102,6 +103,14 @@ fun main(args: Array<String>) {
                     ),
                 )
             }
+            ref.startsWith("spotanim.") -> {
+                val id = RSCM.getRSCM(ref)
+                val data = cache.data(CONFIGS, SPOTANIM_ARCHIVE, id) ?: error("No spotanim for $ref")
+                val info = decodeSpotAnim(data) + ("id" to id)
+                val name = ref.removePrefix("spotanim.")
+                json.writeValue(File(out, "$name.json"), info)
+                dumpModel(cache, info["modelId"] as Int, File(out, "${name}_model.json"), json)
+            }
             else -> error("Unknown reference '$ref'")
         }
     }
@@ -155,6 +164,46 @@ private fun decodeIdentKit(data: ByteArray): Pair<Int, List<Int>> {
             else -> return bodyPart to models
         }
     }
+}
+
+private fun decodeSpotAnim(data: ByteArray): Map<String, Any> {
+    val buffer = ByteBuffer.wrap(data)
+    val info = mutableMapOf<String, Any>()
+    fun pairs(key: String) {
+        val count = buffer.get().toInt() and 0xFF
+        val from = mutableListOf<Int>()
+        val to = mutableListOf<Int>()
+        repeat(count) {
+            from += buffer.short.toInt() and 0xFFFF
+            to += buffer.short.toInt() and 0xFFFF
+        }
+        info["${key}From"] = from
+        info["${key}To"] = to
+    }
+    while (true) {
+        when (val opcode = buffer.get().toInt() and 0xFF) {
+            0 -> return info
+            1 -> info["modelId"] = buffer.short.toInt() and 0xFFFF
+            2 -> info["animationId"] = buffer.short.toInt() and 0xFFFF
+            3 -> info["modelId"] = buffer.int
+            4 -> info["resizeX"] = buffer.short.toInt() and 0xFFFF
+            5 -> info["resizeY"] = buffer.short.toInt() and 0xFFFF
+            6 -> info["rotation"] = buffer.short.toInt() and 0xFFFF
+            7 -> info["ambient"] = buffer.get().toInt() and 0xFF
+            8 -> info["contrast"] = buffer.get().toInt() and 0xFF
+            9 -> info["debugName"] = readString(buffer)
+            10 -> info["rotate"] = false
+            40 -> pairs("recolour")
+            41 -> pairs("retexture")
+            42 -> info["recolAll"] = buffer.short.toInt() and 0xFFFF
+            else -> error("Unknown spotanim opcode $opcode")
+        }
+    }
+}
+
+private fun readString(buffer: ByteBuffer): String {
+    val bytes = generateSequence { buffer.get() }.takeWhile { it != 0.toByte() }.toList()
+    return String(bytes.toByteArray(), Charsets.ISO_8859_1)
 }
 
 private fun decodeFrame(frameId: Int, data: ByteArray): Map<String, Any> {

@@ -42,7 +42,11 @@ class PoisonBladesWeapon @Inject constructor() : WeaponMap {
 
         private fun ProtectedAccess.xslash(attack: CombatAttack.Melee) {
             manager.playWeaponFx(this, attack)
-            spotanim("spotanim.poison_blades_xslash", slot = constants.spotanim_slot_combat)
+            spotanim(
+                "spotanim.poison_blades_xslash",
+                height = 100,
+                slot = constants.spotanim_slot_combat,
+            )
         }
 
         private fun ProtectedAccess.rollAndQueueHits(

@@ -8,10 +8,10 @@ femaleModel0 = "models.poison_blades_worn"
 examine = "Twin blades slick with a venom that never seems to dry."
 weaponCategory = "Spiked"
 [item.params]
-"param.attack_anim_stance1" = "seq.poison_blades_xslash"
-"param.attack_anim_stance2" = "seq.poison_blades_xslash"
-"param.attack_anim_stance3" = "seq.poison_blades_xslash"
-"param.attack_anim_stance4" = "seq.poison_blades_xslash"
+"param.attack_anim_stance1" = "seq.human_dragon_claws_spec"
+"param.attack_anim_stance2" = "seq.human_dragon_claws_spec"
+"param.attack_anim_stance3" = "seq.human_dragon_claws_spec"
+"param.attack_anim_stance4" = "seq.human_dragon_claws_spec"
 "param.attack_sound_stance1" = 7930
 "param.attack_sound_stance2" = 7930
 "param.attack_sound_stance3" = 7930
@@ -21,5 +21,6 @@ weaponCategory = "Spiked"
 
 [[graphic]]
 id = "spotanim.poison_blades_xslash"
-modelId = "models.poison_blades_fx"
-animationId = "seq.poison_blades_xslash_fx"
+inherit = "spotanim.sp_attack_dragon_scimitar_trail_spotanim"
+originalColours = [960]
+modifiedColours = [22480]
