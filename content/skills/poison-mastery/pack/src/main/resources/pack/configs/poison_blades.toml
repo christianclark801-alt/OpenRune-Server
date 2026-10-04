@@ -7,14 +7,31 @@ maleModel0 = "models.poison_blades_worn"
 femaleModel0 = "models.poison_blades_worn"
 examine = "Twin blades slick with a venom that never seems to dry."
 weaponCategory = "Spiked"
+contentGroup = "content.poison_blades"
 [item.params]
-"param.attack_anim_stance1" = "seq.pmoon_macuahuitl_crush"
-"param.attack_anim_stance2" = "seq.pmoon_macuahuitl_crush"
-"param.attack_anim_stance3" = "seq.pmoon_macuahuitl_crush"
-"param.attack_anim_stance4" = "seq.pmoon_macuahuitl_crush"
+"param.attack_anim_stance1" = "seq.poison_blades_attack"
+"param.attack_anim_stance2" = "seq.poison_blades_attack"
+"param.attack_anim_stance3" = "seq.poison_blades_attack"
+"param.attack_anim_stance4" = "seq.poison_blades_attack"
 "param.attack_sound_stance1" = 7930
 "param.attack_sound_stance2" = 7930
 "param.attack_sound_stance3" = 7930
 "param.attack_sound_stance4" = 7930
 "param.equipment_sound" = 2233
 "param.defend_anim" = "seq.human_unarmedblock"
+"param.bas_readyanim" = "seq.poison_blades_idle"
+
+[[graphic]]
+id = "spotanim.poison_blades_attack_fx"
+modelId = "models.poison_blades_attack_fx"
+animationId = "seq.poison_blades_attack_fx"
+
+[[graphic]]
+id = "spotanim.poison_blades_idle_fx"
+modelId = "models.poison_blades_idle_fx"
+animationId = "seq.poison_blades_idle_fx"
+
+[[varp]]
+id = "varp.poison_blades_idle_fx"
+scope = "Temp"
+transmit = "Never"

@@ -7,9 +7,24 @@ poison_blades = 63460
 [gamevals.models]
 poison_blades = 60537
 poison_blades_worn = 60538
+poison_blades_attack_fx = 62100
+poison_blades_idle_fx = 62101
 
 [gamevals.seq]
-pb_dbg_a = 16009
-pb_dbg_b = 16010
-pb_dbg_c = 16011
-pb_dbg_d = 16012
+poison_blades_attack = 16005
+poison_blades_attack_fx = 16006
+poison_blades_idle = 16007
+poison_blades_idle_fx = 16008
+
+[gamevals.spotanim]
+poison_blades_attack_fx = 4501
+poison_blades_idle_fx = 4502
+
+[gamevals.content]
+poison_blades = 65470
+
+[gamevals.timer]
+poison_blades_idle_fx = 413
+
+[gamevals.varp]
+poison_blades_idle_fx = 64870

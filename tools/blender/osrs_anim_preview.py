@@ -7,7 +7,9 @@ Usage:
 e.g. ``... -- broodmother.dat broodmother_anims out walk:0,2,4,6 death:9``. Without
 sequence arguments the first, middle and last frame of every sequence are rendered. A comma
 separated list of ``.json`` models (dumped by ``gradlew dumpAnimReference``) is merged into one
-model, e.g. a player's body kits plus a worn weapon.
+model, e.g. a player's body kits plus a worn weapon. A module defining
+``preview_pose(sequence, index) -> (model, vertices, alphas)`` poses the model itself, e.g. to
+merge an effect spotanim into the player.
 """
 
 import colorsys
@@ -124,8 +126,12 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     for sequence, indices in selection(sequences, args[3:]):
         for index in indices:
-            vertices, alphas = apply_frame(model, anims.FRAME_MAP, sequence.frames[index])
-            obj = build_mesh(model, vertices, alphas)
+            if hasattr(anims, "preview_pose"):
+                posed_model, vertices, alphas = anims.preview_pose(sequence, index)
+            else:
+                posed_model = model
+                vertices, alphas = apply_frame(model, anims.FRAME_MAP, sequence.frames[index])
+            obj = build_mesh(posed_model, vertices, alphas)
             render(scene, camera, os.path.join(out_dir, f"{sequence.name}_{index:02d}"), obj)
             bpy.data.objects.remove(obj, do_unlink=True)
     print(f"Rendered previews to {out_dir}")
