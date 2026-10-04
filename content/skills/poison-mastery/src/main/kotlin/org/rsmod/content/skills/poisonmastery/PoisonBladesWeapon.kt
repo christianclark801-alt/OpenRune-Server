@@ -2,7 +2,6 @@ package org.rsmod.content.skills.poisonmastery
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
-import org.rsmod.api.config.constants
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.weapons.MeleeWeapon
 import org.rsmod.api.weapons.WeaponAttackManager
@@ -22,7 +21,7 @@ class PoisonBladesWeapon @Inject constructor() : WeaponMap {
             target: Npc,
             attack: CombatAttack.Melee,
         ): Boolean {
-            xslash(attack)
+            manager.playWeaponFx(this, attack)
             val totalDamage = rollAndQueueHits(target, attack)
             manager.giveCombatXp(this, target, attack, totalDamage)
             manager.continueCombat(this, target)
@@ -33,20 +32,11 @@ class PoisonBladesWeapon @Inject constructor() : WeaponMap {
             target: Player,
             attack: CombatAttack.Melee,
         ): Boolean {
-            xslash(attack)
+            manager.playWeaponFx(this, attack)
             val totalDamage = rollAndQueueHits(target, attack)
             manager.giveCombatXp(this, target, attack, totalDamage)
             manager.continueCombat(this, target)
             return true
-        }
-
-        private fun ProtectedAccess.xslash(attack: CombatAttack.Melee) {
-            manager.playWeaponFx(this, attack)
-            spotanim(
-                "spotanim.poison_blades_xslash",
-                height = 100,
-                slot = constants.spotanim_slot_combat,
-            )
         }
 
         private fun ProtectedAccess.rollAndQueueHits(

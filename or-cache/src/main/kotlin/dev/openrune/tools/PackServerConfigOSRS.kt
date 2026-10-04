@@ -46,8 +46,8 @@ data class PackType(
     /** Config archive this type writes (and, for merged types, reads its base definitions from). */
     val archive: Int,
     val pack: PackServerConfig.(Cache, Map<String, List<Definition>>, String) -> Unit,
-    /** Rows are rebuilt from the live cache, so the live archive decides when to repack. */
-    val liveBacked: Boolean = false,
+    /** Live config archive the rows are rebuilt from; its checksum decides when to repack. */
+    val liveArchive: Int? = null,
 )
 
 /**
@@ -159,6 +159,7 @@ class PackServerConfig(
         registerCacheBackedPackType<HealthBarServerType, HealthBarType>(
             table = "health",
             decoder = HealthBarDecoder(),
+            liveArchive = HEALTHBAR,
             baseDefinitions = { CacheManager.getHealthBars() },
             codec = { HealthBarServerCodec(it) },
             create = { HealthBarServerType(it) },
@@ -167,6 +168,7 @@ class PackServerConfig(
         registerCacheBackedPackType<SequenceServerType, SequenceType>(
             table = "anims",
             decoder = SequenceDecoder(),
+            liveArchive = SEQUENCE,
             baseDefinitions = { CacheManager.getAnims() },
             codec = { SequenceServerCodec(it) },
             create = { SequenceServerType(it) },
@@ -347,8 +349,8 @@ class PackServerConfig(
             // The checksum of the archive a type's base rows come from is part of its fingerprint, so
             // new live rows (e.g. custom seqs) reach the server even when no server toml changed.
             val baseFingerprint =
-                if (packType.liveBacked) {
-                    liveConfigArchives[packType.archive]
+                if (packType.liveArchive != null) {
+                    liveConfigArchives[packType.liveArchive]
                 } else {
                     library.index(CONFIGS).archives().firstOrNull { it.id == packType.archive }
                         ?.let { "${it.crc}:${it.revision}" }
@@ -387,12 +389,13 @@ class PackServerConfig(
         private inline fun <reified T : Definition, B : Definition> registerCacheBackedPackType(
             table: String,
             decoder: ConfigDefinitionDecoder<*>,
+            liveArchive: Int,
             tomlMapper: TomlMapper = tomlMapperDefault,
             crossinline baseDefinitions: () -> Map<Int, B>,
             crossinline codec: (Map<Int, B>) -> OpcodeDefinitionCodec<T>,
             noinline create: (Int) -> T,
         ) {
-            registerPackType<T>(table, decoder.getArchive(0), tomlMapper, liveBacked = true) {
+            registerPackType<T>(table, decoder.getArchive(0), tomlMapper, liveArchive) {
                 cache, _, _ ->
                 val defs = baseDefinitions()
                 packDefs(cache, decoder.getArchive(0), defs.keys.sorted(), create, codec(defs))
@@ -450,11 +453,11 @@ class PackServerConfig(
             table: String,
             archive: Int,
             tomlMapper: TomlMapper = tomlMapperDefault,
-            liveBacked: Boolean = false,
+            liveArchive: Int? = null,
             noinline pack: PackServerConfig.(Cache, Map<String, List<Definition>>, String) -> Unit,
         ) {
             packTypes[table] =
-                PackType(table, tomlMapper, typeOf<List<T>>(), archive, pack, liveBacked)
+                PackType(table, tomlMapper, typeOf<List<T>>(), archive, pack, liveArchive)
         }
     }
 }
