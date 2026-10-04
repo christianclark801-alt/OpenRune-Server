@@ -7,6 +7,7 @@ import org.rsmod.plugin.module.PluginModule
 class PoisonMasteryModule : PluginModule() {
     override fun bind() {
         addSetBinding<NpcDamageContributor>(PoisonMasteryXp::class.java)
+        addSetBinding<NpcDamageContributor>(PoisonGearEffects::class.java)
         addSetBinding<WeaponMap>(PoisonBladesWeapon::class.java)
     }
 }

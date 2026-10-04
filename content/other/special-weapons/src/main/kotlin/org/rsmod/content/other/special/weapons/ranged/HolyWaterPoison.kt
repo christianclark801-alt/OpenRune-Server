@@ -1,6 +1,7 @@
 package org.rsmod.content.other.special.weapons.ranged
 
 import org.rsmod.api.config.refs.done.hitmark_groups
+import org.rsmod.api.mechanics.status.NpcStatusEffects
 import org.rsmod.api.mechanics.toxins.impl.NpcPoison
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import jakarta.inject.Inject
@@ -25,7 +26,6 @@ object HolyWaterPoison {
     private const val VENOM_RAMP = 2
     private const val INTERVAL = 3
     private const val HITS = 10
-    private const val SPLATS_PER_PROC = 4
 
     private val NoopModifier = NpcHitModifier {}
 
@@ -74,13 +74,19 @@ object HolyWaterPoison {
         val damage = npc.vars[DAMAGE_VARN]
         val venom = npc.vars[VENOM_VARN] == 1
         val hitmark = if (venom) hitmark_groups.venom else hitmark_groups.poison_damage
-        repeat(SPLATS_PER_PROC) {
+        val scaled =
+            if (venom) {
+                NpcStatusEffects.venomDamage(npc, damage)
+            } else {
+                NpcStatusEffects.poisonDamage(npc, damage)
+            }
+        repeat(NpcStatusEffects.poisonHits(npc)) {
             if (source != null) {
                 npc.queueHit(
                     source = source,
                     delay = delay,
                     type = HitType.Typeless,
-                    damage = damage,
+                    damage = scaled,
                     modifier = NoopModifier,
                     hitmark = hitmark,
                 )
@@ -88,7 +94,7 @@ object HolyWaterPoison {
                 npc.queueHit(
                     delay = delay,
                     type = HitType.Typeless,
-                    damage = damage,
+                    damage = scaled,
                     modifier = NoopModifier,
                     hitmark = hitmark,
                 )

@@ -872,3 +872,10 @@ isServerOnly = true
 type = "BOOLEAN"
 defaultInt = 0
 isMembers = true
+
+[[params]]
+id = "param.npc_poison_damage_taken"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true

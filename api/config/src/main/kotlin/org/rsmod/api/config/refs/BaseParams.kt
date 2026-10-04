@@ -196,6 +196,7 @@ object BaseParams {
     val death_sound: ParamSynth = param("death_sound")
     val attack_melee: ParamInt = param("attack_melee")
     val npc_poison_severity: ParamInt = param("npc_poison_severity")
+    val npc_poison_damage_taken: ParamInt = param("npc_poison_damage_taken")
     val equipment_sound: ParamSynth = param("equipment_sound")
     val player_op5_text: ParamStr = param("player_op5_text")
     val release_note_title: ParamStr = param("release_note_title")

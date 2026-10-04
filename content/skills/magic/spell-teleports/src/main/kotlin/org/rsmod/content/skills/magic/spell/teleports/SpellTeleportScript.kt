@@ -183,6 +183,7 @@ constructor(
         ),
         Lumbridge(
             "obj.31_lumbridge_teleport",
+            CoordGrid(0, 59, 40, 14, 8),
         ),
         Falador(
             "obj.37_falador_teleport",

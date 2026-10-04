@@ -22,6 +22,9 @@ import org.rsmod.api.instances.BossInstanceRegistry
 import org.rsmod.api.instances.InstanceArea
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invClear
+import org.rsmod.api.mechanics.status.NpcStatusEffects
+import org.rsmod.api.mechanics.status.StatusEffectTypes
+import org.rsmod.api.mechanics.status.StatusStat
 import org.rsmod.api.mechanics.toxins.impl.PlayerDisease
 import org.rsmod.api.mechanics.toxins.impl.PlayerPoison
 import org.rsmod.api.mechanics.toxins.impl.PlayerVenom
@@ -226,6 +229,9 @@ constructor(
         }
         onCommand("venom", "Test player venom (escalating damage timer)", ::venomTest)
         onCommand("venomclear", "Clears Venom", ::venomClear)
+        onCommand("npcstatus", "Apply a status effect to the nearest npc", ::npcStatus) {
+            invalidArgs = "Use as ::npcstatus effect [ticks] (ex: ::npcstatus toxic_mark 100)"
+        }
         onCommand("disease", "Test disease (drain per tick, default 3)", ::diseaseTest) {
             invalidArgs = "Use as ::disease [drainPerTick] (e.g. ::disease 5)"
         }
@@ -399,6 +405,33 @@ constructor(
                 } else {
                     "Poison not applied (weaker/equal than current, or both inputs zero)."
                 }
+            )
+        }
+
+    private fun npcStatus(cheat: Cheat) =
+        with(cheat) {
+            val name = args.getOrNull(0)
+            val type = name?.let(StatusEffectTypes::byName)
+            if (type == null) {
+                val names = StatusEffectTypes.all.joinToString { it.varn.removePrefix("varn.status_") }
+                player.mes("Unknown status effect '$name'. Choose from: $names")
+                return
+            }
+            val ticks = args.getOrNull(1)?.toIntOrNull() ?: NpcStatusEffects.PERMANENT
+            val npc =
+                npcRepo
+                    .findAll(ZoneKey.from(player.coords), zoneRadius = 1)
+                    .minByOrNull { it.coords.chebyshevDistance(player.coords) }
+            if (npc == null) {
+                player.mes("There is no npc nearby.")
+                return
+            }
+            NpcStatusEffects.apply(npc, type, ticks)
+            player.mes(
+                "Applied $name to ${npc.name} " +
+                    "(poison hits x${NpcStatusEffects.poisonHits(npc)}, " +
+                    "poison damage taken " +
+                    "+${NpcStatusEffects.total(npc, StatusStat.PoisonDamageTakenPercent)}%)."
             )
         }
 

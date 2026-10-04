@@ -2,6 +2,7 @@ package org.rsmod.api.mechanics.toxins.impl
 
 import org.rsmod.api.config.refs.done.hitmark_groups
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.mechanics.status.NpcStatusEffects
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.npc.vars.typePlayerUidVarn
@@ -64,6 +65,11 @@ public object NpcPoison {
     }
 
     private fun queuePoisonHit(npc: Npc, damage: Int, source: Player?) {
+        val scaled = NpcStatusEffects.poisonDamage(npc, damage)
+        repeat(NpcStatusEffects.poisonHits(npc)) { queueScaledPoisonHit(npc, scaled, source) }
+    }
+
+    private fun queueScaledPoisonHit(npc: Npc, damage: Int, source: Player?) {
         if (source != null) {
             npc.queueHit(
                 source = source,

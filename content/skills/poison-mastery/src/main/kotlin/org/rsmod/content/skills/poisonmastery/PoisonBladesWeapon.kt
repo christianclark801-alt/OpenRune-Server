@@ -6,23 +6,28 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.player.output.CamShakeAxis
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.random.GameRandom
 import org.rsmod.api.weapons.MeleeWeapon
 import org.rsmod.api.weapons.WeaponAttackManager
 import org.rsmod.api.weapons.WeaponMap
 import org.rsmod.api.weapons.WeaponRepository
+import org.rsmod.content.other.soulforge.PoisonBladesForge
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.queue.WorldQueueList
 
-class PoisonBladesWeapon @Inject constructor(private val worldQueues: WorldQueueList) : WeaponMap {
+class PoisonBladesWeapon
+@Inject
+constructor(private val worldQueues: WorldQueueList, private val random: GameRandom) : WeaponMap {
     override fun WeaponRepository.register(manager: WeaponAttackManager) {
-        register("obj.poison_blades", PoisonBlades(manager, worldQueues))
+        register("obj.poison_blades", PoisonBlades(manager, worldQueues, random))
     }
 
     private class PoisonBlades(
         private val manager: WeaponAttackManager,
         private val worldQueues: WorldQueueList,
+        private val random: GameRandom,
     ) : MeleeWeapon {
         override suspend fun ProtectedAccess.attack(
             target: Npc,
@@ -30,6 +35,9 @@ class PoisonBladesWeapon @Inject constructor(private val worldQueues: WorldQueue
         ): Boolean {
             playAttackFx(attack)
             val totalDamage = rollAndQueueHits(target, attack)
+            if (totalDamage > 0) {
+                PoisonBladesVenom.roll(PoisonBladesForge.tier(attack.weapon), player, target, random)
+            }
             manager.giveCombatXp(this, target, attack, totalDamage)
             manager.continueCombat(this, target)
             return true

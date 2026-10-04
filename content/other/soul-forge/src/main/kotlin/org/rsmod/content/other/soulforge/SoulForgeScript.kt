@@ -88,7 +88,7 @@ constructor(
 
     override fun ScriptContext.startup() {
         WornBonusModifiers.perObj = { obj, type ->
-            if (HolyWaterForge.isHolyWater(type)) {
+            if (SpecialForges.of(type) != null) {
                 null
             } else {
                 SoulForgeLevels.bonusFor(
@@ -134,8 +134,9 @@ constructor(
             return
         }
         val type = getInvObj(obj)
-        if (HolyWaterForge.isHolyWater(type)) {
-            forgeHolyWater(slot, obj, type)
+        val special = SpecialForges.of(type)
+        if (special != null) {
+            forgeSpecial(slot, obj, type, special)
             redraw()
             return
         }
@@ -161,17 +162,24 @@ constructor(
         redraw()
     }
 
-    private fun ProtectedAccess.forgeHolyWater(slot: Int, obj: InvObj, type: ItemServerType) {
-        val tier = HolyWaterForge.tier(obj)
-        if (tier >= HolyWaterForge.MAX_TIER) {
+    private fun ProtectedAccess.forgeSpecial(
+        slot: Int,
+        obj: InvObj,
+        type: ItemServerType,
+        forge: SpecialForge,
+    ) {
+        val tier = forge.tier(obj)
+        if (tier >= forge.maxTier) {
             ifSetText(STATUS, "<col=ff0000>${type.name} is already fully forged.</col>")
             return
         }
-        if (invDel(player.inv, SOUL_ESSENCE, HolyWaterForge.COST).failure) {
-            ifSetText(
-                STATUS,
-                "<col=ff0000>You need ${HolyWaterForge.COST} soul essence for this.</col>",
-            )
+        if (invDel(player.inv, SOUL_ESSENCE, forge.cost).failure) {
+            ifSetText(STATUS, "<col=ff0000>You need ${forge.cost} soul essence for this.</col>")
+            return
+        }
+        if (random.of(100) >= forge.chance) {
+            ifSetText(STATUS, "<col=ff0000>The souls resist. ${type.name} stays +$tier.</col>")
+            mes("<col=ff0000>The forge fails and the soul essence is lost.</col>")
             return
         }
         val newTier = tier + 1
@@ -191,8 +199,9 @@ constructor(
             return
         }
         val type = getInvObj(obj)
-        if (HolyWaterForge.isHolyWater(type)) {
-            drawHolyWater(obj, type, have)
+        val special = SpecialForges.of(type)
+        if (special != null) {
+            drawSpecial(obj, type, special, have)
             return
         }
         val level = SoulForgeLevels.level(obj.vars)
@@ -223,13 +232,18 @@ constructor(
         drawIcons(obj, next.cost / SoulForgeLevels.ESSENCE_PER_WELL)
     }
 
-    private fun ProtectedAccess.drawHolyWater(obj: InvObj, type: ItemServerType, have: Int) {
-        val tier = HolyWaterForge.tier(obj)
+    private fun ProtectedAccess.drawSpecial(
+        obj: InvObj,
+        type: ItemServerType,
+        forge: SpecialForge,
+        have: Int,
+    ) {
+        val tier = forge.tier(obj)
         ifSetText(ITEM_NAME, type.name)
         ifSetText(ITEM_LEVEL, "Forge level: +$tier")
-        ifSetText(ITEM_BONUS, HolyWaterForge.describe(tier))
+        ifSetText(ITEM_BONUS, forge.describe(tier))
 
-        if (tier >= HolyWaterForge.MAX_TIER) {
+        if (tier >= forge.maxTier) {
             ifSetText(ESSENCE_COST, "Fully forged")
             ifSetText(ESSENCE_HAVE, "You have: $have")
             ifSetText(CHANCE, "MAX")
@@ -237,11 +251,11 @@ constructor(
             drawIcons(obj, WELL_COUNT)
             return
         }
-        val haveColour = if (have >= HolyWaterForge.COST) "ffffff" else "ff0000"
-        ifSetText(ESSENCE_COST, "Cost: ${HolyWaterForge.COST} soul essence")
+        val haveColour = if (have >= forge.cost) "ffffff" else "ff0000"
+        ifSetText(ESSENCE_COST, "Cost: ${forge.cost} soul essence")
         ifSetText(ESSENCE_HAVE, "You have: <col=$haveColour>$have</col>")
-        ifSetText(CHANCE, "${HolyWaterForge.CHANCE}%")
-        ifSetText(NEXT_BONUS, "Next: +${tier + 1}<br>${HolyWaterForge.describe(tier + 1)}")
+        ifSetText(CHANCE, "${forge.chance}%")
+        ifSetText(NEXT_BONUS, "Next: +${tier + 1}<br>${forge.describe(tier + 1)}")
         drawIcons(obj, WELL_COUNT)
     }
 
@@ -268,7 +282,7 @@ constructor(
     }
 
     private fun ItemServerType.isForgeable(): Boolean =
-        !isStackable || HolyWaterForge.isHolyWater(this)
+        !isStackable || SpecialForges.of(this) != null
 
     private fun spawnForge() {
         runCatching {

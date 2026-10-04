@@ -11,6 +11,7 @@ dependencies {
     implementation(projects.api.registry)
     implementation(projects.api.db)
     implementation(projects.api.dbGateway)
+    implementation(projects.api.mechanics.statusEffects)
     implementation(projects.api.mechanics.toxins)
     implementation(projects.api.pluginCommons)
     implementation(projects.api.spellsAutocast)

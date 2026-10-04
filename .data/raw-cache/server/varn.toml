@@ -156,3 +156,12 @@ id = "varn.td_defenceless_at"
 
 [[varn]]
 id = "varn.goblin_cook_tasting"
+
+[[varn]]
+id = "varn.status_toxic_mark"
+
+[[varn]]
+id = "varn.status_toxic_shroud"
+
+[[varn]]
+id = "varn.status_poison_weakness"
