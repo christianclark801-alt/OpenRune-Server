@@ -159,6 +159,15 @@ constructor(
             )
         val result = deathDrops.selectDrops(carried, rules, handling)
 
+        if (handling.keepAll) {
+            invMoveAll(keptInventory, result.kept.take(keptInventory.size))
+            mes("You keep all of your items when you die to a monster.")
+            for (i in dataInventory.indices) {
+                dataInventory[i] = convertToDataObj(null)
+            }
+            return DeathInventory(keptInventory, lostInventory, dataInventory)
+        }
+
         val neverKept = carried.filter { deathDrops.isNeverKept(it, rules) }
         val lost =
             buildList {

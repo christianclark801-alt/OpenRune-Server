@@ -37,6 +37,7 @@ public data class PlayerDeathHandling(
     val revealDelay: Int,
     val supplyPile: Boolean,
     val untradeableHandling: UntradeableHandling,
+    val keepAll: Boolean = false,
 )
 
 public enum class UntradeableHandling {

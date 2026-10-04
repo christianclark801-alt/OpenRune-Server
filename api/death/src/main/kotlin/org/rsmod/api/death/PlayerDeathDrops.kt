@@ -43,6 +43,16 @@ constructor(
     ): DeathDropResult {
         val allCarried = carried.sortedByDescending { marketPriceSingle(it) }
 
+        if (handling.keepAll) {
+            return DeathDropResult(
+                kept = allCarried,
+                supplyPile = emptyList(),
+                lostTradeable = emptyList(),
+                lostUntradeable = emptyList(),
+                coinsForKiller = 0L,
+            )
+        }
+
         if (rules.isUIM) {
             return selectUimDrops(allCarried, handling, rules)
         }

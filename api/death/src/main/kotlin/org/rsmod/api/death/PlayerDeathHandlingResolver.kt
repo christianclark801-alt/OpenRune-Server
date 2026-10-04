@@ -13,6 +13,7 @@ constructor(
     private val hooks: Set<PlayerDeathHook>,
 ) {
     public fun resolve(context: PlayerDeathContext): PlayerDeathHandling {
+        if (!context.isPvpDeath) return defaultHandling(context).copy(keepAll = true)
         for (hook in hooks) {
             val handling = hook.handleDeath(context)
             if (handling != null) return handling

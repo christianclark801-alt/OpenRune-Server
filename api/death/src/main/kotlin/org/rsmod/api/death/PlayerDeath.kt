@@ -90,6 +90,11 @@ constructor(
 
         val context = buildContext(player, deathCoords, killer)
         val handling = handlingResolver.resolve(context)
+        if (handling.keepAll) {
+            player.attr.remove(DEATH_KILLER_ATTR)
+            player.attr.remove(DEATH_CAUSE_ATTR)
+            return
+        }
 
         val result = drops.selectDrops(player, context, handling)
         drops.applyDrops(player, result, handling, deathCoords)
