@@ -1,0 +1,6 @@
+[[item]]
+id = "obj.poison_blades"
+inherit = "obj.dual_macuahuitl"
+name = "Poison Blades"
+inventoryModel = "models.poison_blades"
+examine = "Twin blades slick with a venom that never seems to dry."

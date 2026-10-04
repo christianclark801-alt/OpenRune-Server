@@ -1,2 +1,8 @@
 [gamevals.enum]
 stat_names = 108
+
+[gamevals.obj]
+poison_blades = 63520
+
+[gamevals.models]
+poison_blades = 60537
