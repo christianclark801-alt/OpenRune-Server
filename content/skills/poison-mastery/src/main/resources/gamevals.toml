@@ -3,12 +3,16 @@ stat_names = 108
 
 [gamevals.obj]
 poison_blades = 63460
+venomfang_helm = 63462
 
 [gamevals.models]
 poison_blades = 60537
 poison_blades_worn = 60538
 poison_blades_attack_fx = 62100
 poison_blades_idle_fx = 62101
+venomfang_helm = 62102
+venomfang_helm_worn = 62103
+venomfang_helm_worn_female = 62104
 
 [gamevals.seq]
 poison_blades_attack = 16005

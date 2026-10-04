@@ -318,9 +318,13 @@ def collect_collection(collection_name, flat_shading=False, merge_vertices=True)
     return model
 
 
-def export_collection(collection_name, out_path, flat_shading=False, merge_vertices=True):
+def export_collection(collection_name, out_path, flat_shading=False, merge_vertices=True,
+                      priority=0):
+    """``priority`` is the model's face render priority. Worn models are merged into the player
+    and drawn in priority order, so they need vanilla-like values (helms 7, weapons 10) or the
+    body paints over them."""
     model = collect_collection(collection_name, flat_shading, merge_vertices)
-    data = encode_model(model)
+    data = encode_model(model, priority)
     with open(out_path, "wb") as handle:
         handle.write(data)
 

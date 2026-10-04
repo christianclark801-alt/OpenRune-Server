@@ -17,8 +17,8 @@ object HolyWaterForge : SpecialForge {
 
     override fun describe(tier: Int): String =
         when (tier) {
-            0 -> "Poison 4 x4"
-            1 -> "Poison 8 x4"
-            else -> "Venom 8 x4, +2 per hit"
+            0 -> "Poison 4"
+            1 -> "Poison 8"
+            else -> "Venom 8, +2 per hit"
         }
 }

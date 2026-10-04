@@ -76,9 +76,9 @@ object HolyWaterPoison {
         val hitmark = if (venom) hitmark_groups.venom else hitmark_groups.poison_damage
         val scaled =
             if (venom) {
-                NpcStatusEffects.venomDamage(npc, damage)
+                NpcStatusEffects.venomDamage(npc, damage, source)
             } else {
-                NpcStatusEffects.poisonDamage(npc, damage)
+                NpcStatusEffects.poisonDamage(npc, damage, source)
             }
         repeat(NpcStatusEffects.poisonHits(npc)) {
             if (source != null) {

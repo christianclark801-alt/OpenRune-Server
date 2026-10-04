@@ -40,7 +40,7 @@ internal object PoisonBladesVenom {
         if (random.of(100) >= POISON_CHANCE || NpcPoison.isImmune(npc)) {
             return
         }
-        val damage = NpcStatusEffects.poisonDamage(npc, POISON_DAMAGE)
+        val damage = NpcStatusEffects.poisonDamage(npc, POISON_DAMAGE, source)
         hit(source, npc, FIRST_HIT_DELAY, damage, hitmark_groups.poison_damage)
         hit(source, npc, FIRST_HIT_DELAY + FADE_DELAY, damage, hitmark_groups.poison_damage)
         source.mes("Your blades poison the target!", ChatType.Spam)
@@ -50,7 +50,7 @@ internal object PoisonBladesVenom {
         if (random.of(100) >= VENOM_CHANCE || isVenomImmune(npc)) {
             return
         }
-        val damage = NpcStatusEffects.venomDamage(npc, random.of(VENOM_DAMAGE))
+        val damage = NpcStatusEffects.venomDamage(npc, random.of(VENOM_DAMAGE), source)
         hit(source, npc, FIRST_HIT_DELAY + FADE_DELAY, damage, hitmark_groups.venom)
         source.mes("Venom seeps into the wound...", ChatType.Spam)
     }

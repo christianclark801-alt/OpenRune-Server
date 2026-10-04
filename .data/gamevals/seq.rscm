@@ -3,3 +3,7 @@ broodmother_walk=16001
 broodmother_attack=16002
 broodmother_defend=16003
 broodmother_death=16004
+poison_blades_attack=16005
+poison_blades_attack_fx=16006
+poison_blades_idle=16007
+poison_blades_idle_fx=16008

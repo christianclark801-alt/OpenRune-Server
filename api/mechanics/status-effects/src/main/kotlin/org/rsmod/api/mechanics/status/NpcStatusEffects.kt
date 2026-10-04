@@ -2,6 +2,7 @@ package org.rsmod.api.mechanics.status
 
 import org.rsmod.api.config.refs.params
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 
 public object NpcStatusEffects {
     public const val PERMANENT: Int = Int.MAX_VALUE
@@ -26,11 +27,19 @@ public object NpcStatusEffects {
 
     public fun poisonHits(npc: Npc): Int = 1 + total(npc, StatusStat.PoisonHitsPerTick)
 
-    public fun poisonDamage(npc: Npc, base: Int): Int =
-        scale(base, total(npc, StatusStat.PoisonDamageTakenPercent))
+    public fun poisonDamage(npc: Npc, base: Int, source: Player? = null): Int =
+        scale(
+            base,
+            total(npc, StatusStat.PoisonDamageTakenPercent) +
+                PoisonGearBonus.damageDealtPercent(source),
+        )
 
-    public fun venomDamage(npc: Npc, base: Int): Int =
-        scale(base, total(npc, StatusStat.VenomDamageTakenPercent))
+    public fun venomDamage(npc: Npc, base: Int, source: Player? = null): Int =
+        scale(
+            base,
+            total(npc, StatusStat.VenomDamageTakenPercent) +
+                PoisonGearBonus.damageDealtPercent(source),
+        )
 
     private fun innate(npc: Npc, stat: StatusStat): Int =
         when (stat) {

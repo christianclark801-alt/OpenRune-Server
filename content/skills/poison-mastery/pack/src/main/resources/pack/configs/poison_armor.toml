@@ -1,0 +1,16 @@
+[[item]]
+id = "obj.venomfang_helm"
+inherit = "obj.serpentine_helm_charged"
+name = "Venomfang helm"
+inventoryModel = "models.venomfang_helm"
+maleModel0 = "models.venomfang_helm_worn"
+femaleModel0 = "models.venomfang_helm_worn_female"
+examine = "Fangs of steel drip with a venom that never runs dry."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.poison_damage_dealt" = 10
+"param.poison_armour_set" = 1

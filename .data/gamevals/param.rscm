@@ -335,3 +335,5 @@ slayer_task_tip=65527
 slayer_superior=65521
 available_in_wilderness=65522
 npc_poison_damage_taken=65600
+poison_damage_dealt=65601
+poison_armour_set=65602

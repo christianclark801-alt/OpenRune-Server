@@ -27,6 +27,7 @@ HAND_HEIGHT = 100 / 128
 HAND_SPREAD = 31 / 128
 RIGHT_HAND_LABEL = 27
 LEFT_HAND_LABEL = 28
+WEAPON_PRIORITY = 10
 
 
 def hand_matrix(index):
@@ -73,7 +74,8 @@ if __name__ == "__main__":
 
         dat_path = os.path.abspath(args[1])
         os.makedirs(os.path.dirname(dat_path), exist_ok=True)
-        osrs_model_export.export_collection(COLLECTION, dat_path, merge_vertices=False)
+        osrs_model_export.export_collection(COLLECTION, dat_path, merge_vertices=False,
+                                            priority=WEAPON_PRIORITY)
     if len(args) > 2:
         parts.COLLECTION = COLLECTION
         parts.render_preview(args[2])

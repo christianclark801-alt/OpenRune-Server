@@ -879,3 +879,17 @@ isServerOnly = true
 type = "INT"
 defaultInt = 0
 isMembers = true
+
+[[params]]
+id = "param.poison_damage_dealt"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.poison_armour_set"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
