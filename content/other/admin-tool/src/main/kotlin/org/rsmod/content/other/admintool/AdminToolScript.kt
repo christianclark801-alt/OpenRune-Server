@@ -15,6 +15,7 @@ import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onOpHeld5
 import org.rsmod.api.script.onPlayerSoftTimer
+import org.rsmod.content.other.admintool.world.WorldTools
 import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
@@ -26,7 +27,7 @@ private const val LIST = "component.admin_tool:list"
 private const val STATUS = "component.admin_tool:status"
 private const val RUN_TIMER = "timer.admin_tool_run"
 
-private const val TAB_SLOTS = 5
+private const val TAB_SLOTS = 6
 private const val BUTTON_COMSUBS = 5
 
 private const val LIST_W = 470
@@ -41,7 +42,9 @@ private var Player.adminToolTab by intVarBit("varbit.admin_tool_tab")
 private val Player.isAdmin: Boolean
     get() = modLevel.isAtLeast(Rights.ADMINISTRATOR)
 
-class AdminToolScript @Inject constructor(private val commands: CheatCommandMap) : PluginScript() {
+class AdminToolScript
+@Inject
+constructor(private val commands: CheatCommandMap, private val worldTools: WorldTools) : PluginScript() {
     private class PendingCommand(val command: String, val args: List<String>)
 
     private val pending = WeakHashMap<Player, PendingCommand>()
@@ -114,6 +117,10 @@ class AdminToolScript @Inject constructor(private val commands: CheatCommandMap)
     private suspend fun ProtectedAccess.run(entry: AdminToolEntry) {
         if (!player.isAdmin) {
             ifClose()
+            return
+        }
+        if (entry.action != null) {
+            worldTools.run(this, entry.action)
             return
         }
         if (entry.confirm) {

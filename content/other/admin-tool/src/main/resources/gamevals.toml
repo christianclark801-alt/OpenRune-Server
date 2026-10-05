@@ -1,6 +1,9 @@
 [gamevals.obj]
 admin_tool = 63480
 
+[gamevals.loc]
+admin_portal = 63100
+
 [gamevals.interface]
 admin_tool = 1107
 

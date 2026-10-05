@@ -15,6 +15,7 @@ import org.rsmod.api.account.loader.request.AccountLoadCallback
 import org.rsmod.api.account.loader.request.AccountLoadResponse
 import org.rsmod.api.account.loader.request.isNewAccount
 import org.rsmod.api.attr.AttributeKey
+import org.rsmod.api.config.HomeCoord
 import org.rsmod.api.db.jdbc.GameDatabase
 import org.rsmod.api.net.central.CentralAuthResult
 import org.rsmod.api.net.central.InflightCentralAuth
@@ -301,12 +302,12 @@ class AccountLoadResponseHook(
 
     private fun Player.applyConfigTransforms(config: RealmConfig) {
         if (!newAccount) {
-            val hasExit = attr[LOGIN_EXIT_COORD]
-            if (hasExit != null) {
-                coords = CoordGrid(hasExit)
-                attr.remove(LOGIN_EXIT_COORD)
+            val loggedOutInInstance = attr[LOGIN_EXIT_COORD] != null
+            attr.remove(LOGIN_EXIT_COORD)
+            if (loggedOutInInstance) {
+                coords = HomeCoord
             }
-            recoverAbandonedInstance(config.spawnCoord)
+            recoverAbandonedInstance(HomeCoord)
             return
         }
 
@@ -552,8 +553,8 @@ class AccountLoadResponseHook(
     }
 }
 
-internal fun Player.recoverAbandonedInstance(spawn: CoordGrid) {
+internal fun Player.recoverAbandonedInstance(home: CoordGrid) {
     if (coords in RegionRegistry.workingAreaSmall || coords in RegionRegistry.workingAreaLarge) {
-        coords = spawn
+        coords = home
     }
 }

@@ -16,43 +16,43 @@ name = "tab0"
 type = "layer"
 x = 10
 y = 40
-width = 94
+width = 78
 height = 20
 options = ["View"]
 
 [[component]]
 name = "tab1"
 type = "layer"
-x = 109
+x = 92
 y = 40
-width = 94
+width = 78
 height = 20
 options = ["View"]
 
 [[component]]
 name = "tab2"
 type = "layer"
-x = 208
+x = 174
 y = 40
-width = 94
+width = 78
 height = 20
 options = ["View"]
 
 [[component]]
 name = "tab3"
 type = "layer"
-x = 307
+x = 256
 y = 40
-width = 94
+width = 78
 height = 20
 options = ["View"]
 
 [[component]]
 name = "tab4"
 type = "layer"
-x = 406
+x = 338
 y = 40
-width = 94
+width = 78
 height = 20
 options = ["View"]
 
@@ -93,3 +93,12 @@ v_align = "center"
 text_shadow = true
 color = "#9F9F9F"
 text = "Select a command to run it."
+
+[[component]]
+name = "tab5"
+type = "layer"
+x = 420
+y = 40
+width = 78
+height = 20
+options = ["View"]

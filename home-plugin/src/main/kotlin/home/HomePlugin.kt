@@ -5,6 +5,7 @@ import dev.openrune.rscm.RSCMType
 import dev.or2.central.account.Rights
 import jakarta.inject.Inject
 import org.rsmod.api.area.checker.AreaChecker
+import org.rsmod.api.config.HomeCoord
 import org.rsmod.api.player.hook.PlayerTeleportValidator
 import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.output.ChatType
@@ -12,7 +13,6 @@ import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.script.onCommand
-import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -71,6 +71,5 @@ constructor(
         const val SpotanimHeight = 92
         const val TeleportDelay = 4
         const val TeleportActionDelay = 5
-        val HomeCoord = CoordGrid(0, 59, 40, 14, 8)
     }
 }

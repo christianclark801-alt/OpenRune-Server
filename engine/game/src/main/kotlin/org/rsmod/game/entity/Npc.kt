@@ -84,6 +84,9 @@ public class Npc(
     public var respawnDir: Direction = type.respawnDir
     public var respawns: Boolean = false
 
+    /** Ticks this npc waits to respawn after dying; [type]'s respawn rate when not positive. */
+    public var respawnTicks: Int = 0
+
     public var mode: NpcMode? = type.defaultMode
 
     /**

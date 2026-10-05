@@ -160,7 +160,8 @@ public suspend fun StandardNpcAccess.death(npcRepo: NpcRepository, players: Play
     delay(deathAnim)
 
     if (npc.respawns) {
-        npcRepo.despawn(npc, npc.type.respawnRate)
+        val delay = if (npc.respawnTicks > 0) npc.respawnTicks else npc.type.respawnRate
+        npcRepo.despawn(npc, delay)
         return
     }
 

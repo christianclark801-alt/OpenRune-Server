@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.misc.user.MoveGameClick
 import org.rsmod.api.net.rsprot.player.modLevelTeleMoveSpeed
 import org.rsmod.api.net.rsprot.player.protectedTelejump
+import org.rsmod.api.player.input.TileTargets
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.vars.ctrlMoveSpeed
@@ -21,9 +22,14 @@ constructor(
     private val realm: Realm,
     private val eventBus: EventBus,
     private val collision: CollisionFlagMap,
+    private val tileTargets: TileTargets,
 ) : MessageHandler<MoveGameClick> {
     override fun handle(player: Player, message: MoveGameClick) {
         if (player.vars["varbit.cutscene_status"] != 0) {
+            player.clearMapFlag()
+            return
+        }
+        if (tileTargets.consume(player, CoordGrid(message.x, message.z, player.level))) {
             player.clearMapFlag()
             return
         }

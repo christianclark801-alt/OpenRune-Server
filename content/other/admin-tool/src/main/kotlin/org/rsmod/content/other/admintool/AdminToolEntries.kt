@@ -1,11 +1,14 @@
 package org.rsmod.content.other.admintool
 
+import org.rsmod.content.other.admintool.world.WorldAction
+
 enum class AdminToolCategory(val label: String) {
     Teleport("Teleport"),
     Spawn("Spawn"),
     Player("Player"),
     Debug("Debug"),
     Server("Server"),
+    World("World"),
 }
 
 /**
@@ -17,6 +20,7 @@ enum class AdminToolCategory(val label: String) {
  * @param argsPrompt when set, the player is asked for extra arguments with this prompt; they are
  *   appended after [args].
  * @param confirm asks "are you sure?" before running.
+ * @param action runs a World tab tool instead of a command.
  */
 data class AdminToolEntry(
     val label: String,
@@ -25,10 +29,12 @@ data class AdminToolEntry(
     val args: List<String> = emptyList(),
     val argsPrompt: String? = null,
     val confirm: Boolean = false,
+    val action: WorldAction? = null,
 ) {
     val hint: String
         get() =
-            buildString {
+            if (action != null) label
+            else buildString {
                 append("::").append(command)
                 args.forEach { append(' ').append(it) }
                 if (argsPrompt != null) append(" ...")
@@ -84,4 +90,25 @@ val ADMIN_TOOL_ENTRIES: List<AdminToolEntry> =
         AdminToolEntry("Load plugin", "loadplugin", AdminToolCategory.Server, argsPrompt = "Enter plugin name:"),
         AdminToolEntry("Reboot timer", "slowreboot", AdminToolCategory.Server, argsPrompt = "Enter cycles (0 cancels):"),
         AdminToolEntry("Reboot now", "reboot", AdminToolCategory.Server, confirm = true),
+        world("Copy 30x30 here", WorldAction.Copy30),
+        world("Copy 50x50 here", WorldAction.Copy50),
+        world("Copy size here", WorldAction.CopyAroundMe),
+        world("Copy by corners", WorldAction.CopySection),
+        world("Create area", WorldAction.CreateArea),
+        world("Paste section", WorldAction.PasteSection),
+        world("Visit area", WorldAction.VisitArea),
+        world("Set area arrival", WorldAction.SetArrival),
+        world("Delete area", WorldAction.DeleteArea),
+        world("Teleports", WorldAction.Teleports),
+        world("Set teleport here", WorldAction.SetTeleport),
+        world("Delete teleport", WorldAction.DeleteTeleport),
+        world("Select object", WorldAction.SelectObject),
+        world("Spawn portal", WorldAction.SpawnPortal),
+        world("Spawn object", WorldAction.SpawnObject),
+        world("Spawn npcs", WorldAction.SpawnNpcs),
+        world("Remove npcs", WorldAction.RemoveNpcs),
+        world("Cancel pick", WorldAction.CancelPick),
     )
+
+private fun world(label: String, action: WorldAction): AdminToolEntry =
+    AdminToolEntry(label, command = "", category = AdminToolCategory.World, action = action)
