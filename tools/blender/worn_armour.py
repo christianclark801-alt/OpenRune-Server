@@ -211,6 +211,19 @@ def new_collection(name):
     return collection
 
 
+def build_anchors(collection, points, priority):
+    """The client only keeps vertices a face references when it merges worn models, so each
+    pivot anchor is three coincident vertices joined by a zero-area triangle: kept, never
+    drawn, and folded back into one vertex by the client's position sharing."""
+    verts, faces, labels = [], [], []
+    for point, label in points:
+        faces.append(tuple(range(len(verts), len(verts) + 3)))
+        verts += [point] * 3
+        labels += [label] * 3
+    make_object(collection, "Anchors", verts, faces, [OBSIDIAN_EDGE_HSL] * len(faces),
+                [priority] * len(faces), labels, False)
+
+
 def build_variant(name, part_list, rig, variant, pose=None, max_triangles=None, anchors=True):
     """``variant`` is "male", "female" or "inventory"; inventory parts go through ``pose``.
     Only one model per slot should carry the pivot ``anchors``."""
@@ -232,9 +245,10 @@ def build_variant(name, part_list, rig, variant, pose=None, max_triangles=None, 
     if anchors and variant != "inventory":
         points = rig.male_anchors if variant == "male" else rig.female_anchors
         if points:
-            make_object(collection, "Anchors", [p for p, _ in points], [], [], [],
-                        [label for _, label in points], False)
-    total = parts.triangles([o for o in collection.all_objects if o.name != "Anchors"])
+            lowest = min(p for part in part_list for p in part.priorities)
+            build_anchors(collection, points, lowest)
+    total = parts.triangles([o for o in collection.all_objects
+                             if not o.name.startswith("Anchors")])
     if max_triangles is not None:
         assert total <= max_triangles, f"{name}: {total} triangles exceeds {max_triangles}"
     print(f"Built {name}: {len(collection.all_objects)} objects, {total} triangles")
@@ -317,5 +331,9 @@ def export(models, out_dir, priority):
 
     os.makedirs(out_dir, exist_ok=True)
     for collection_name, file_name in models:
-        osrs_model_export.export_collection(collection_name, os.path.join(out_dir, file_name),
-                                            merge_vertices=False, priority=priority)
+        model = osrs_model_export.export_collection(
+            collection_name, os.path.join(out_dir, file_name), merge_vertices=False,
+            priority=priority)
+        used = {i for face in model.faces for i in face}
+        unused = len(model.vertices) - len(used)
+        assert not unused, f"{file_name}: {unused} vertices no face uses; the client drops them"

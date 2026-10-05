@@ -53,8 +53,8 @@ FOOT_SHOULDER_DROP = 1.5
 
 CLAWS = (
     # base centre, base half width, mid (fwd, centre, half width, top), tip (fwd, lateral)
-    (3.2, 3.0, (16.5, 3.8, 2.1, 0.8), (21.0, 3.4)),
-    (-2.9, 2.9, (16.5, -3.0, 2.1, 1.0), (22.0, -2.2)),
+    (3.2, 3.0, (15.0, 3.8, 2.1, 0.8), (19.0, 3.4)),
+    (-2.9, 2.9, (15.0, -3.0, 2.1, 1.0), (19.5, -2.2)),
 )
 CLAW_BASE_FWD = 10.5
 CLAW_BASE_TOP = 2.5
@@ -72,7 +72,7 @@ BARBS = (
 BARB_STEPS = 3
 
 VAPOUR_UP = GROUND + 0.3
-VAPOUR_REACH = 3.5
+VAPOUR_REACH = 1.5
 VAPOUR_ALPHA = 150
 VAPOUR_PRIORITY = 0
 
@@ -202,7 +202,7 @@ def sole_outline():
     heel = [(fwd, half) for fwd, half, _ in FOOT_STATIONS]
     outer_claw, inner_claw = CLAWS
     return ([(-9.5, 0.0)]
-            + heel + [(outer_claw[3][0], outer_claw[3][1] + 1.0), (14.5, 0.3),
+            + heel + [(outer_claw[3][0], outer_claw[3][1] + 1.0), (13.5, 0.3),
                       (inner_claw[3][0], inner_claw[3][1] - 1.0)]
             + [(fwd, -half) for fwd, half, _ in reversed(FOOT_STATIONS)])
 

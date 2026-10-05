@@ -66,9 +66,13 @@ class RsModel:
 
 
 def load_reference_model(*paths):
-    """Merges models into one RsModel: ``.json`` dumps from ``gradlew dumpAnimReference`` and
-    our own exported ``.dat`` files, e.g. a player's body kits plus a custom worn weapon."""
+    """Merges models into one RsModel the way the client builds a player: ``.json`` dumps from
+    ``gradlew dumpAnimReference`` and our own exported ``.dat`` files, e.g. body kits plus worn
+    items. Like the client's ModelData merge, only vertices referenced by a face are copied and
+    vertices at the same position are shared (the first one's label wins), so loose vertices
+    never reach the animation maths."""
     model = RsModel()
+    shared = {}
     for path in paths:
         if path.endswith(".dat"):
             with open(path, "rb") as handle:
@@ -81,10 +85,17 @@ def load_reference_model(*paths):
                 [tuple(v) for v in data["vertices"]], data["labels"], [tuple(f) for f in faces],
                 data["colors"], data["alphas"], data["faceLabels"], [0] * len(faces),
             )
-        base = len(model.vertices)
-        model.vertices += part.vertices
-        model.vertex_labels += part.vertex_labels or [0] * len(part.vertices)
-        model.faces += [tuple(i + base for i in face) for face in part.faces]
+        labels = part.vertex_labels or [0] * len(part.vertices)
+
+        def copy(index):
+            position = tuple(part.vertices[index])
+            if position not in shared:
+                shared[position] = len(model.vertices)
+                model.vertices.append(position)
+                model.vertex_labels.append(labels[index])
+            return shared[position]
+
+        model.faces += [tuple(copy(i) for i in face) for face in part.faces]
         model.colors += part.colors
         model.alphas += part.alphas or [0] * len(part.faces)
         model.face_labels += part.face_labels or [0] * len(part.faces)
