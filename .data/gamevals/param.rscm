@@ -338,3 +338,4 @@ npc_poison_damage_taken=65600
 poison_damage_dealt=65601
 poison_armour_set=65602
 poison_extra_hits=65603
+lich_armour_set=65604

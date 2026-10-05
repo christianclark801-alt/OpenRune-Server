@@ -38,8 +38,9 @@ PIVOT_FOLLOWERS = {
     29: 30, 40: 43, 42: 44, 35: 43, 34: 44, 37: 38, 31: 32,
     47: 38, 48: 32,
     27: 200, 28: 194,
+    10: 8, 9: 11, 14: 16, 13: 15,
 }
-PIVOT_LABELS = frozenset(PIVOT_FOLLOWERS) - {94} | {0}
+PIVOT_LABELS = frozenset(PIVOT_FOLLOWERS) - {94} | {0, 3}
 
 CHITIN_HSL = hsl(24, 3, 30)
 CHITIN_LOW_HSL = hsl(24, 3, 22)
@@ -53,6 +54,13 @@ VENOM_HSL = hsl(21, 7, 82)
 VENOM_DIM_HSL = hsl(21, 7, 52)
 TOXIC_HSL = hsl(50, 5, 48)
 TOXIC_DARK_HSL = hsl(50, 5, 30)
+BONE_HSL = hsl(8, 2, 104)
+BONE_SHADOW_HSL = hsl(8, 2, 76)
+NECROTIC_HSL = hsl(19, 7, 92)
+NECROTIC_DIM_HSL = hsl(19, 6, 56)
+SHROUD_HSL = hsl(50, 1, 22)
+SHROUD_EDGE_HSL = hsl(50, 1, 13)
+SHADOW_HSL = hsl(0, 0, 3)
 
 
 def load_ref(name):
@@ -64,8 +72,9 @@ def load_ref(name):
 
 class Part:
     """One mesh piece: faces wound outward, one colour and priority per face, and ``allowed``
-    restricting which reference labels its vertices may take (``None`` = any). ``worn_only``
-    parts are left out of the inventory model."""
+    restricting which reference labels its vertices may take (``None`` = any). ``fixed`` maps a
+    vertex index to a label that skips the transfer. ``worn_only`` parts are left out of the
+    inventory model."""
 
     def __init__(self, name, priority, allowed=None, worn_only=False):
         self.name = name
@@ -77,13 +86,15 @@ class Part:
         self.colors = []
         self.priorities = []
         self.alphas = []
+        self.emissive = []
+        self.fixed = {}
         self.closed = False
 
     def vert(self, point):
         self.verts.append(tuple(point))
         return len(self.verts) - 1
 
-    def face(self, indices, color, priority=None, outward=None, alpha=0):
+    def face(self, indices, color, priority=None, outward=None, alpha=0, emissive=False):
         """``outward`` is a point the face must turn away from; without it the winding is
         kept, or fixed later for closed parts."""
         if outward is not None:
@@ -96,18 +107,23 @@ class Part:
         self.colors.append(color)
         self.priorities.append(self.priority if priority is None else priority)
         self.alphas.append(alpha)
+        self.emissive.append(emissive)
 
 
 class Rig:
     """Label transfer and female warp for one armour slot."""
 
-    def __init__(self, male_refs, female_refs, male_anchor_refs, female_anchor_refs):
+    def __init__(self, male_refs, female_refs, male_anchor_refs, female_anchor_refs,
+                 anchor_labels=PIVOT_LABELS):
+        """``anchor_labels`` can add non-pivot labels whose vanilla vertices must still be
+        copied, e.g. a hat's neck ring, which takes over the torso's neck vertices when the
+        client shares equal positions."""
         self.male = [v for name in male_refs for v in load_ref(name) if v[1] != 0]
         self.female = [v for name in female_refs for v in load_ref(name) if v[1] != 0]
         self.male_anchors = [v for name in male_anchor_refs for v in load_ref(name)
-                             if v[1] in PIVOT_LABELS]
+                             if v[1] in anchor_labels]
         self.female_anchors = [v for name in female_anchor_refs for v in load_ref(name)
-                               if v[1] in PIVOT_LABELS]
+                               if v[1] in anchor_labels]
         self.fits = self._fit_labels()
 
     def _fit_labels(self):
@@ -169,7 +185,8 @@ def place(point):
     return Vector(tuple(c / UNITS for c in point))
 
 
-def make_object(collection, name, verts, faces, colors, priorities, labels, closed, alphas=()):
+def make_object(collection, name, verts, faces, colors, priorities, labels, closed, alphas=(),
+                emissive=()):
     mesh = bpy.data.meshes.new(name)
     mesh.from_pydata([place(v) for v in verts], [], faces)
     mesh.update()
@@ -188,11 +205,13 @@ def make_object(collection, name, verts, faces, colors, priorities, labels, clos
         int_attribute(mesh, "rs_alpha", "FACE", alphas)
     int_attribute(mesh, "rs_label", "POINT", labels)
     palette = []
-    for polygon, value in zip(mesh.polygons, colors):
-        if value not in palette:
-            palette.append(value)
-            mesh.materials.append(material_for(value, max(alphas, default=0)))
-        polygon.material_index = palette.index(value)
+    glows = list(emissive) or [False] * len(colors)
+    for polygon, value, glow in zip(mesh.polygons, colors, glows):
+        key = (value, glow)
+        if key not in palette:
+            palette.append(key)
+            mesh.materials.append(material_for(value, max(alphas, default=0), glow))
+        polygon.material_index = palette.index(key)
     for polygon in mesh.polygons:
         polygon.use_smooth = True
     split = obj.modifiers.new("HardEdges", "EDGE_SPLIT")
@@ -233,15 +252,17 @@ def build_variant(name, part_list, rig, variant, pose=None, max_triangles=None, 
             continue
         if variant == "male":
             verts = part.verts
-            labels = [rig.male_label(v, part.allowed) for v in verts]
+            labels = [part.fixed.get(i) or rig.male_label(v, part.allowed)
+                      for i, v in enumerate(verts)]
         elif variant == "female":
             verts = [rig.warp(v) for v in part.verts]
-            labels = [rig.female_label(v, part.allowed) for v in verts]
+            labels = [part.fixed.get(i) or rig.female_label(v, part.allowed)
+                      for i, v in enumerate(verts)]
         else:
             verts = [pose(v) for v in part.verts]
             labels = [0] * len(verts)
         make_object(collection, part.name, verts, part.faces, part.colors, part.priorities,
-                    labels, part.closed, part.alphas)
+                    labels, part.closed, part.alphas, part.emissive)
     if anchors and variant != "inventory":
         points = rig.male_anchors if variant == "male" else rig.female_anchors
         if points:

@@ -200,6 +200,7 @@ object BaseParams {
     val poison_damage_dealt: ParamInt = param("poison_damage_dealt")
     val poison_armour_set: ParamInt = param("poison_armour_set")
     val poison_extra_hits: ParamInt = param("poison_extra_hits")
+    val lich_armour_set: ParamInt = param("lich_armour_set")
     val equipment_sound: ParamSynth = param("equipment_sound")
     val player_op5_text: ParamStr = param("player_op5_text")
     val release_note_title: ParamStr = param("release_note_title")

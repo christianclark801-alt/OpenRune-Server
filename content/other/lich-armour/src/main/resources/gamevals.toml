@@ -1,0 +1,31 @@
+[gamevals.obj]
+lich_cowl = 63444
+lich_garb = 63446
+lich_skirt = 63448
+lich_grips = 63450
+lich_boots = 63452
+lich_amulet = 63454
+lich_ring = 63456
+
+[gamevals.models]
+lich_cowl = 62123
+lich_cowl_worn = 62124
+lich_cowl_worn_female = 62125
+lich_garb = 62126
+lich_garb_worn = 62127
+lich_garb_worn_arms = 62128
+lich_garb_worn_female = 62129
+lich_garb_worn_female_arms = 62130
+lich_skirt = 62131
+lich_skirt_worn = 62132
+lich_skirt_worn_female = 62133
+lich_grips = 62134
+lich_grips_worn = 62135
+lich_grips_worn_female = 62136
+lich_boots = 62137
+lich_boots_worn = 62138
+lich_boots_worn_female = 62139
+lich_amulet = 62140
+lich_amulet_worn = 62141
+lich_amulet_worn_female = 62142
+lich_ring = 62143

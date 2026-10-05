@@ -1,0 +1,114 @@
+[[item]]
+id = "obj.lich_cowl"
+inherit = "obj.ancestral_hat"
+name = "Lich's cowl"
+inventoryModel = "models.lich_cowl"
+maleModel0 = "models.lich_cowl_worn"
+femaleModel0 = "models.lich_cowl_worn_female"
+appearanceOverride2 = 11
+examine = "Two lights burn where a face should be."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.lich_armour_set" = 1
+
+[[item]]
+id = "obj.lich_garb"
+inherit = "obj.ancestral_robe_top"
+name = "Garb of the underworld"
+inventoryModel = "models.lich_garb"
+maleModel0 = "models.lich_garb_worn"
+maleModel1 = "models.lich_garb_worn_arms"
+femaleModel0 = "models.lich_garb_worn_female"
+femaleModel1 = "models.lich_garb_worn_female_arms"
+examine = "The skulls on the shoulders are still listening."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.lich_armour_set" = 1
+
+[[item]]
+id = "obj.lich_skirt"
+inherit = "obj.ancestral_robe_bottom"
+name = "Skirt of the crypt"
+inventoryModel = "models.lich_skirt"
+maleModel0 = "models.lich_skirt_worn"
+femaleModel0 = "models.lich_skirt_worn_female"
+examine = "The hem was torn on the way out of the grave."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.lich_armour_set" = 1
+
+[[item]]
+id = "obj.lich_grips"
+inherit = "obj.hundred_gauntlets_level_10"
+name = "Grips of the defiled"
+inventoryModel = "models.lich_grips"
+maleModel0 = "models.lich_grips_worn"
+femaleModel0 = "models.lich_grips_worn_female"
+examine = "Whoever wore these first never took them off."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.lich_armour_set" = 1
+
+[[item]]
+id = "obj.lich_boots"
+inherit = "obj.eternal_boots"
+name = "Bone-cracker boots"
+inventoryModel = "models.lich_boots"
+maleModel0 = "models.lich_boots_worn"
+femaleModel0 = "models.lich_boots_worn_female"
+examine = "Named for what they leave behind."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.lich_armour_set" = 1
+
+[[item]]
+id = "obj.lich_amulet"
+inherit = "obj.occult_necklace"
+name = "Amulet of the reaper"
+inventoryModel = "models.lich_amulet"
+maleModel0 = "models.lich_amulet_worn"
+femaleModel0 = "models.lich_amulet_worn_female"
+examine = "The little skull grins whenever something dies nearby."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.lich_armour_set" = 1
+
+[[item]]
+id = "obj.lich_ring"
+inherit = "obj.magus_ring"
+name = "Ring of eternal servitude"
+inventoryModel = "models.lich_ring"
+zoom2d = 600
+xan2d = 160
+examine = "Once it's on, it decides when it comes off."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.lich_armour_set" = 1

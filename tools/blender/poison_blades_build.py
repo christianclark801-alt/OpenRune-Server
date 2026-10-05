@@ -117,15 +117,29 @@ def hsl_to_rgba(value):
     return (r, g, b, 1.0)
 
 
-def material_for(value, alpha=0):
-    name = f"rs_{value}_{alpha}"
+def material_for(value, alpha=0, emissive=False):
+    """Flat, rough, non-metallic material for one OSRS face colour. ``emissive`` also lights the
+    face with its own colour; OSRS has no emission, so in game a glow is just a bright colour."""
+    name = f"rs_{value}_{alpha}{'_glow' if emissive else ''}"
     material = bpy.data.materials.get(name) or bpy.data.materials.new(name)
     if not material.node_tree:
         material.use_nodes = True
     rgba = hsl_to_rgba(value)[:3] + (1.0 - alpha / 255,)
     bsdf = next(n for n in material.node_tree.nodes if n.type == "BSDF_PRINCIPLED")
     bsdf.inputs[0].default_value = rgba
+    for socket, amount in (("Roughness", 1.0), ("Metallic", 0.0)):
+        if socket in bsdf.inputs:
+            bsdf.inputs[socket].default_value = amount
+    if emissive:
+        for socket in ("Emission Color", "Emission"):
+            if socket in bsdf.inputs:
+                bsdf.inputs[socket].default_value = rgba[:3] + (1.0,)
+                break
+        if "Emission Strength" in bsdf.inputs:
+            bsdf.inputs["Emission Strength"].default_value = 1.0
     material.diffuse_color = rgba
+    material.roughness = 1.0
+    material.metallic = 0.0
     return material
 
 
