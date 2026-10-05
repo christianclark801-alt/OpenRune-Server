@@ -4,6 +4,7 @@ import dev.openrune.types.HitmarkTypeGroup
 import org.rsmod.api.config.refs.done.hitmark_groups
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.mechanics.status.NpcStatusEffects
+import org.rsmod.api.mechanics.status.PoisonGearBonus
 import org.rsmod.api.mechanics.toxins.impl.NpcPoison
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
@@ -59,13 +60,15 @@ internal object PoisonBladesVenom {
         NpcPoison.isImmune(npc) || (npc.visType.paramOrNull(params.venom_immunity) ?: 0) > 0
 
     private fun hit(source: Player, npc: Npc, delay: Int, damage: Int, hitmark: HitmarkTypeGroup) {
-        npc.queueHit(
-            source = source,
-            delay = delay,
-            type = HitType.Typeless,
-            damage = damage,
-            modifier = NoopModifier,
-            hitmark = hitmark,
-        )
+        repeat(1 + PoisonGearBonus.extraHits(source)) {
+            npc.queueHit(
+                source = source,
+                delay = delay,
+                type = HitType.Typeless,
+                damage = damage,
+                modifier = NoopModifier,
+                hitmark = hitmark,
+            )
+        }
     }
 }

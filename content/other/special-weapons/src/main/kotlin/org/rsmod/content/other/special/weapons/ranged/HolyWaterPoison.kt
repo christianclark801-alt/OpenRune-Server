@@ -1,10 +1,10 @@
 package org.rsmod.content.other.special.weapons.ranged
 
+import jakarta.inject.Inject
 import org.rsmod.api.config.refs.done.hitmark_groups
 import org.rsmod.api.mechanics.status.NpcStatusEffects
 import org.rsmod.api.mechanics.toxins.impl.NpcPoison
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
-import jakarta.inject.Inject
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.npc.vars.typePlayerUidVarn
 import org.rsmod.api.script.onNpcTimer
@@ -80,7 +80,7 @@ object HolyWaterPoison {
             } else {
                 NpcStatusEffects.poisonDamage(npc, damage, source)
             }
-        repeat(NpcStatusEffects.poisonHits(npc)) {
+        repeat(NpcStatusEffects.poisonHits(npc, source)) {
             if (source != null) {
                 npc.queueHit(
                     source = source,

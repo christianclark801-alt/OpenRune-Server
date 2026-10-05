@@ -104,6 +104,7 @@ ioption4 = false
 ioption5 = "Drop"
 [item.params]
 "param.poison_damage_dealt" = 5
+"param.poison_extra_hits" = 1
 
 [[item]]
 id = "obj.poison_carapace_ring"
@@ -119,3 +120,4 @@ ioption4 = false
 ioption5 = "Drop"
 [item.params]
 "param.poison_damage_dealt" = 5
+"param.poison_extra_hits" = 1

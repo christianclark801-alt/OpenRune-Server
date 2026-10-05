@@ -25,7 +25,8 @@ public object NpcStatusEffects {
             npc.vars[it.varn]
         }
 
-    public fun poisonHits(npc: Npc): Int = 1 + total(npc, StatusStat.PoisonHitsPerTick)
+    public fun poisonHits(npc: Npc, source: Player? = null): Int =
+        1 + total(npc, StatusStat.PoisonHitsPerTick) + PoisonGearBonus.extraHits(source)
 
     public fun poisonDamage(npc: Npc, base: Int, source: Player? = null): Int =
         scale(

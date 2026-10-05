@@ -66,7 +66,9 @@ public object NpcPoison {
 
     private fun queuePoisonHit(npc: Npc, damage: Int, source: Player?) {
         val scaled = NpcStatusEffects.poisonDamage(npc, damage, source)
-        repeat(NpcStatusEffects.poisonHits(npc)) { queueScaledPoisonHit(npc, scaled, source) }
+        repeat(NpcStatusEffects.poisonHits(npc, source)) {
+            queueScaledPoisonHit(npc, scaled, source)
+        }
     }
 
     private fun queueScaledPoisonHit(npc: Npc, damage: Int, source: Player?) {
