@@ -2,8 +2,14 @@
 stat_names = 108
 
 [gamevals.obj]
+poison_carapace_ring = 63458
 poison_blades = 63460
 venomfang_helm = 63462
+poison_carapace_torso = 63464
+poison_carapace_legs = 63466
+poison_mandible_gloves = 63468
+poison_carapace_sabatons = 63472
+poison_vial_amulet = 63474
 
 [gamevals.models]
 poison_blades = 60537
@@ -13,6 +19,24 @@ poison_blades_idle_fx = 62101
 venomfang_helm = 62102
 venomfang_helm_worn = 62103
 venomfang_helm_worn_female = 62104
+poison_carapace_torso = 62105
+poison_carapace_torso_worn = 62106
+poison_carapace_torso_worn_arms = 62107
+poison_carapace_torso_worn_female = 62108
+poison_carapace_torso_worn_female_arms = 62109
+poison_carapace_legs = 62110
+poison_carapace_legs_worn = 62111
+poison_carapace_legs_worn_female = 62112
+poison_mandible_gloves = 62113
+poison_mandible_gloves_worn = 62114
+poison_mandible_gloves_worn_female = 62115
+poison_carapace_sabatons = 62116
+poison_carapace_sabatons_worn = 62117
+poison_carapace_sabatons_worn_female = 62118
+poison_vial_amulet = 62119
+poison_vial_amulet_worn = 62120
+poison_vial_amulet_worn_female = 62121
+poison_carapace_ring = 62122
 
 [gamevals.seq]
 poison_blades_attack = 16005

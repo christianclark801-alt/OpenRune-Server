@@ -7,6 +7,7 @@ world space and merged into one model. Optional mesh attributes drive the extra 
     rs_alpha  (FACE, int)  face transparency, 0 opaque .. 255 invisible
     rs_flabel (FACE, int)  face label, targeted by alpha (type 5) animation transforms
     rs_label  (POINT, int) vertex label, targeted by origin/translate/rotate/scale transforms
+    rs_priority (FACE, int) face render priority; faces without it use the export ``priority``
 
 ``flat_shading`` writes face render type 1 for every face, so the client shades each face flat
 instead of Gouraud-smoothing across shared vertices. The client smooths per vertex index, so
@@ -45,6 +46,7 @@ class RsModel:
     alphas: list = field(default_factory=list)
     face_labels: list = field(default_factory=list)
     render_types: list = field(default_factory=list)
+    priorities: list = field(default_factory=list)
 
     @property
     def has_vertex_labels(self):
@@ -106,6 +108,9 @@ def encode_model(model, priority=0):
     face_skins = model.has_face_labels
     face_alphas = model.has_alphas
     render_types = model.has_render_types
+    face_priorities = sorted(set(model.priorities))
+    if len(face_priorities) == 1:
+        priority = face_priorities[0]
 
     vertex_flags = bytearray()
     xs, ys, zs = bytearray(), bytearray(), bytearray()
@@ -134,6 +139,9 @@ def encode_model(model, priority=0):
         face_colors += struct.pack(">H", color & 0xFFFF)
 
     body = bytes(vertex_flags) + bytes(compress_types)
+    if len(face_priorities) > 1:
+        body += bytes(model.priorities)
+        priority = 0xFF
     if face_skins:
         body += bytes(model.face_labels)
     if render_types:
@@ -171,6 +179,7 @@ def decode_model(data):
     pos += vc
     compress_off = pos
     pos += fc
+    priority_off = pos
     if priority == 0xFF:
         pos += fc
     fskin_off = pos
@@ -249,6 +258,7 @@ def decode_model(data):
         model.face_labels.append(data[fskin_off + i] if has_fskin == 1 else 0)
         model.alphas.append(data[alpha_off + i] if has_alpha == 1 else 0)
         model.render_types.append(data[render_off + i] if has_tex == 1 else 0)
+        model.priorities.append(data[priority_off + i] if priority == 0xFF else priority)
     return model
 
 
@@ -266,7 +276,7 @@ def _point_values(mesh, name):
     return [value.value for value in attribute.data]
 
 
-def collect_collection(collection_name, flat_shading=False, merge_vertices=True):
+def collect_collection(collection_name, flat_shading=False, merge_vertices=True, priority=0):
     import bpy
 
     collection = bpy.data.collections[collection_name]
@@ -285,6 +295,7 @@ def collect_collection(collection_name, flat_shading=False, merge_vertices=True)
         alphas = _face_values(mesh, "rs_alpha")
         face_labels = _face_values(mesh, "rs_flabel")
         labels = _point_values(mesh, "rs_label")
+        priorities = _face_values(mesh, "rs_priority")
 
         local_to_model = []
         for vertex in mesh.vertices:
@@ -312,6 +323,7 @@ def collect_collection(collection_name, flat_shading=False, merge_vertices=True)
             model.alphas.append(alphas[polygon] if alphas else 0)
             model.face_labels.append(face_labels[polygon] if face_labels else 0)
             model.render_types.append(1 if flat_shading else 0)
+            model.priorities.append(priorities[polygon] if priorities else priority)
 
         evaluated.to_mesh_clear()
 
@@ -322,8 +334,9 @@ def export_collection(collection_name, out_path, flat_shading=False, merge_verti
                       priority=0):
     """``priority`` is the model's face render priority. Worn models are merged into the player
     and drawn in priority order, so they need vanilla-like values (helms 7, weapons 10) or the
-    body paints over them."""
-    model = collect_collection(collection_name, flat_shading, merge_vertices)
+    body paints over them. Faces with an ``rs_priority`` attribute override it, and mixed
+    priorities are written per face like the vanilla platebodies (torso 3, sleeves 10)."""
+    model = collect_collection(collection_name, flat_shading, merge_vertices, priority)
     data = encode_model(model, priority)
     with open(out_path, "wb") as handle:
         handle.write(data)

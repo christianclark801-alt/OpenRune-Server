@@ -14,3 +14,108 @@ ioption5 = "Drop"
 [item.params]
 "param.poison_damage_dealt" = 10
 "param.poison_armour_set" = 1
+
+[[item]]
+id = "obj.poison_carapace_torso"
+inherit = "obj.bandos_chestplate"
+name = "Poison carapace torso"
+inventoryModel = "models.poison_carapace_torso"
+maleModel0 = "models.poison_carapace_torso_worn"
+maleModel1 = "models.poison_carapace_torso_worn_arms"
+femaleModel0 = "models.poison_carapace_torso_worn_female"
+femaleModel1 = "models.poison_carapace_torso_worn_female_arms"
+zoom2d = 1600
+xan2d = 488
+examine = "Overlapping chitin plates, veined with something that glows."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.poison_damage_dealt" = 5
+"param.poison_armour_set" = 1
+
+[[item]]
+id = "obj.poison_carapace_legs"
+inherit = "obj.bandos_skirt"
+name = "Poison carapace legs"
+inventoryModel = "models.poison_carapace_legs"
+maleModel0 = "models.poison_carapace_legs_worn"
+femaleModel0 = "models.poison_carapace_legs_worn_female"
+zoom2d = 1740
+xan2d = 444
+yOffset2d = -8
+examine = "Jointed like a spider's legs, and about as quiet."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.poison_damage_dealt" = 5
+"param.poison_armour_set" = 1
+
+[[item]]
+id = "obj.poison_mandible_gloves"
+inherit = "obj.ferocious_gloves"
+name = "Poison mandible gloves"
+inventoryModel = "models.poison_mandible_gloves"
+maleModel0 = "models.poison_mandible_gloves_worn"
+femaleModel0 = "models.poison_mandible_gloves_worn_female"
+examine = "The thumbs snap shut like a beetle's jaws."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.poison_damage_dealt" = 3
+
+[[item]]
+id = "obj.poison_carapace_sabatons"
+inherit = "obj.bandos_boots"
+name = "Poison carapace sabatons"
+inventoryModel = "models.poison_carapace_sabatons"
+maleModel0 = "models.poison_carapace_sabatons_worn"
+femaleModel0 = "models.poison_carapace_sabatons_worn_female"
+examine = "Every step leaves the ground hissing."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.poison_damage_dealt" = 3
+
+[[item]]
+id = "obj.poison_vial_amulet"
+inherit = "obj.occult_necklace"
+name = "Poison vial amulet"
+inventoryModel = "models.poison_vial_amulet"
+maleModel0 = "models.poison_vial_amulet_worn"
+femaleModel0 = "models.poison_vial_amulet_worn_female"
+zoom2d = 700
+examine = "Whatever is in the vial wants out."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.poison_damage_dealt" = 5
+
+[[item]]
+id = "obj.poison_carapace_ring"
+inherit = "obj.brimstone_ring"
+name = "Poison carapace ring"
+inventoryModel = "models.poison_carapace_ring"
+zoom2d = 600
+examine = "The gem glows brighter the closer you hold it to something living."
+ioption1 = false
+ioption2 = "Wear"
+ioption3 = false
+ioption4 = false
+ioption5 = "Drop"
+[item.params]
+"param.poison_damage_dealt" = 5

@@ -57,6 +57,16 @@ fun main(args: Array<String>) {
                     "equipSlot" to item.equipSlot,
                     "maleOffset" to item.maleOffset,
                     "femaleOffset" to item.femaleOffset,
+                    "appearanceOverride1" to item.appearanceOverride1,
+                    "appearanceOverride2" to item.appearanceOverride2,
+                    "icon" to mapOf(
+                        "zoom2d" to item.zoom2d,
+                        "xan2d" to item.xan2d,
+                        "yan2d" to item.yan2d,
+                        "zan2d" to item.zan2d,
+                        "xOffset2d" to item.xOffset2d,
+                        "yOffset2d" to item.yOffset2d,
+                    ),
                     "models" to models,
                 )
                 json.writeValue(File(out, "${ref.removePrefix("obj.")}.json"), info)
