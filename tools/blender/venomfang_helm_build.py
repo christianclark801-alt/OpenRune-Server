@@ -1,8 +1,9 @@
 """Builds the Venomfang helm: a low-profile, angular insectoid headpiece fitted close to the head.
 A sunken visor framed by a brow overhang and cheek blades holds a cluster of six neon-green
 compound eyes cut as faceted pyramidal pits; purple mandibles wrap the jawline and interlock at
-the chin; the flat top is three overlapping chitin plates stepping down towards the back into a
-sharp, low crest.
+the chin; the flat top is three overlapping obsidian plates, edged in neon green, stepping down towards
+the back into a sharp, low crest. Colours come from the poison armour palette in
+``worn_armour.py``.
 
 Everything is authored in player-space units (forward, left, up; 128 = one tile) and converted
 to Blender units, where 1 BU = 1 tile, +X is forward, +Y is the player's left and +Z is up. Worn
@@ -27,6 +28,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import poison_blades_build as parts  # noqa: E402
 from poison_blades_build import hsl, int_attribute, material_for  # noqa: E402
+from worn_armour import (  # noqa: E402
+    OBSIDIAN_EDGE_HSL, OBSIDIAN_HSL, OBSIDIAN_TOP_HSL, SOCKET_HSL, TOXIC_DARK_HSL, TOXIC_HSL,
+    VENOM_DIM_HSL, VENOM_HSL,
+)
 
 UNITS = 128
 HELM_PRIORITY = 7
@@ -105,15 +110,7 @@ CREST_TIP = (-27.0, 201.0)
 CREST_HALF_WIDTH = 1.5
 CREST_HEIGHT = 2.0
 
-CHITIN_HSL = hsl(24, 3, 30)
-CHITIN_LOW_HSL = hsl(24, 3, 22)
-CHITIN_TOP_HSL = hsl(24, 3, 40)
-CHITIN_EDGE_HSL = hsl(24, 3, 16)
-SOCKET_HSL = hsl(24, 2, 9)
-EYE_HSL = hsl(21, 7, 82)
-EYE_RIM_HSL = hsl(21, 7, 52)
-MANDIBLE_HSL = hsl(50, 5, 48)
-MANDIBLE_DARK_HSL = hsl(50, 5, 30)
+OBSIDIAN_LOW_HSL = hsl(42, 2, 11)
 
 
 def to_blender(point, gender_transform):
@@ -245,7 +242,7 @@ def build_shell(collection, label, collar, transform):
     verts.append((SHELL_CAP[0], 0.0, SHELL_CAP[1]))
     labels.append(label)
 
-    ring_colors = (CHITIN_LOW_HSL, CHITIN_HSL, CHITIN_HSL, CHITIN_HSL, CHITIN_TOP_HSL)
+    ring_colors = (OBSIDIAN_LOW_HSL, OBSIDIAN_HSL, OBSIDIAN_HSL, OBSIDIAN_HSL, OBSIDIAN_TOP_HSL)
     for r in range(len(rings) - 1):
         for k in range(SHELL_SEGMENTS):
             a, b = rings[r][k], rings[r][(k + 1) % SHELL_SEGMENTS]
@@ -254,7 +251,7 @@ def build_shell(collection, label, collar, transform):
             colors += [ring_colors[r]] * 2
     for k in range(SHELL_SEGMENTS):
         faces.append((rings[-1][k], rings[-1][(k + 1) % SHELL_SEGMENTS], cap))
-        colors.append(CHITIN_TOP_HSL)
+        colors.append(OBSIDIAN_TOP_HSL)
 
     collar_ids = []
     for point, collar_label in collar:
@@ -262,10 +259,10 @@ def build_shell(collection, label, collar, transform):
         verts.append(point)
         labels.append(collar_label if label != INVENTORY_LABEL else INVENTORY_LABEL)
     faces += stitch(verts, rings[0], collar_ids)
-    colors += [CHITIN_LOW_HSL] * (len(faces) - len(colors))
+    colors += [OBSIDIAN_LOW_HSL] * (len(faces) - len(colors))
     for i in range(1, len(collar_ids) - 1):
         faces.append((collar_ids[0], collar_ids[i], collar_ids[i + 1]))
-        colors.append(CHITIN_LOW_HSL)
+        colors.append(OBSIDIAN_LOW_HSL)
     return make(collection, "Shell", verts, faces, colors, labels, transform,
                 fixed=set(collar_ids))
 
@@ -309,11 +306,11 @@ def build_visor(collection, label, transform):
 
     brow = [(left, up) for left, up in BROW]
     verts, faces, colors = wedge(brow, BROW_OVERHANG, BROW_HEIGHT,
-                                 (CHITIN_TOP_HSL, CHITIN_EDGE_HSL, CHITIN_HSL))
+                                 (OBSIDIAN_TOP_HSL, OBSIDIAN_EDGE_HSL, OBSIDIAN_HSL))
     make(collection, "Brow", verts, faces, colors, label, transform)
     lip = [(left, up) for left, up in LIP]
     verts, faces, colors = wedge(lip, LIP_PROTRUDE, LIP_HEIGHT,
-                                 (CHITIN_HSL, CHITIN_EDGE_HSL, CHITIN_LOW_HSL))
+                                 (OBSIDIAN_HSL, OBSIDIAN_EDGE_HSL, OBSIDIAN_LOW_HSL))
     make(collection, "Lip", verts, faces, colors, label, transform)
 
     for side in (1, -1):
@@ -324,7 +321,7 @@ def build_visor(collection, label, transform):
             verts += [(base, left, up), (base + CHEEK_PROTRUDE, left - CHEEK_DEPTH * side, up),
                       (base - CHEEK_DEPTH, left + CHEEK_DEPTH * side, up)]
         faces = [(0, 1, 4, 3), (1, 2, 5, 4), (2, 0, 3, 5), (0, 2, 1), (3, 4, 5)]
-        colors = [CHITIN_HSL, CHITIN_EDGE_HSL, CHITIN_LOW_HSL, CHITIN_EDGE_HSL, CHITIN_TOP_HSL]
+        colors = [OBSIDIAN_HSL, OBSIDIAN_EDGE_HSL, OBSIDIAN_LOW_HSL, OBSIDIAN_EDGE_HSL, OBSIDIAN_TOP_HSL]
         make(collection, f"Cheek{side}", verts, faces, colors, label, transform)
 
 
@@ -349,10 +346,10 @@ def build_eyes(collection, label, transform):
             rim, nxt = 1 + k, 1 + (k + 1) % EYE_SIDES
             outer, outer_nxt = 1 + EYE_SIDES + k, 1 + EYE_SIDES + (k + 1) % EYE_SIDES
             faces.append(oriented(verts, (0, rim, nxt), toward=(1, 0, 0)))
-            colors.append(EYE_HSL)
+            colors.append(VENOM_HSL)
             faces.append(oriented(verts, (rim, outer, outer_nxt), toward=(1, 0, 0)))
             faces.append(oriented(verts, (rim, outer_nxt, nxt), toward=(1, 0, 0)))
-            colors += [EYE_RIM_HSL, EYE_RIM_HSL]
+            colors += [VENOM_DIM_HSL, VENOM_DIM_HSL]
         make(collection, f"Eye{index}", verts, faces, colors, label, transform, recalc=False)
 
 
@@ -393,9 +390,9 @@ def build_mandibles(collection, label, transform):
         for s in range(len(MANDIBLE_ANGLES) - 1):
             a, b = 3 * s, 3 * (s + 1)
             faces += [(a, b, b + 1, a + 1), (a + 1, b + 1, b + 2, a + 2), (a + 2, b + 2, b, a)]
-            colors += [MANDIBLE_HSL, MANDIBLE_DARK_HSL, MANDIBLE_DARK_HSL]
+            colors += [TOXIC_HSL, TOXIC_DARK_HSL, TOXIC_DARK_HSL]
         faces.append((0, 1, 2))
-        colors.append(MANDIBLE_DARK_HSL)
+        colors.append(TOXIC_DARK_HSL)
         for station, length in TEETH:
             base = 3 * station
             low, edge = verts[base + 2], verts[base + 1]
@@ -405,7 +402,7 @@ def build_mandibles(collection, label, transform):
             t = len(verts)
             verts += [tip]
             faces += [(base + 1, base + 2, t), (base + 2, base + 1, t)]
-            colors += [MANDIBLE_HSL, MANDIBLE_DARK_HSL]
+            colors += [TOXIC_HSL, TOXIC_DARK_HSL]
         make(collection, f"Mandible{side}", verts, faces, colors, label, transform)
 
 
@@ -424,16 +421,16 @@ def build_plates(collection, label, transform):
         faces, colors = [], []
         for k in range(n - 1):
             faces.append((k, k + 1, 2 * n + k + 1, 2 * n + k))
-            colors.append(CHITIN_TOP_HSL if 0 < k < n - 2 else CHITIN_HSL)
+            colors.append(OBSIDIAN_TOP_HSL if 0 < k < n - 2 else OBSIDIAN_HSL)
             faces.append((n + k + 1, n + k, 3 * n + k, 3 * n + k + 1))
-            colors.append(CHITIN_EDGE_HSL)
+            colors.append(OBSIDIAN_EDGE_HSL)
         for end in (0, 2 * n):
             for k in range(n - 1):
                 faces.append((end + k, end + n + k, end + n + k + 1, end + k + 1))
-                colors.append(CHITIN_EDGE_HSL)
+                colors.append(OBSIDIAN_EDGE_HSL)
         for k in (0, n - 1):
             faces.append((k, n + k, 3 * n + k, 2 * n + k))
-            colors.append(CHITIN_EDGE_HSL)
+            colors.append(VENOM_HSL)
         make(collection, f"Plate{index}", verts, faces, colors, label, transform)
 
     front, back, up, _ = PLATES[-1]
@@ -442,7 +439,7 @@ def build_plates(collection, label, transform):
     verts = [(back + 2, CREST_HALF_WIDTH, base_up - 0.5), (back + 2, -CREST_HALF_WIDTH, base_up - 0.5),
              (back + 2, 0.0, base_up + CREST_HEIGHT), (tip_fwd, 0.0, tip_up)]
     faces = [(0, 2, 3), (1, 3, 2), (0, 3, 1), (0, 1, 2)]
-    colors = [CHITIN_TOP_HSL, CHITIN_HSL, CHITIN_EDGE_HSL, CHITIN_EDGE_HSL]
+    colors = [OBSIDIAN_TOP_HSL, OBSIDIAN_HSL, OBSIDIAN_EDGE_HSL, OBSIDIAN_EDGE_HSL]
     make(collection, "Crest", verts, faces, colors, label, transform)
 
 
